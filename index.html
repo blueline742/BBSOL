@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Back ($BB) - The Solana Revolution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling & Setup */
+        :root {
+            --neon-green: #00ff9b;
+            --neon-blue: #00d9ff;
+            --dark-bg: #010114;
+            --text-color: #e0e0e0;
+            --glow-shadow-green: 0 0 5px var(--neon-green), 0 0 15px var(--neon-green), 0 0 30px var(--neon-green), 0 0 50px var(--neon-green);
+            --glow-shadow-blue: 0 0 5px var(--neon-blue), 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-logo {
+            width: 150px;
+            height: 150px;
+            animation: pulse 2s infinite, glitch-scan 5s infinite;
+        }
+
+        /* Header & Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            animation: fadeInDown 1s ease-out 0.5s backwards;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.1) rotate(360deg);
+            filter: drop-shadow(var(--glow-shadow-green));
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--neon-green);
+            text-shadow: var(--glow-shadow-green);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 0;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: var(--glow-shadow-green);
+            margin-bottom: 20px;
+            animation: glitch 1s infinite;
+        }
+        
+        .hero h1 .char {
+            display: inline-block;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 1s backwards;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            color: var(--dark-bg);
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 20px rgba(0, 255, 155, 0.5);
+            animation: fadeInUp 1s ease-out 1.5s backwards;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: var(--glow-shadow-green);
+        }
+        
+        /* Presale Countdown Section */
+        #presale {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        #presale h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--neon-blue);
+            text-shadow: var(--glow-shadow-blue);
+            margin-bottom: 40px;
+        }
+
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .timer-box {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            padding: 20px;
+            border-radius: 10px;
+            width: 120px;
+            backdrop-filter: blur(5px);
+        }
+
+        .timer-box span {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .timer-box p {
+            font-size: 1rem;
+            color: var(--neon-blue);
+        }
+        
+        .progress-bar-container {
+            width: 80%;
+            max-width: 600px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin: 20px auto;
+            border: 1px solid var(--neon-blue);
+            overflow: hidden;
+        }
+        
+        #progress-bar {
+            width: 46.67%; /* 70 SOL soft cap / 150 SOL hard cap */
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            border-radius: 15px;
+            transition: width 1s ease-in-out;
+            box-shadow: var(--glow-shadow-green);
+        }
+        
+        .cap-info {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 600px;
+            margin: 10px auto;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+
+        /* Section Styling */
+        .section {
+            padding: 100px 0;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #fff;
+            text-shadow: var(--glow-shadow-blue);
+            animation: glitch 2s infinite alternate;
+        }
+
+        /* Info Section Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .info-card {
+            background: rgba(0, 255, 155, 0.05);
+            border: 1px solid var(--neon-green);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow-shadow-green);
+        }
+
+        .info-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .info-card p {
+            line-height: 1.7;
+        }
+        
+        /* --- NEW CIRCUIT BOARD ROADMAP --- */
+        .roadmap-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        #roadmap-svg {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            overflow: visible;
+        }
+
+        .trace {
+            stroke: rgba(0, 217, 255, 0.3);
+            stroke-width: 3;
+            fill: none;
+            transition: stroke 0.3s ease;
+        }
+
+        .node {
+            fill: var(--dark-bg);
+            stroke: var(--neon-blue);
+            stroke-width: 4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 5px var(--neon-blue));
+        }
+
+        .node-label {
+            fill: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        
+        .node.active {
+            fill: var(--neon-green);
+            stroke: var(--neon-green);
+            filter: drop-shadow(var(--glow-shadow-green));
+        }
+        
+        .node.active ~ .node-label {
+             fill: var(--dark-bg);
+        }
+
+        .trace.active {
+            stroke: var(--neon-green);
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-line 1s linear forwards;
+            filter: drop-shadow(var(--glow-shadow-green));
+        }
+        
+        @keyframes draw-line {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .roadmap-content-container {
+            position: relative;
+            min-height: 200px;
+        }
+
+        .roadmap-content {
+            background: rgba(0, 255, 155, 0.05);
+            border: 1px solid var(--neon-green);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+        }
+
+        .roadmap-content.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .roadmap-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        @media(min-width: 992px) {
+            .roadmap-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+
+        /* Partners Section */
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            align-items: center;
+            text-align: center;
+        }
+        .partner-card {
+             background: rgba(0, 255, 155, 0.05);
+            border: 1px solid var(--neon-green);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .partner-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow-shadow-green);
+        }
+        .partner-card img {
+            max-width: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid var(--neon-green);
+        }
+         .partner-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+        }
+        
+        .social-icons {
+            margin-bottom: 20px;
+        }
+        
+        .social-icons a {
+            margin: 0 15px;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        
+        .social-icons a:hover {
+            transform: scale(1.2);
+        }
+        
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-green)); }
+            50% { transform: scale(1.1); filter: drop-shadow(var(--glow-shadow-green)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-green)); }
+        }
+
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px, 0) skew(0deg); }
+            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+            62% { transform: translate(0, 0) skew(5deg); }
+        }
+        
+        @keyframes glitch-scan {
+            0%, 100% { clip-path: inset(0 0 95% 0); }
+            10% { clip-path: inset(5% 0 80% 0); }
+            20% { clip-path: inset(20% 0 60% 0); }
+            40% { clip-path: inset(40% 0 30% 0); }
+            60% { clip-path: inset(60% 0 10% 0); }
+            80% { clip-path: inset(80% 0 5% 0); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1rem; }
+            nav { display: none; } /* Simple hide for mobile, can be replaced with hamburger */
+            #countdown { flex-direction: column; gap: 15px; align-items: center;}
+            .timer-box { width: 200px; }
+        }
+
+        /* Scroll Animations */
+        .hidden {
+            opacity: 0;
+            filter: blur(5px);
+            transition: all 1s;
+        }
+        .info-card.hidden, .partner-card.hidden { 
+            transform: translateY(50px); 
+        }
+
+        .show {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+        
+        /* BB Shower Animation */
+        .bb-particle {
+            position: fixed;
+            color: var(--neon-green);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear forwards;
+            text-shadow: var(--glow-shadow-green);
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <img src="logo.png" alt="Buy Back Logo" class="loader-logo">
+    </div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <header class="container">
+        <img src="logo.png" alt="Buy Back Logo" class="logo" id="logo-trigger">
+        <nav>
+            <a href="#about">About</a>
+            <a href="#presale">Presale</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="https://t.co/SQCRd0bmtY" target="_blank">Telegram</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero container">
+            <h1 id="main-title">BUY BACK</h1>
+            <p>This isn’t just another token — this is a movement. We’re gearing up for a 100–150 SOL presale, setting the stage for massive volume and momentum at launch.</p>
+            <a href="#presale" class="cta-button">Join The Presale</a>
+        </section>
+
+        <section id="presale" class="section container">
+            <h2 class="section-title">PRESALE IS COMING</h2>
+            <div id="countdown">
+                <div class="timer-box"><span id="days">00</span><p>Days</p></div>
+                <div class="timer-box"><span id="hours">00</span><p>Hours</p></div>
+                <div class="timer-box"><span id="minutes">00</span><p>Minutes</p></div>
+                <div class="timer-box"><span id="seconds">00</span><p>Seconds</p></div>
+            </div>
+             <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+            <div class="cap-info">
+                <span>Soft Cap: 70 SOL</span>
+                <span>Hard Cap: 150 SOL</span>
+            </div>
+            <p style="margin-top: 20px; font-size: 1.1rem;">The presale will last 5-7 days. Get ready! #BB</p>
+        </section>
+
+        <section id="about" class="section container">
+            <h2 class="section-title">THE $BB REVOLUTION</h2>
+            <div class="info-grid">
+                <div class="info-card hidden">
+                    <h3>The BuyBack Wallet</h3>
+                    <p>A portion of all trades will go directly into the BuyBack Wallet. With our anticipated launch volume, that wallet will be stacked from day one, ready to support and stabilize the chart.</p>
+                </div>
+                <div class="info-card hidden">
+                    <h3>Fueled by Taxes</h3>
+                    <p>Taxes (TBA) will fuel the buyback system. These will be outlined in detail in the upcoming whitepaper. Transparency is key, and you'll know exactly how your contribution makes an impact.</p>
+                </div>
+                <div class="info-card hidden">
+                    <h3>Long-Term Growth</h3>
+                    <p>A percentage of the BuyBack Wallet will be allocated into external investments, providing long-term stability and consistent growth beyond the crypto charts. We're building a sustainable ecosystem.</p>
+                </div>
+                 <div class="info-card hidden">
+                    <h3>Community First</h3>
+                    <p>Our main chat will be open Saturday! We believe in building a strong, engaged community from the ground up. Join the conversation and be part of the movement. Your voice matters.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadmap" class="section container">
+            <h2 class="section-title">INTERACTIVE ROADMAP</h2>
+            <div class="roadmap-wrapper">
+                <svg id="roadmap-svg" viewBox="0 0 500 500">
+                    <!-- Traces -->
+                    <path id="trace-1" class="trace" d="M 250,50 L 250,150" />
+                    <path id="trace-2" class="trace" d="M 250,150 L 100,250" />
+                    <path id="trace-3" class="trace" d="M 250,150 L 400,250" />
+                    <path id="trace-4" class="trace" d="M 100,250 L 100,350" />
+                    <path id="trace-5" class="trace" d="M 400,250 L 400,350" />
+                    <path id="trace-6" class="trace" d="M 100,350 L 250,450" />
+                    <path id="trace-7" class="trace" d="M 400,350 L 250,450" />
+                    <!-- Nodes -->
+                    <g class="node-group" data-phase="1">
+                        <circle class="node" cx="250" cy="50" r="25"/>
+                        <text class="node-label" x="250" y="55">P1</text>
+                    </g>
+                    <g class="node-group" data-phase="2">
+                        <circle class="node" cx="100" cy="250" r="25"/>
+                        <text class="node-label" x="100" y="255">P2</text>
+                    </g>
+                    <g class="node-group" data-phase="3">
+                        <circle class="node" cx="400" cy="250" r="25"/>
+                        <text class="node-label" x="400" y="255">P3</text>
+                    </g>
+                    <g class="node-group" data-phase="4">
+                        <circle class="node" cx="100" cy="350" r="25"/>
+                        <text class="node-label" x="100" y="355">P4</text>
+                    </g>
+                    <g class="node-group" data-phase="5">
+                        <circle class="node" cx="400" cy="350" r="25"/>
+                        <text class="node-label" x="400" y="355">P5</text>
+                    </g>
+                     <g class="node-group" data-phase="6">
+                        <circle class="node" cx="250" cy="450" r="25"/>
+                        <text class="node-label" x="250" y="455">P6</text>
+                    </g>
+                </svg>
+                <div class="roadmap-content-container">
+                    <div class="roadmap-content" data-phase="1">
+                        <h3>Phase 1: Genesis</h3>
+                        <p>Project inception, core concept development, and building the initial community foundation. Secure the mothership!</p>
+                    </div>
+                    <div class="roadmap-content" data-phase="2">
+                        <h3>Phase 2: Presale on Wenpad</h3>
+                        <p>Launch the official presale on Wenpad Labs. 70 SOL Softcap / 150 SOL Hardcap. This is where the revolution begins.</p>
+                    </div>
+                    <div class="roadmap-content" data-phase="3">
+                        <h3>Phase 3: DEX Launch</h3>
+                        <p>Official launch on Raydium. Liquidity pool will be created and locked. The BuyBack wallet activates.</p>
+                    </div>
+                     <div class="roadmap-content" data-phase="4">
+                        <h3>Phase 4: Protocol Activation</h3>
+                        <p>Full activation of the automated buyback system and external investment protocol. Let the games begin.</p>
+                    </div>
+                    <div class="roadmap-content" data-phase="5">
+                        <h3>Phase 5: Ecosystem Expansion</h3>
+                        <p>Begin development of further utilities and partnerships to expand the $BB ecosystem and bring more value to holders.</p>
+                    </div>
+                    <div class="roadmap-content" data-phase="6">
+                        <h3>Phase 6: ???</h3>
+                        <p>If we told you, we'd have to buy you back. Expect the unexpected. #BB</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tokenomics" class="section container">
+             <h2 class="section-title">TOKENOMICS</h2>
+             <div class="info-grid">
+                <div class="info-card hidden">
+                    <h3>Presale Goal</h3>
+                    <p><strong>100 - 150 SOL</strong><br>This range ensures we have the liquidity for a powerful launch while giving early supporters a solid entry point.</p>
+                </div>
+                 <div class="info-card hidden">
+                    <h3>Caps</h3>
+                    <p><strong>Soft Cap: 70 SOL</strong><br><strong>Hard Cap: 150 SOL</strong><br>A defined structure to build confidence and secure the project's foundation.</p>
+                </div>
+                 <div class="info-card hidden">
+                    <h3>Launch Strategy</h3>
+                    <p>Launching on Wenpad's launcher to maximize visibility and ensure a smooth, secure launch process for everyone involved. Stay ready — this is going to be BIG. 💥✅️</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="partners" class="section container">
+            <h2 class="section-title">LAUNCH & INSPIRATION</h2>
+            <div class="partner-grid">
+                <div class="partner-card hidden">
+                    <h3>Our Vibe</h3>
+                    <img src="punk.jpg" alt="Cyberpunk City Vibe">
+                    <p>Inspired by the neon-drenched, high-tech, low-life future. We're building in the digital rain.</p>
+                </div>
+                <div class="partner-card hidden">
+                    <h3>Our Launchpad</h3>
+                    <img src="wenpad.jpg" alt="Wenpad Labs Logo">
+                    <p>Launching with the best. Wenpad Labs ensures a secure and high-momentum start for the $BB movement.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="https://x.com/BuybackSolana/status/1938729666782863400?t=F5i8lUTdeDl5HdGyvk-eWQ&s=08" target="_blank">
+                <img src="https://simpleicons.org/icons/x.svg" alt="X/Twitter" style="filter: invert(1);">
+            </a>
+            <a href="https://t.co/SQCRd0bmtY" target="_blank">
+                 <img src="https://simpleicons.org/icons/telegram.svg" alt="Telegram" style="filter: invert(1);">
+            </a>
+        </div>
+        <p>&copy; 2025 Buy Back. All Rights Reserved. Not financial advice, just pure degen energy.</p>
+    </footer>
+
+    <script>
+        // --- PRELOADER ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.classList.add('loaded');
+        });
+
+        // --- INTERACTIVE PARTICLE CONSTELLATION BACKGROUND ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const computedStyle = getComputedStyle(document.documentElement);
+        const neonGreen = computedStyle.getPropertyValue('--neon-green').trim() || '#00ff9b';
+
+        let particlesArray;
+
+        // Mouse/Touch position
+        const mouse = {
+            x: null,
+            y: null,
+            radius: (canvas.height / 120) * (canvas.width / 120)
+        };
+
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        window.addEventListener('touchmove', (event) => {
+            if (event.touches.length > 0) {
+                mouse.x = event.touches[0].clientX;
+                mouse.y = event.touches[0].clientY;
+            }
+        });
+
+        window.addEventListener('touchend', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+        
+        // Particle class
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+
+                // Mouse/Touch collision
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) {
+                        this.x += 5;
+                    }
+                    if (mouse.x > this.x && this.x > this.size * 10) {
+                        this.x -= 5;
+                    }
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) {
+                        this.y += 5;
+                    }
+                    if (mouse.y > this.y && this.y > this.size * 10) {
+                        this.y -= 5;
+                    }
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        // Create particle array
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 3) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.4) - 0.2;
+                let directionY = (Math.random() * 0.4) - 0.2;
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, neonGreen));
+            }
+        }
+
+        // Connect particles
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
+                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                        opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = `rgba(0, 255, 155, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        // Resize event
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            mouse.radius = (canvas.height / 120) * (canvas.width / 120);
+            init();
+        });
+        
+        // Mouse out event
+        window.addEventListener('mouseout', () => {
+            mouse.x = undefined;
+            mouse.y = undefined;
+        });
+
+        init();
+        animate();
+
+
+        // --- PRESALE COUNTDOWN ---
+        const countdownDate = new Date();
+        countdownDate.setDate(countdownDate.getDate() + 7);
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysEl.innerText = days < 10 ? '0' + days : days;
+            hoursEl.innerText = hours < 10 ? '0' + hours : hours;
+            minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
+            secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').innerHTML = "<h2>PRESALE IS LIVE!</h2>";
+            }
+        }, 1000);
+
+        // --- INTERACTIVE ROADMAP SCRIPT ---
+        const roadmapNodes = document.querySelectorAll('.node-group');
+        const contentPanels = document.querySelectorAll('.roadmap-content');
+        const traces = document.querySelectorAll('.trace');
+
+        function activatePhase(phaseNumber) {
+            // Deactivate all
+            roadmapNodes.forEach(group => group.querySelector('.node').classList.remove('active'));
+            contentPanels.forEach(panel => panel.classList.remove('active'));
+            traces.forEach(trace => trace.classList.remove('active'));
+            
+            // Activate selected node and content
+            const activeNode = document.querySelector(`.node-group[data-phase="${phaseNumber}"] .node`);
+            const activeContent = document.querySelector(`.roadmap-content[data-phase="${phaseNumber}"]`);
+            if (activeNode) activeNode.classList.add('active');
+            if (activeContent) activeContent.classList.add('active');
+
+            // Activate traces leading to the node
+            if (phaseNumber == 1) {
+                document.getElementById('trace-1').classList.add('active');
+            }
+            if (phaseNumber == 2) {
+                document.getElementById('trace-1').classList.add('active');
+                document.getElementById('trace-2').classList.add('active');
+            }
+            if (phaseNumber == 3) {
+                document.getElementById('trace-1').classList.add('active');
+                document.getElementById('trace-3').classList.add('active');
+            }
+             if (phaseNumber == 4) {
+                document.getElementById('trace-1').classList.add('active');
+                document.getElementById('trace-2').classList.add('active');
+                document.getElementById('trace-4').classList.add('active');
+            }
+             if (phaseNumber == 5) {
+                document.getElementById('trace-1').classList.add('active');
+                document.getElementById('trace-3').classList.add('active');
+                document.getElementById('trace-5').classList.add('active');
+            }
+            if (phaseNumber == 6) {
+                traces.forEach(trace => trace.classList.add('active'));
+            }
+        }
+
+        roadmapNodes.forEach(group => {
+            group.addEventListener('click', () => {
+                const phase = group.dataset.phase;
+                activatePhase(phase);
+            });
+        });
+
+        // Activate phase 1 by default
+        activatePhase(1);
+        
+        // --- SCROLL ANIMATIONS ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // --- MADNESS: BB SHOWER ---
+        const logoTrigger = document.getElementById('logo-trigger');
+        logoTrigger.addEventListener('click', () => {
+            for(let i=0; i<50; i++) {
+                createBBParticle();
+            }
+        });
+        
+        function createBBParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('bb-particle');
+            particle.innerText = 'BB';
+            
+            const startX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 3 + 2; // 2 to 5 seconds
+            
+            particle.style.left = `${startX}px`;
+            particle.style.top = '-50px';
+            particle.style.animationDuration = `${duration}s`;
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+        
+        // --- GLITCHY TITLE ---
+        const title = document.getElementById('main-title');
+        const originalText = title.innerText;
+        title.innerHTML = '';
+        originalText.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.innerText = char;
+            title.appendChild(span);
+        });
+
+    </script>
+</body>
+</html>
