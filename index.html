@@ -599,7 +599,6 @@
             <h2 class="section-title">INTERACTIVE ROADMAP</h2>
             <div class="roadmap-wrapper">
                 <svg id="roadmap-svg" viewBox="0 0 500 500">
-                    <!-- Traces -->
                     <path id="trace-1" class="trace" d="M 250,50 L 250,150" />
                     <path id="trace-2" class="trace" d="M 250,150 L 100,250" />
                     <path id="trace-3" class="trace" d="M 250,150 L 400,250" />
@@ -607,7 +606,6 @@
                     <path id="trace-5" class="trace" d="M 400,250 L 400,350" />
                     <path id="trace-6" class="trace" d="M 100,350 L 250,450" />
                     <path id="trace-7" class="trace" d="M 400,350 L 250,450" />
-                    <!-- Nodes -->
                     <g class="node-group" data-phase="1">
                         <circle class="node" cx="250" cy="50" r="25"/>
                         <text class="node-label" x="250" y="55">P1</text>
@@ -665,7 +663,7 @@
         <section id="tokenomics" class="section container">
              <h2 class="section-title">TOKENOMICS</h2>
              <div class="info-grid">
-                <div class="info-card hidden">
+                 <div class="info-card hidden">
                     <h3>Presale Goal</h3>
                     <p><strong>100 - 150 SOL</strong><br>This range ensures we have the liquidity for a powerful launch while giving early supporters a solid entry point.</p>
                 </div>
@@ -820,7 +818,7 @@
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
                     let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
-                                   ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                                     ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
                     if (distance < (canvas.width / 7) * (canvas.height / 7)) {
                         opacityValue = 1 - (distance / 20000);
                         ctx.strokeStyle = `rgba(0, 255, 155, ${opacityValue})`;
@@ -864,8 +862,8 @@
 
 
         // --- PRESALE COUNTDOWN ---
-        const countdownDate = new Date();
-        countdownDate.setDate(countdownDate.getDate() + 7);
+        // Set the date we're counting down to
+        const countdownDate = new Date("July 24, 2025 20:15:10").getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
@@ -873,22 +871,28 @@
         const secondsEl = document.getElementById('seconds');
 
         const countdownInterval = setInterval(() => {
+            // Get today's date and time
             const now = new Date().getTime();
+
+            // Find the distance between now and the count down date
             const distance = countdownDate - now;
 
+            // Time calculations for days, hours, minutes and seconds
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            // Output the result in the corresponding elements
             daysEl.innerText = days < 10 ? '0' + days : days;
             hoursEl.innerText = hours < 10 ? '0' + hours : hours;
             minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
             secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
 
+            // If the count down is over, write some text
             if (distance < 0) {
                 clearInterval(countdownInterval);
-                document.getElementById('countdown').innerHTML = "<h2>PRESALE IS LIVE!</h2>";
+                document.getElementById('countdown').innerHTML = "<h2 class='section-title'>PRESALE IS LIVE!</h2>";
             }
         }, 1000);
 
