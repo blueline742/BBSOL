@@ -596,6 +596,42 @@
             80% { clip-path: inset(80% 0 5% 0); }
         }
         
+        /* Mobile Logo Arrow */
+        .mobile-logo-arrow {
+            display: none;
+            position: absolute;
+            top: 15px;
+            left: 120px;
+            color: var(--neon-green);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            animation: bounceArrow 2s infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .mobile-logo-arrow::before {
+            content: "← PRESS ME";
+            display: block;
+            white-space: nowrap;
+        }
+
+        @keyframes bounceArrow {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            40% {
+                transform: translateX(-10px);
+                opacity: 0.8;
+            }
+            60% {
+                transform: translateX(-5px);
+                opacity: 0.9;
+            }
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero {
@@ -614,6 +650,10 @@
             }
             
             nav { display: none; }
+            
+            .mobile-logo-arrow {
+                display: block;
+            }
             
             #countdown { 
                 flex-direction: column; 
@@ -658,7 +698,7 @@
             }
             
             #matrix-canvas {
-                opacity: 0.05;
+                opacity: 0.2;
             }
         }
 
@@ -902,6 +942,7 @@
 
     <header class="container">
         <img src="logo.png" alt="Buy Back Logo" class="logo" id="logo-trigger">
+        <div class="mobile-logo-arrow"></div>
         <nav>
             <a href="#about">About</a>
             <a href="#presale">Presale</a>
@@ -938,6 +979,76 @@
                 <span>Hard Cap: 150 SOL</span>
             </div>
             <p style="margin-top: 20px; font-size: 1.1rem;">The presale will last 5-7 days. Get ready! #BB</p>
+        </section>
+
+        <section id="news" class="section container">
+            <h2 class="section-title">LATEST NEWS</h2>
+            <div class="info-grid">
+                <div class="info-card hidden" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; margin-bottom: 30px;">
+                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+                        <img src="mmk.jpg" alt="MMKK" style="width: 120px; height: 120px; border-radius: 15px; border: 2px solid var(--neon-green); flex-shrink: 0; object-fit: cover;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
+                                <h3 style="margin: 0; color: var(--neon-green);">🚨 AMA with MMKK This Friday!</h3>
+                                <span style="color: var(--neon-blue); font-family: 'Orbitron', sans-serif; font-size: 0.9rem; white-space: nowrap;">
+                                    July 22, 2025 • Posted Today
+                                </span>
+                            </div>
+                            <p style="margin-bottom: 15px; line-height: 1.6;">
+                                Make sure you're all there and tuned in! ✅️<br><br>
+                                <strong>Presale starts tonight. Get your solana ready! 🤝🔥👀</strong>
+                            </p>
+                            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                                <a href="https://wenpad.io/launchpad/buybackbb" target="_blank" 
+                                   style="background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); 
+                                          color: var(--dark-bg); 
+                                          padding: 10px 20px; 
+                                          border-radius: 25px; 
+                                          text-decoration: none; 
+                                          font-family: 'Orbitron', sans-serif; 
+                                          font-weight: 700; 
+                                          font-size: 0.9rem;
+                                          transition: transform 0.3s, box-shadow 0.3s;
+                                          display: inline-block;">
+                                    Launch on Wenpad 🚀
+                                </a>
+                                <span style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-weight: 700;">#BB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card hidden" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+                        <img src="mascot.jpg" alt="BB Mascot" style="width: 120px; height: 120px; border-radius: 15px; border: 2px solid var(--neon-blue); flex-shrink: 0; object-fit: cover;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
+                                <h3 style="margin: 0; color: var(--neon-blue);">🎨 Official BB Mascot Revealed!</h3>
+                                <span style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-size: 0.9rem; white-space: nowrap;">
+                                    July 22, 2025 • Posted Today
+                                </span>
+                            </div>
+                            <p style="margin-bottom: 15px; line-height: 1.6;">
+                                We now have the official BB mascot which we will implement into hand drawn NFT's further down the line! ✅️🔥<br><br>
+                                <strong>Get ready for exclusive NFT collections featuring our cyberpunk mascot!</strong>
+                            </p>
+                            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                                <span style="background: rgba(0, 217, 255, 0.1); 
+                                             border: 1px solid var(--neon-blue); 
+                                             color: var(--neon-blue); 
+                                             padding: 8px 16px; 
+                                             border-radius: 20px; 
+                                             font-family: 'Orbitron', sans-serif; 
+                                             font-weight: 700; 
+                                             font-size: 0.9rem;">
+                                    NFT Collection Coming Soon 🎯
+                                </span>
+                                <span style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-weight: 700;">#BB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="about" class="section container">
@@ -1045,45 +1156,6 @@
             </div>
         </section>
         
-        <section id="news" class="section container">
-            <h2 class="section-title">LATEST NEWS</h2>
-            <div class="info-grid">
-                <div class="info-card hidden" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto;">
-                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-                        <img src="mmk.jpg" alt="MMKK" style="width: 120px; height: 120px; border-radius: 15px; border: 2px solid var(--neon-green); flex-shrink: 0; object-fit: cover;">
-                        <div style="flex: 1; min-width: 250px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
-                                <h3 style="margin: 0; color: var(--neon-green);">🚨 AMA with MMKK This Friday!</h3>
-                                <span style="color: var(--neon-blue); font-family: 'Orbitron', sans-serif; font-size: 0.9rem; white-space: nowrap;">
-                                    July 22, 2025 • Posted Today
-                                </span>
-                            </div>
-                            <p style="margin-bottom: 15px; line-height: 1.6;">
-                                Make sure you're all there and tuned in! ✅️<br><br>
-                                <strong>Presale starts tonight. Get your solana ready! 🤝🔥👀</strong>
-                            </p>
-                            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                                <a href="https://wenpad.io/launchpad/buybackbb" target="_blank" 
-                                   style="background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); 
-                                          color: var(--dark-bg); 
-                                          padding: 10px 20px; 
-                                          border-radius: 25px; 
-                                          text-decoration: none; 
-                                          font-family: 'Orbitron', sans-serif; 
-                                          font-weight: 700; 
-                                          font-size: 0.9rem;
-                                          transition: transform 0.3s, box-shadow 0.3s;
-                                          display: inline-block;">
-                                    Launch on Wenpad 🚀
-                                </a>
-                                <span style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-weight: 700;">#BB</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="partners" class="section container">
             <h2 class="section-title">LAUNCH & INSPIRATION</h2>
             <div class="partner-grid">
@@ -1306,7 +1378,7 @@
 
         // --- PRESALE COUNTDOWN ---
         // Set the date we're counting down to
-        const countdownDate = new Date("July 24, 2025 20:15:10").getTime();
+        const countdownDate = new Date("July 22, 2025 23:15:00").getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
@@ -1356,47 +1428,6 @@
             if (activeNode) activeNode.classList.add('active');
             if (activeContent) activeContent.classList.add('active');
 
-            // SECRET MODE ACTIVATION for Phase 6
-            if (phaseNumber == 6) {
-                secretCommandsActive = !secretCommandsActive;
-                playSuccessSound && playSuccessSound();
-                
-                // Add special message to terminal
-                if (!terminal.classList.contains('terminal-hidden')) {
-                    addTerminalLine(`[PHASE 6 ACTIVATED] Secret commands: ${secretCommandsActive ? 'ENABLED' : 'DISABLED'}`, 'success');
-                }
-                
-                // Create celebration tokens
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(() => new FloatingToken(), i * 200);
-                }
-                
-                // Show brief notification
-                const notification = document.createElement('div');
-                notification.innerHTML = `
-                    <div style="
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        background: rgba(1, 1, 20, 0.95);
-                        border: 2px solid var(--neon-green);
-                        padding: 15px 20px;
-                        border-radius: 10px;
-                        color: var(--neon-green);
-                        font-family: 'Orbitron', sans-serif;
-                        z-index: 99999;
-                        animation: fadeInDown 0.5s ease;
-                        box-shadow: var(--glow-shadow-green);
-                    ">
-                        🔓 Secret Mode ${secretCommandsActive ? 'ENABLED' : 'DISABLED'}!
-                    </div>
-                `;
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    notification.remove();
-                }, 3000);
-            }
 
             // Activate traces leading to the node
             if (phaseNumber == 1) {
@@ -1449,9 +1480,16 @@
 
         // --- MADNESS: BB SHOWER ---
         const logoTrigger = document.getElementById('logo-trigger');
+        const mobileArrow = document.querySelector('.mobile-logo-arrow');
+        
         logoTrigger.addEventListener('click', () => {
-            for(let i=0; i<50; i++) {
+            for(let i=0; i<10; i++) {
                 createBBParticle();
+            }
+            
+            // Hide the mobile arrow after first click
+            if (mobileArrow) {
+                mobileArrow.style.display = 'none';
             }
         });
         
@@ -1888,10 +1926,9 @@ LFG!!! 🚀🚀🚀`,
         ];
 
         let commandIndex = 0;
-        let secretCommandsActive = true;
 
         function executeSecretCommand() {
-            if (!secretCommandsActive || terminal.classList.contains('terminal-hidden')) {
+            if (terminal.classList.contains('terminal-hidden')) {
                 scheduleNextCommand();
                 return;
             }
@@ -1934,9 +1971,7 @@ LFG!!! 🚀🚀🚀`,
 • hodl - HODL status
 • whale - Whale activity
 • pump - Pump it up!
-• clear - Clear terminal
-
-Hint: Click the last roadmap phase for secrets...`;
+• clear - Clear terminal`;
 
         // --- KONAMI CODE EASTER EGG ---
         const konamiCode = [
@@ -1951,8 +1986,8 @@ Hint: Click the last roadmap phase for secrets...`;
             if (konamiActivated) return;
             konamiActivated = true;
 
-            // Create massive BB explosion
-            for (let i = 0; i < 50; i++) {
+            // Create BB explosion
+            for (let i = 0; i < 15; i++) {
                 setTimeout(() => {
                     new FloatingToken();
                 }, i * 50);
