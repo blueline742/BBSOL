@@ -40,6 +40,17 @@
             height: 100%;
             z-index: -1;
         }
+        
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.1;
+            pointer-events: none;
+        }
 
         .container {
             width: 90%;
@@ -109,6 +120,32 @@
             text-shadow: var(--glow-shadow-green);
         }
 
+        .music-btn {
+            background: none;
+            border: 2px solid var(--neon-green);
+            color: var(--neon-green);
+            font-size: 1.2rem;
+            padding: 8px 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .music-btn:hover {
+            background: var(--neon-green);
+            color: var(--dark-bg);
+            box-shadow: var(--glow-shadow-green);
+            transform: scale(1.1);
+        }
+
+        .music-btn.muted {
+            opacity: 0.5;
+            border-color: #666;
+            color: #666;
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
@@ -126,8 +163,12 @@
             font-weight: 900;
             color: #fff;
             text-shadow: var(--glow-shadow-green);
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             animation: glitch 1s infinite;
+            z-index: 10;
+            position: relative;
+            line-height: 1.1;
+            overflow: visible;
         }
         
         .hero h1 .char {
@@ -137,9 +178,12 @@
         .hero p {
             font-size: 1.2rem;
             max-width: 700px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             line-height: 1.6;
             animation: fadeInUp 1s ease-out 1s backwards;
+            z-index: 5;
+            position: relative;
+            margin-top: 20px;
         }
 
         .cta-button {
@@ -162,6 +206,17 @@
             transform: scale(1.05) translateY(-5px);
             box-shadow: var(--glow-shadow-green);
         }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            z-index: 5;
+            position: relative;
+            margin-top: 30px;
+        }
+
         
         /* Presale Countdown Section */
         #presale {
@@ -450,6 +505,65 @@
             font-size: 0.9rem;
         }
 
+        /* Holographic Text Effects */
+        .holographic {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .holographic::before,
+        .holographic::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            animation: hologram 2s infinite;
+            pointer-events: none;
+        }
+
+        .holographic::before {
+            color: rgba(255, 0, 150, 0.6);
+            transform: translate(-1px, -1px);
+            filter: blur(0.5px);
+        }
+
+        .holographic::after {
+            color: rgba(0, 255, 255, 0.6);
+            transform: translate(1px, 1px);
+            filter: blur(0.5px);
+        }
+
+        @keyframes hologram {
+            0%, 100% { 
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+            25% { 
+                opacity: 0.8;
+                transform: translate(-1px, 1px);
+            }
+            50% { 
+                opacity: 0.9;
+                transform: translate(1px, -1px);
+            }
+            75% { 
+                opacity: 0.7;
+                transform: translate(-2px, 2px);
+            }
+        }
+
+        .holo-flicker {
+            animation: holo-flicker 3s infinite alternate;
+        }
+
+        @keyframes holo-flicker {
+            0%, 90% { opacity: 1; }
+            95% { opacity: 0.1; }
+            100% { opacity: 1; }
+        }
+
         /* Animations */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
@@ -484,11 +598,87 @@
         
         /* Responsive Design */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1rem; }
-            nav { display: none; } /* Simple hide for mobile, can be replaced with hamburger */
-            #countdown { flex-direction: column; gap: 15px; align-items: center;}
-            .timer-box { width: 200px; }
+            .hero {
+                padding: 50px 0;
+                min-height: 80vh;
+            }
+            
+            .hero h1 { 
+                font-size: 2.5rem; 
+                margin-bottom: 25px;
+            }
+            
+            .hero p { 
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+            
+            nav { display: none; }
+            
+            #countdown { 
+                flex-direction: column; 
+                gap: 15px; 
+                align-items: center;
+            }
+            
+            .timer-box { 
+                width: 200px; 
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .partner-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .roadmap-wrapper {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            #roadmap-svg {
+                max-width: 300px;
+            }
+            
+            #terminal {
+                width: 95%;
+                height: 70vh;
+            }
+            
+            .floating-token {
+                font-size: 1.2rem;
+            }
+            
+            #matrix-canvas {
+                opacity: 0.05;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { 
+                font-size: 2rem; 
+            }
+            
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .info-card, .partner-card {
+                padding: 20px;
+            }
         }
 
         /* Scroll Animations */
@@ -527,6 +717,159 @@
             }
         }
 
+        /* Terminal Styles */
+        #terminal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            height: 60vh;
+            background: rgba(1, 1, 20, 0.95);
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            z-index: 10000;
+            font-family: 'Roboto Mono', monospace;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--glow-shadow-green);
+            transition: all 0.3s ease;
+        }
+
+        .terminal-hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+
+        .terminal-header {
+            background: rgba(0, 255, 155, 0.1);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--neon-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .terminal-header span {
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        #close-terminal {
+            background: none;
+            border: none;
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        #close-terminal:hover {
+            background: rgba(255, 0, 0, 0.2);
+            border-radius: 50%;
+        }
+
+        .terminal-content {
+            padding: 15px;
+            height: calc(100% - 60px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .terminal-line {
+            color: var(--text-color);
+            margin: 5px 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .terminal-line.success {
+            color: var(--neon-green);
+        }
+
+        .terminal-line.error {
+            color: #ff4444;
+        }
+
+        .terminal-line.warning {
+            color: #ffaa00;
+        }
+
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid rgba(0, 255, 155, 0.3);
+            padding-top: 10px;
+        }
+
+        .terminal-prompt {
+            color: var(--neon-green);
+            font-weight: 700;
+            margin-right: 5px;
+        }
+
+        #terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        #terminal-input::placeholder {
+            color: rgba(224, 224, 224, 0.5);
+        }
+
+        /* Floating BB Tokens */
+        .floating-token {
+            position: fixed;
+            font-size: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            color: var(--neon-green);
+            text-shadow: var(--glow-shadow-green);
+            pointer-events: none;
+            z-index: 1000;
+            user-select: none;
+            animation: tokenGlow 2s infinite alternate;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        @keyframes tokenGlow {
+            0% { 
+                text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+                transform: scale(1);
+            }
+            100% { 
+                text-shadow: var(--glow-shadow-green);
+                transform: scale(1.1);
+            }
+        }
+
+        .floating-token:hover {
+            transform: scale(1.3) !important;
+            pointer-events: auto;
+        }
+
+
     </style>
 </head>
 <body>
@@ -535,7 +878,27 @@
         <img src="logo.png" alt="Buy Back Logo" class="loader-logo">
     </div>
 
+    <div id="terminal" class="terminal-hidden">
+        <div class="terminal-header">
+            <span>$BB_TERMINAL v2.0.25 - Press ESC to close</span>
+            <button id="close-terminal">×</button>
+        </div>
+        <div class="terminal-content">
+            <div id="terminal-output">
+                <div class="terminal-line">Welcome to the $BB Interactive Terminal</div>
+                <div class="terminal-line">Type 'help' for available commands</div>
+                <div class="terminal-line">──────────────────────────────────────</div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">$BB>&nbsp;</span>
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </div>
+
+
     <canvas id="bg-canvas"></canvas>
+    <canvas id="matrix-canvas"></canvas>
 
     <header class="container">
         <img src="logo.png" alt="Buy Back Logo" class="logo" id="logo-trigger">
@@ -545,14 +908,17 @@
             <a href="#roadmap">Roadmap</a>
             <a href="#tokenomics">Tokenomics</a>
             <a href="https://t.co/SQCRd0bmtY" target="_blank">Telegram</a>
+            <button id="music-toggle" class="music-btn">🔊</button>
         </nav>
     </header>
 
     <main>
         <section class="hero container">
             <h1 id="main-title">BUY BACK</h1>
-            <p>This isn’t just another token — this is a movement. We’re gearing up for a 100–150 SOL presale, setting the stage for massive volume and momentum at launch.</p>
-            <a href="#presale" class="cta-button">Join The Presale</a>
+            <p>This isn't just another token — this is a movement. We're gearing up for a 100–150 SOL presale, setting the stage for massive volume and momentum at launch.</p>
+            <div class="hero-buttons">
+                <a href="#presale" class="cta-button">Join The Presale</a>
+            </div>
         </section>
 
         <section id="presale" class="section container">
@@ -860,6 +1226,43 @@
         init();
         animate();
 
+        // --- MATRIX CODE RAIN EFFECT ---
+        const matrixCanvas = document.getElementById('matrix-canvas');
+        const matrixCtx = matrixCanvas.getContext('2d');
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$BB🚀💎📈⚡🔥💰🎯🌙";
+        const matrixChars = matrix.split("");
+        const fontSize = 15;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrixRain() {
+            matrixCtx.fillStyle = 'rgba(1, 1, 20, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            
+            matrixCtx.fillStyle = '#00ff9b';
+            matrixCtx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrixRain, 35);
+
+        window.addEventListener('resize', () => {
+            matrixCanvas.width = innerWidth;
+            matrixCanvas.height = innerHeight;
+        });
+
 
         // --- PRESALE COUNTDOWN ---
         // Set the date we're counting down to
@@ -912,6 +1315,48 @@
             const activeContent = document.querySelector(`.roadmap-content[data-phase="${phaseNumber}"]`);
             if (activeNode) activeNode.classList.add('active');
             if (activeContent) activeContent.classList.add('active');
+
+            // SECRET MODE ACTIVATION for Phase 6
+            if (phaseNumber == 6) {
+                secretCommandsActive = !secretCommandsActive;
+                playSuccessSound && playSuccessSound();
+                
+                // Add special message to terminal
+                if (!terminal.classList.contains('terminal-hidden')) {
+                    addTerminalLine(`[PHASE 6 ACTIVATED] Secret commands: ${secretCommandsActive ? 'ENABLED' : 'DISABLED'}`, 'success');
+                }
+                
+                // Create celebration tokens
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => new FloatingToken(), i * 200);
+                }
+                
+                // Show brief notification
+                const notification = document.createElement('div');
+                notification.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: rgba(1, 1, 20, 0.95);
+                        border: 2px solid var(--neon-green);
+                        padding: 15px 20px;
+                        border-radius: 10px;
+                        color: var(--neon-green);
+                        font-family: 'Orbitron', sans-serif;
+                        z-index: 99999;
+                        animation: fadeInDown 0.5s ease;
+                        box-shadow: var(--glow-shadow-green);
+                    ">
+                        🔓 Secret Mode ${secretCommandsActive ? 'ENABLED' : 'DISABLED'}!
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
 
             // Activate traces leading to the node
             if (phaseNumber == 1) {
@@ -989,6 +1434,390 @@
             }, duration * 1000);
         }
         
+        // --- INTERACTIVE TERMINAL ---
+        const terminal = document.getElementById('terminal');
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+        const closeTerminal = document.getElementById('close-terminal');
+
+        const commands = {
+            help: () => `Available commands:
+• balance - Check $BB balance
+• price - Get current $BB price 
+• moon - Moon mission status
+• rugcheck - Verify contract safety
+• degen - Degen mode toggle
+• matrix - Toggle matrix rain
+• hodl - HODL status
+• whale - Whale activity
+• pump - Pump it up!
+• clear - Clear terminal`,
+            
+            balance: () => `$BB Balance: 42,069.420 $BB 💎`,
+            
+            price: () => `$BB Price: $${(Math.random() * 0.001 + 0.0001).toFixed(6)} 📈 (+420.69%)`,
+            
+            moon: () => `🚀 Moon Mission Status: ENGAGED
+Trajectory: BULLISH
+ETA: SOON™`,
+            
+            rugcheck: () => `✅ Contract verified on SolScan
+✅ Liquidity locked for 69 years
+✅ Developer doxxed (Chad McBased)
+✅ No mint function found
+STATUS: BASED AND MOONPILLED`,
+            
+            degen: () => `🎲 DEGEN MODE: MAXIMUM OVERDRIVE
+Risk Tolerance: 420%
+Portfolio: 100% $BB
+Brain: SMOOTH AS SILK`,
+            
+            matrix: () => {
+                const matrixCanvas = document.getElementById('matrix-canvas');
+                matrixCanvas.style.opacity = matrixCanvas.style.opacity === '0.3' ? '0.1' : '0.3';
+                return `Matrix rain intensity: ${matrixCanvas.style.opacity === '0.3' ? 'MAXIMUM' : 'NORMAL'}`;
+            },
+            
+            hodl: () => `💎🙌 HODL Status: DIAMOND HANDS ACTIVATED
+Last sell: NEVER
+Exit strategy: WHAT EXIT?`,
+            
+            whale: () => `🐋 Whale Alert:
+DeepFuckingValue bought 1,000,000 $BB
+ElonDoge sold 10 $BB (paper hands)
+Status: WHALES ARE BUYING`,
+            
+            pump: () => `🔥 PUMP SEQUENCE INITIATED
+Volume: INCREASING
+Momentum: BULLISH
+Bags: LOADING
+LFG!!! 🚀🚀🚀`,
+            
+            clear: () => {
+                terminalOutput.innerHTML = `
+                    <div class="terminal-line">Welcome to the $BB Interactive Terminal</div>
+                    <div class="terminal-line">Type 'help' for available commands</div>
+                    <div class="terminal-line">──────────────────────────────────────</div>
+                `;
+                return '';
+            }
+        };
+
+        function addTerminalLine(text, className = '') {
+            const line = document.createElement('div');
+            line.className = `terminal-line ${className}`;
+            line.innerHTML = text;
+            terminalOutput.appendChild(line);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        function executeCommand(cmd) {
+            const command = cmd.toLowerCase().trim();
+            addTerminalLine(`$BB> ${cmd}`);
+            
+            if (commands[command]) {
+                const result = commands[command]();
+                if (result) addTerminalLine(result, 'success');
+            } else if (command === '') {
+                // Do nothing for empty commands
+            } else {
+                addTerminalLine(`Command not found: ${cmd}. Type 'help' for available commands.`, 'error');
+            }
+        }
+
+        // Terminal controls
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === '`') {
+                e.preventDefault();
+                terminal.classList.toggle('terminal-hidden');
+                if (!terminal.classList.contains('terminal-hidden')) {
+                    terminalInput.focus();
+                }
+            } else if (e.key === 'Escape' && !terminal.classList.contains('terminal-hidden')) {
+                terminal.classList.add('terminal-hidden');
+            }
+        });
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const command = terminalInput.value;
+                executeCommand(command);
+                terminalInput.value = '';
+            }
+        });
+
+        closeTerminal.addEventListener('click', () => {
+            terminal.classList.add('terminal-hidden');
+        });
+
+        // --- CYBERPUNK AUDIO SYSTEM ---
+        let audioContext;
+        let backgroundMusicPlaying = false;
+        let musicGainNode;
+        const musicToggle = document.getElementById('music-toggle');
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                musicGainNode = audioContext.createGain();
+                musicGainNode.connect(audioContext.destination);
+                musicGainNode.gain.value = 0.3;
+            }
+        }
+
+        function playSound(frequency, duration, type = 'sine', volume = 0.1) {
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = type;
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+
+        function startBackgroundMusic() {
+            if (!audioContext || backgroundMusicPlaying) return;
+            backgroundMusicPlaying = true;
+            
+            const playBassLoop = () => {
+                if (!backgroundMusicPlaying) return;
+                
+                // Bass line
+                playSound(55, 0.5, 'sawtooth', 0.15);
+                setTimeout(() => playSound(73, 0.3, 'sawtooth', 0.12), 500);
+                setTimeout(() => playSound(55, 0.4, 'sawtooth', 0.15), 1000);
+                setTimeout(() => playSound(82, 0.3, 'sawtooth', 0.12), 1500);
+                
+                setTimeout(playBassLoop, 2000);
+            };
+            
+            const playDrums = () => {
+                if (!backgroundMusicPlaying) return;
+                
+                // Kick
+                playSound(60, 0.1, 'sine', 0.2);
+                // Hi-hat
+                setTimeout(() => playSound(1000, 0.05, 'square', 0.05), 125);
+                setTimeout(() => playSound(60, 0.1, 'sine', 0.2), 500);
+                setTimeout(() => playSound(1000, 0.05, 'square', 0.05), 625);
+                setTimeout(() => playSound(1000, 0.05, 'square', 0.05), 750);
+                
+                setTimeout(playDrums, 1000);
+            };
+            
+            const playSynth = () => {
+                if (!backgroundMusicPlaying) return;
+                
+                const notes = [220, 246.94, 277.18, 329.63, 369.99];
+                const note = notes[Math.floor(Math.random() * notes.length)];
+                playSound(note, 0.8, 'square', 0.08);
+                
+                setTimeout(playSynth, Math.random() * 2000 + 1000);
+            };
+            
+            playBassLoop();
+            setTimeout(playDrums, 500);
+            setTimeout(playSynth, 2000);
+        }
+
+        function stopBackgroundMusic() {
+            backgroundMusicPlaying = false;
+        }
+
+        // Sound effects for interactions
+        function playClickSound() {
+            playSound(800, 0.1, 'square', 0.1);
+            setTimeout(() => playSound(1200, 0.05, 'square', 0.08), 50);
+        }
+
+        function playHoverSound() {
+            playSound(600, 0.05, 'sine', 0.05);
+        }
+
+        function playSuccessSound() {
+            playSound(523.25, 0.2, 'sine', 0.15);
+            setTimeout(() => playSound(659.25, 0.2, 'sine', 0.15), 100);
+            setTimeout(() => playSound(783.99, 0.3, 'sine', 0.15), 200);
+        }
+
+        // Music toggle functionality
+        musicToggle.addEventListener('click', () => {
+            initAudio();
+            
+            if (backgroundMusicPlaying) {
+                stopBackgroundMusic();
+                musicToggle.textContent = '🔇';
+                musicToggle.classList.add('muted');
+            } else {
+                audioContext.resume().then(() => {
+                    startBackgroundMusic();
+                    musicToggle.textContent = '🔊';
+                    musicToggle.classList.remove('muted');
+                });
+            }
+            playClickSound();
+        });
+
+        // Add sound effects to existing elements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add hover sounds to buttons and links
+            document.querySelectorAll('a, button, .cta-button').forEach(element => {
+                element.addEventListener('mouseenter', playHoverSound);
+                element.addEventListener('click', playClickSound);
+            });
+
+            // Success sound for terminal commands
+            const originalExecuteCommand = executeCommand;
+            executeCommand = function(cmd) {
+                originalExecuteCommand(cmd);
+                if (cmd.trim() && commands[cmd.toLowerCase().trim()]) {
+                    playSuccessSound();
+                }
+            };
+        });
+
+        // --- FLOATING BB TOKENS WITH PHYSICS ---
+        class FloatingToken {
+            constructor() {
+                this.element = document.createElement('div');
+                this.element.className = 'floating-token';
+                this.element.textContent = '$BB';
+                this.element.style.pointerEvents = 'auto';
+                
+                // Physics properties
+                this.x = Math.random() * (window.innerWidth - 50);
+                this.y = Math.random() * (window.innerHeight - 50);
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.gravity = 0.1;
+                this.bounce = 0.8;
+                this.friction = 0.99;
+                this.radius = 25;
+                
+                // Mouse interaction
+                this.mouseForce = 0;
+                this.mouseAngle = 0;
+                
+                document.body.appendChild(this.element);
+                this.setupInteraction();
+                this.update();
+            }
+            
+            setupInteraction() {
+                this.element.addEventListener('mouseenter', () => {
+                    this.element.style.pointerEvents = 'auto';
+                    playHoverSound && playHoverSound();
+                });
+                
+                this.element.addEventListener('click', () => {
+                    // Explosion effect
+                    this.vx += (Math.random() - 0.5) * 10;
+                    this.vy += (Math.random() - 0.5) * 10;
+                    playClickSound && playClickSound();
+                    
+                    // Create mini tokens
+                    for (let i = 0; i < 3; i++) {
+                        setTimeout(() => {
+                            if (Math.random() > 0.3) new FloatingToken();
+                        }, i * 200);
+                    }
+                });
+            }
+            
+            update() {
+                // Mouse repulsion
+                const mouseX = mouse.x || window.innerWidth / 2;
+                const mouseY = mouse.y || window.innerHeight / 2;
+                const dx = this.x - mouseX;
+                const dy = this.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 100 && distance > 0) {
+                    const force = (100 - distance) / 100;
+                    this.vx += (dx / distance) * force * 0.5;
+                    this.vy += (dy / distance) * force * 0.5;
+                }
+                
+                // Apply gravity
+                this.vy += this.gravity;
+                
+                // Apply friction
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                
+                // Update position
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Boundary collision
+                if (this.x <= this.radius || this.x >= window.innerWidth - this.radius) {
+                    this.vx = -this.vx * this.bounce;
+                    this.x = Math.max(this.radius, Math.min(window.innerWidth - this.radius, this.x));
+                }
+                
+                if (this.y <= this.radius || this.y >= window.innerHeight - this.radius) {
+                    this.vy = -this.vy * this.bounce;
+                    this.y = Math.max(this.radius, Math.min(window.innerHeight - this.radius, this.y));
+                }
+                
+                // Update DOM position
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                
+                // Continue animation
+                requestAnimationFrame(() => this.update());
+            }
+            
+            destroy() {
+                this.element.remove();
+            }
+        }
+        
+        // Create initial floating tokens
+        const floatingTokens = [];
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                floatingTokens.push(new FloatingToken());
+            }, i * 1000);
+        }
+        
+        // Cleanup old tokens periodically
+        setInterval(() => {
+            const tokens = document.querySelectorAll('.floating-token');
+            if (tokens.length > 15) {
+                tokens[0].remove();
+            }
+        }, 10000);
+
+        // --- HOLOGRAPHIC TEXT EFFECTS ---
+        function applyHolographicEffect(element) {
+            const text = element.textContent;
+            element.setAttribute('data-text', text);
+            element.classList.add('holographic');
+            
+            // Random flicker effect
+            if (Math.random() > 0.5) {
+                element.classList.add('holo-flicker');
+            }
+        }
+
+        // Apply holographic effects to section titles
+        document.querySelectorAll('.section-title').forEach(applyHolographicEffect);
+
+        // Apply to presale title
+        const presaleTitle = document.querySelector('#presale h2');
+        if (presaleTitle) applyHolographicEffect(presaleTitle);
+
         // --- GLITCHY TITLE ---
         const title = document.getElementById('main-title');
         const originalText = title.innerText;
@@ -998,6 +1827,168 @@
             span.className = 'char';
             span.innerText = char;
             title.appendChild(span);
+        });
+
+        // Don't apply holographic to main title to avoid duplication
+        // title.setAttribute('data-text', originalText);
+        // title.classList.add('holographic', 'holo-flicker');
+
+        // --- RANDOM SECRET TERMINAL COMMANDS ---
+        const secretCommands = [
+            { cmd: 'whale-alert', msg: '🐋 Whale bought 500,000 $BB tokens!', delay: 15000 },
+            { cmd: 'degen-mode', msg: '🎲 A degen just YOLOed their life savings into $BB', delay: 20000 },
+            { cmd: 'moon-mission', msg: '🚀 $BB rocket fuel tanks: 95% full', delay: 25000 },
+            { cmd: 'diamond-hands', msg: '💎 Strong hands detected. HODL power increasing...', delay: 30000 },
+            { cmd: 'paper-hands', msg: '📄 Weak hands detected. Stay strong, anon!', delay: 35000 },
+            { cmd: 'rug-check', msg: '✅ No rugs detected. $BB is SAFU', delay: 40000 },
+            { cmd: 'volume-spike', msg: '📈 Trading volume +2000% in last hour!', delay: 45000 },
+            { cmd: 'fomo-level', msg: '😱 FOMO level: MAXIMUM OVERDRIVE', delay: 50000 },
+            { cmd: 'ape-in', msg: '🦍 Apes together strong! $BB army assembling...', delay: 55000 },
+            { cmd: 'to-the-moon', msg: '🌙 Countdown to moon: T-minus SOON™', delay: 60000 }
+        ];
+
+        let commandIndex = 0;
+        let secretCommandsActive = true;
+
+        function executeSecretCommand() {
+            if (!secretCommandsActive || terminal.classList.contains('terminal-hidden')) {
+                scheduleNextCommand();
+                return;
+            }
+
+            const command = secretCommands[commandIndex % secretCommands.length];
+            
+            // Add command to terminal as if system executed it
+            addTerminalLine(`[SYSTEM] ${command.cmd}`, 'warning');
+            addTerminalLine(command.msg, 'success');
+            
+            // Play subtle sound
+            if (audioContext && Math.random() > 0.5) {
+                playHoverSound && playHoverSound();
+            }
+            
+            commandIndex++;
+            scheduleNextCommand();
+        }
+
+        function scheduleNextCommand() {
+            const delay = Math.random() * 30000 + 15000; // 15-45 seconds
+            setTimeout(executeSecretCommand, delay);
+        }
+
+        // Start secret commands after page loads
+        setTimeout(() => {
+            scheduleNextCommand();
+        }, 10000); // Start after 10 seconds
+
+        // Remove secretmode from terminal commands since it's now on roadmap
+
+        // Update help command
+        commands.help = () => `Available commands:
+• balance - Check $BB balance
+• price - Get current $BB price 
+• moon - Moon mission status
+• rugcheck - Verify contract safety
+• degen - Degen mode toggle
+• matrix - Toggle matrix rain
+• hodl - HODL status
+• whale - Whale activity
+• pump - Pump it up!
+• clear - Clear terminal
+
+Hint: Click the last roadmap phase for secrets...`;
+
+        // --- KONAMI CODE EASTER EGG ---
+        const konamiCode = [
+            'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+            'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+            'KeyB', 'KeyA'
+        ];
+        let konamiIndex = 0;
+        let konamiActivated = false;
+
+        function triggerKonamiEasterEgg() {
+            if (konamiActivated) return;
+            konamiActivated = true;
+
+            // Create massive BB explosion
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    new FloatingToken();
+                }, i * 50);
+            }
+
+            // Special sound sequence
+            if (audioContext) {
+                // Epic fanfare
+                playSound(523.25, 0.3, 'sine', 0.2);
+                setTimeout(() => playSound(659.25, 0.3, 'sine', 0.2), 150);
+                setTimeout(() => playSound(783.99, 0.3, 'sine', 0.2), 300);
+                setTimeout(() => playSound(1046.50, 0.5, 'sine', 0.25), 450);
+            }
+
+            // Matrix rain intensify
+            const matrixCanvas = document.getElementById('matrix-canvas');
+            matrixCanvas.style.opacity = '0.5';
+
+            // Show secret message
+            const secretMsg = document.createElement('div');
+            secretMsg.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: rgba(1, 1, 20, 0.95);
+                    border: 3px solid var(--neon-green);
+                    padding: 30px;
+                    border-radius: 15px;
+                    text-align: center;
+                    z-index: 99999;
+                    font-family: 'Orbitron', sans-serif;
+                    color: var(--neon-green);
+                    backdrop-filter: blur(10px);
+                    box-shadow: var(--glow-shadow-green);
+                    animation: pulse 2s infinite;
+                ">
+                    <h2 style="margin: 0 0 15px 0;">🎉 KONAMI CODE ACTIVATED! 🎉</h2>
+                    <p style="margin: 0;">You've unlocked the secret $BB vault!</p>
+                    <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Welcome to the inner circle, degen! 💎🙌</p>
+                    <button onclick="this.parentElement.parentElement.remove(); document.getElementById('matrix-canvas').style.opacity='0.1';" 
+                            style="
+                                margin-top: 20px;
+                                background: var(--neon-green);
+                                border: none;
+                                color: var(--dark-bg);
+                                padding: 10px 20px;
+                                border-radius: 25px;
+                                font-family: 'Orbitron', sans-serif;
+                                font-weight: 700;
+                                cursor: pointer;
+                            ">
+                        HODL ON! 🚀
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(secretMsg);
+
+            // Reset konami after 10 seconds
+            setTimeout(() => {
+                konamiActivated = false;
+                konamiIndex = 0;
+            }, 10000);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    triggerKonamiEasterEgg();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
         });
 
     </script>
