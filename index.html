@@ -218,7 +218,7 @@
         }
 
         
-        /* Presale Countdown Section */
+        /* Presale Live Section */
         #presale {
             padding: 80px 0;
             text-align: center;
@@ -227,58 +227,138 @@
         #presale h2 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2.5rem;
-            color: var(--neon-blue);
-            text-shadow: var(--glow-shadow-blue);
+            color: var(--neon-green);
+            text-shadow: 0 0 5px var(--neon-green);
             margin-bottom: 40px;
+            animation: pulse 2s infinite;
         }
 
-        #countdown {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .timer-box {
-            background: rgba(0, 217, 255, 0.1);
-            border: 1px solid var(--neon-blue);
-            padding: 20px;
-            border-radius: 10px;
-            width: 120px;
-            backdrop-filter: blur(5px);
-        }
-
-        .timer-box span {
-            display: block;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        .timer-box p {
-            font-size: 1rem;
-            color: var(--neon-blue);
-        }
-        
-        .progress-bar-container {
-            width: 80%;
-            max-width: 600px;
-            height: 30px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            margin: 20px auto;
-            border: 1px solid var(--neon-blue);
+        .presale-live-container {
+            background: rgba(0, 255, 155, 0.05);
+            border: 2px solid var(--neon-green);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--glow-shadow-green);
+            position: relative;
             overflow: hidden;
         }
-        
-        #progress-bar {
-            width: 46.67%; /* 70 SOL soft cap / 150 SOL hard cap */
-            height: 100%;
-            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
-            border-radius: 15px;
-            transition: width 1s ease-in-out;
+
+        .presale-live-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 155, 0.1), transparent);
+            animation: shimmer 3s infinite;
+            z-index: 1;
+        }
+
+        .presale-live-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--neon-green);
+            text-shadow: var(--glow-shadow-green);
+        }
+
+        .live-dot {
+            width: 15px;
+            height: 15px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            animation: livePulse 1s infinite;
             box-shadow: var(--glow-shadow-green);
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .wenpad-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .wenpad-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            border: 3px solid var(--neon-blue);
+            box-shadow: var(--glow-shadow-blue);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .wenpad-logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: var(--glow-shadow-green);
+        }
+
+        .presale-cta-button {
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
+            color: var(--dark-bg);
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(0, 255, 155, 0.6);
+            animation: ctaPulse 2s infinite;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .presale-cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .presale-cta-button:hover::before {
+            left: 100%;
+        }
+
+        .presale-cta-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: var(--glow-shadow-green), 0 10px 20px rgba(0, 255, 155, 0.3);
+        }
+
+        @keyframes ctaPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 155, 0.6); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 155, 0.9), 0 0 70px rgba(0, 217, 255, 0.6); }
         }
         
         .cap-info {
@@ -655,14 +735,28 @@
                 display: block;
             }
             
-            #countdown { 
-                flex-direction: column; 
-                gap: 15px; 
-                align-items: center;
+            .presale-live-container {
+                margin: 20px auto;
+                padding: 30px 20px;
             }
             
-            .timer-box { 
-                width: 200px; 
+            .wenpad-section {
+                gap: 20px;
+            }
+            
+            .wenpad-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .presale-cta-button {
+                padding: 15px 25px;
+                font-size: 1.1rem;
+            }
+            
+            .live-indicator {
+                font-size: 1rem;
+                gap: 10px;
             }
             
             .section-title {
@@ -965,21 +1059,29 @@
         </section>
 
         <section id="presale" class="section container">
-            <h2 class="section-title">PRESALE IS COMING</h2>
-            <div id="countdown">
-                <div class="timer-box"><span id="days">00</span><p>Days</p></div>
-                <div class="timer-box"><span id="hours">00</span><p>Hours</p></div>
-                <div class="timer-box"><span id="minutes">00</span><p>Minutes</p></div>
-                <div class="timer-box"><span id="seconds">00</span><p>Seconds</p></div>
-            </div>
-             <div class="progress-bar-container">
-                <div id="progress-bar"></div>
+            <h2 class="section-title">PRESALE NOW LIVE!</h2>
+            <div class="presale-live-container">
+                <div class="presale-live-content">
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        <span>LIVE NOW</span>
+                    </div>
+                    <p style="font-size: 1.3rem; margin: 30px 0; color: var(--neon-green); text-shadow: var(--glow-shadow-green);">
+                        The revolution has begun! Join the presale on WenPad now!
+                    </p>
+                    <div class="wenpad-section">
+                        <img src="wenpad.jpg" alt="WenPad" class="wenpad-logo">
+                        <a href="https://wenpad.io/launchpad/buybackbb" target="_blank" class="presale-cta-button">
+                            <span>🚀 JOIN PRESALE ON WENPAD 🚀</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="cap-info">
                 <span>Soft Cap: 70 SOL</span>
                 <span>Hard Cap: 150 SOL</span>
             </div>
-            <p style="margin-top: 20px; font-size: 1.1rem;">The presale will last 5-7 days. Get ready! #BB</p>
+            <p style="margin-top: 20px; font-size: 1.1rem;">Don't miss out on the $BB revolution! #BB</p>
         </section>
 
         <section id="news" class="section container">
@@ -1377,41 +1479,43 @@
         });
 
 
-        // --- PRESALE COUNTDOWN ---
-        // Set the date we're counting down to (2 hours 58 minutes from now)
-        const now = new Date();
-        const countdownDate = new Date(now.getTime() + (2 * 60 * 60 * 1000) + (58 * 60 * 1000)).getTime();
+        // --- PRESALE LIVE EFFECTS ---
+        // Add extra sparkle effects to the presale section
+        function createSparkleEffect() {
+            const presaleContainer = document.querySelector('.presale-live-container');
+            if (!presaleContainer) return;
 
-        const daysEl = document.getElementById('days');
-        const hoursEl = document.getElementById('hours');
-        const minutesEl = document.getElementById('minutes');
-        const secondsEl = document.getElementById('seconds');
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'absolute';
+            sparkle.style.color = 'var(--neon-green)';
+            sparkle.style.fontSize = '1.2rem';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '10';
+            sparkle.style.animation = 'sparkle 2s linear forwards';
+            
+            const rect = presaleContainer.getBoundingClientRect();
+            sparkle.style.left = Math.random() * rect.width + 'px';
+            sparkle.style.top = Math.random() * rect.height + 'px';
+            
+            presaleContainer.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 2000);
+        }
 
-        const countdownInterval = setInterval(() => {
-            // Get today's date and time
-            const now = new Date().getTime();
-
-            // Find the distance between now and the count down date
-            const distance = countdownDate - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Output the result in the corresponding elements
-            daysEl.innerText = days < 10 ? '0' + days : days;
-            hoursEl.innerText = hours < 10 ? '0' + hours : hours;
-            minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
-            secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
-
-            // If the count down is over, write some text
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById('countdown').innerHTML = "<h2 class='section-title'>PRESALE IS LIVE!</h2>";
+        // Add sparkle keyframe animation
+        const sparkleStyle = document.createElement('style');
+        sparkleStyle.textContent = `
+            @keyframes sparkle {
+                0% { opacity: 0; transform: scale(0) rotate(0deg); }
+                50% { opacity: 1; transform: scale(1) rotate(180deg); }
+                100% { opacity: 0; transform: scale(0) rotate(360deg); }
             }
-        }, 1000);
+        `;
+        document.head.appendChild(sparkleStyle);
+
+        // Create sparkles periodically
+        setInterval(createSparkleEffect, 1500);
 
         // --- INTERACTIVE ROADMAP SCRIPT ---
         const roadmapNodes = document.querySelectorAll('.node-group');
