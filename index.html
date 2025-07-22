@@ -1377,8 +1377,9 @@
 
 
         // --- PRESALE COUNTDOWN ---
-        // Set the date we're counting down to
-        const countdownDate = new Date("July 22, 2025 23:15:00").getTime();
+        // Set the date we're counting down to (2 hours 58 minutes from now)
+        const now = new Date();
+        const countdownDate = new Date(now.getTime() + (2 * 60 * 60 * 1000) + (58 * 60 * 1000)).getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
