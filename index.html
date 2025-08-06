@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Back ($BB) - The Solana Revolution</title>
+    <title>Buy Back ($BB) - Live on Solana</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* General Styling & Setup */
         :root {
-            --neon-green: #00ff9b;
-            --neon-blue: #00d9ff;
-            --dark-bg: #010114;
-            --text-color: #e0e0e0;
-            --glow-shadow-green: 0 0 5px var(--neon-green), 0 0 15px var(--neon-green), 0 0 30px var(--neon-green), 0 0 50px var(--neon-green);
-            --glow-shadow-blue: 0 0 5px var(--neon-blue), 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
+            --primary-green: #00D67E;
+            --secondary-green: #00A862;
+            --dark-green: #007A48;
+            --accent-purple: #6B46C1;
+            --dark-bg: #0A0B0D;
+            --darker-bg: #050607;
+            --card-bg: #111317;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A1A1AA;
+            --border-color: #27272A;
+            --success-color: #10B981;
+            --glow-green: 0 0 20px rgba(0, 214, 126, 0.3);
+            --subtle-glow: 0 0 10px rgba(0, 214, 126, 0.15);
         }
 
         * {
@@ -25,31 +32,25 @@
         }
 
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-color);
-            font-family: 'Roboto Mono', monospace;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            line-height: 1.6;
         }
 
-        #bg-canvas {
+        /* Background Pattern */
+        .bg-pattern {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-        }
-        
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            opacity: 0.1;
-            pointer-events: none;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(0, 214, 126, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(107, 70, 193, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 214, 126, 0.03) 0%, transparent 50%);
         }
 
         .container {
@@ -57,154 +58,129 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            position: relative;
-            z-index: 2;
         }
 
-        /* Preloader */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-        }
-        #preloader.loaded {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .loader-logo {
-            width: 150px;
-            height: 150px;
-            animation: pulse 2s infinite, glitch-scan 5s infinite;
-        }
-
-        /* Header & Navigation */
+        /* Header */
         header {
+            background: rgba(10, 11, 13, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(5, 6, 7, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            animation: fadeInDown 1s ease-out 0.5s backwards;
+            padding: 15px 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            cursor: pointer;
+            width: 50px;
+            height: 50px;
             transition: transform 0.3s ease;
         }
+
         .logo:hover {
-            transform: scale(1.1) rotate(360deg);
-            filter: drop-shadow(var(--glow-shadow-green));
-        }
-
-        nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            margin-left: 25px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--neon-green);
-            text-shadow: var(--glow-shadow-green);
-        }
-
-        .music-btn {
-            background: none;
-            border: 2px solid var(--neon-green);
-            color: var(--neon-green);
-            font-size: 1.2rem;
-            padding: 8px 12px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-left: 20px;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .music-btn:hover {
-            background: var(--neon-green);
-            color: var(--dark-bg);
-            box-shadow: var(--glow-shadow-green);
             transform: scale(1.1);
         }
 
-        .music-btn.muted {
-            opacity: 0.5;
-            border-color: #666;
-            color: #666;
+        .logo-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-green);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-green);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .chart-btn {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--subtle-glow);
+        }
+
+        .chart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-green);
         }
 
         /* Hero Section */
         .hero {
+            padding: 150px 0 100px;
             text-align: center;
-            padding: 100px 0;
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            position: relative;
         }
 
         .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: var(--glow-shadow-green);
-            margin-bottom: 40px;
-            animation: glitch 1s infinite;
-            z-index: 10;
-            position: relative;
-            line-height: 1.1;
-            overflow: visible;
-        }
-        
-        .hero h1 .char {
-            display: inline-block;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin-bottom: 50px;
-            line-height: 1.6;
-            animation: fadeInUp 1s ease-out 1s backwards;
-            z-index: 5;
-            position: relative;
-            margin-top: 20px;
-        }
-
-        .cta-button {
-            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
-            color: var(--dark-bg);
-            padding: 15px 35px;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 0 20px rgba(0, 255, 155, 0.5);
-            animation: fadeInUp 1s ease-out 1.5s backwards;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease;
         }
 
-        .cta-button:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: var(--glow-shadow-green);
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
         }
 
         .hero-buttons {
@@ -212,1823 +188,945 @@
             gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
-            z-index: 5;
-            position: relative;
-            margin-top: 30px;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
         }
 
-        
-        /* Presale Live Section */
-        #presale {
-            padding: 80px 0;
-            text-align: center;
-        }
-        
-        #presale h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            color: var(--neon-green);
-            text-shadow: 0 0 5px var(--neon-green);
-            margin-bottom: 40px;
-            animation: pulse 2s infinite;
-        }
-
-        .presale-live-container {
-            background: rgba(0, 255, 155, 0.05);
-            border: 2px solid var(--neon-green);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 40px auto;
-            max-width: 800px;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--glow-shadow-green);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .presale-live-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 155, 0.1), transparent);
-            animation: shimmer 3s infinite;
-            z-index: 1;
-        }
-
-        .presale-live-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .live-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 1.2rem;
-            color: var(--neon-green);
-            text-shadow: var(--glow-shadow-green);
-        }
-
-        .live-dot {
-            width: 15px;
-            height: 15px;
-            background: var(--neon-green);
-            border-radius: 50%;
-            animation: livePulse 1s infinite;
-            box-shadow: var(--glow-shadow-green);
-        }
-
-        @keyframes livePulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.3); }
-        }
-
-        .wenpad-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            margin: 30px 0;
-        }
-
-        .wenpad-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 20px;
-            border: 3px solid var(--neon-blue);
-            box-shadow: var(--glow-shadow-blue);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .wenpad-logo:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: var(--glow-shadow-green);
-        }
-
-        .presale-cta-button {
-            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue));
-            color: var(--dark-bg);
-            padding: 20px 40px;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 1.4rem;
-            cursor: pointer;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--text-primary);
+            padding: 15px 35px;
+            border-radius: 10px;
             text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 0 30px rgba(0, 255, 155, 0.6);
-            animation: ctaPulse 2s infinite;
             display: inline-block;
-            position: relative;
-            overflow: hidden;
+            box-shadow: var(--subtle-glow);
         }
 
-        .presale-cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow-green);
         }
 
-        .presale-cta-button:hover::before {
-            left: 100%;
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-green);
+            padding: 15px 35px;
+            border: 2px solid var(--primary-green);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
         }
 
-        .presale-cta-button:hover {
-            transform: scale(1.1) translateY(-5px);
-            box-shadow: var(--glow-shadow-green), 0 10px 20px rgba(0, 255, 155, 0.3);
+        .btn-secondary:hover {
+            background: rgba(0, 214, 126, 0.1);
+            transform: translateY(-3px);
         }
 
-        @keyframes ctaPulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 155, 0.6); }
-            50% { box-shadow: 0 0 50px rgba(0, 255, 155, 0.9), 0 0 70px rgba(0, 217, 255, 0.6); }
-        }
-        
-        .cap-info {
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
-            max-width: 600px;
-            margin: 10px auto;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-
-        /* Section Styling */
-        .section {
-            padding: 100px 0;
-            border-top: 1px solid rgba(0, 217, 255, 0.2);
+        /* Live Chart Section */
+        .chart-section {
+            padding: 80px 0;
+            background: var(--darker-bg);
         }
 
         .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
             text-align: center;
-            margin-bottom: 60px;
-            color: #fff;
-            text-shadow: var(--glow-shadow-blue);
-            animation: glitch 2s infinite alternate;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Info Section Grid */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+        .chart-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .info-card {
-            background: rgba(0, 255, 155, 0.05);
-            border: 1px solid var(--neon-green);
-            padding: 30px;
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .chart-header h3 {
+            font-size: 1.25rem;
+            color: var(--primary-green);
+        }
+
+        .chart-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
             border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: #000;
         }
 
-        .info-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--glow-shadow-green);
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
         }
 
-        .info-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-green);
+        .stat-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-green);
+            box-shadow: var(--subtle-glow);
+        }
+
+        .stat-card h4 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* News Section */
+        .news-section {
+            padding: 80px 0;
+        }
+
+        .news-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-green), var(--secondary-green));
+        }
+
+        .news-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0, 214, 126, 0.1);
+        }
+
+        .news-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .news-card h3 {
+            color: var(--primary-green);
             margin-bottom: 15px;
             font-size: 1.5rem;
         }
 
-        .info-card p {
-            line-height: 1.7;
+        .news-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 15px;
         }
-        
-        /* --- NEW CIRCUIT BOARD ROADMAP --- */
-        .roadmap-wrapper {
+
+        .news-tag {
+            display: inline-block;
+            background: rgba(0, 214, 126, 0.1);
+            color: var(--primary-green);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        /* Tokenomics Section */
+        .tokenomics-section {
+            padding: 80px 0;
+            background: var(--darker-bg);
+        }
+
+        .tokenomics-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
-        #roadmap-svg {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-            overflow: visible;
-        }
-
-        .trace {
-            stroke: rgba(0, 217, 255, 0.3);
-            stroke-width: 3;
-            fill: none;
-            transition: stroke 0.3s ease;
-        }
-
-        .node {
-            fill: var(--dark-bg);
-            stroke: var(--neon-blue);
-            stroke-width: 4;
-            cursor: pointer;
+        .token-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
-            filter: drop-shadow(0 0 5px var(--neon-blue));
-        }
-
-        .node-label {
-            fill: var(--neon-blue);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            text-anchor: middle;
-            pointer-events: none;
-        }
-        
-        .node.active {
-            fill: var(--neon-green);
-            stroke: var(--neon-green);
-            filter: drop-shadow(var(--glow-shadow-green));
-        }
-        
-        .node.active ~ .node-label {
-             fill: var(--dark-bg);
-        }
-
-        .trace.active {
-            stroke: var(--neon-green);
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: draw-line 1s linear forwards;
-            filter: drop-shadow(var(--glow-shadow-green));
-        }
-        
-        @keyframes draw-line {
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        .roadmap-content-container {
             position: relative;
-            min-height: 200px;
+        }
+
+        .token-card::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, var(--primary-green), transparent);
+            border-radius: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .token-card:hover::after {
+            opacity: 0.3;
+        }
+
+        .token-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .token-card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .token-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .token-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .token-card .highlight {
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Roadmap Section */
+        .roadmap-section {
+            padding: 80px 0;
+        }
+
+        .roadmap-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .roadmap-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-green), var(--accent-purple));
+            z-index: -1;
+        }
+
+        .roadmap-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .roadmap-item:nth-child(even) {
+            flex-direction: row-reverse;
         }
 
         .roadmap-content {
-            background: rgba(0, 255, 155, 0.05);
-            border: 1px solid var(--neon-green);
-            padding: 30px;
+            flex: 1;
+            padding: 25px;
+            background: var(--card-bg);
             border-radius: 15px;
-            backdrop-filter: blur(10px);
-            position: absolute;
-            width: 100%;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+            border: 1px solid var(--border-color);
+            margin: 0 30px;
+            transition: all 0.3s ease;
         }
 
-        .roadmap-content.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .roadmap-content:hover {
+            transform: scale(1.02);
+            box-shadow: var(--subtle-glow);
+        }
+
+        .roadmap-point {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: var(--glow-green);
+            z-index: 1;
+        }
+
+        .roadmap-point.completed {
+            background: var(--success-color);
+        }
+
+        .roadmap-point.current {
+            animation: pulse 2s infinite;
         }
 
         .roadmap-content h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-green);
-            margin-bottom: 15px;
-            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 10px;
         }
-        
-        @media(min-width: 992px) {
-            .roadmap-wrapper {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
 
         /* Partners Section */
-        .partner-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+        .partners-section {
+            padding: 80px 0;
+            background: var(--darker-bg);
+        }
+
+        .partner-spotlight {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            display: flex;
             align-items: center;
-            text-align: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
         }
-        .partner-card {
-             background: rgba(0, 255, 155, 0.05);
-            border: 1px solid var(--neon-green);
-            padding: 30px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s, box-shadow 0.3s;
+
+        .partner-spotlight:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 214, 126, 0.1);
+            border-color: var(--primary-green);
         }
-        .partner-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--glow-shadow-green);
+
+        .partner-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            border: 3px solid var(--primary-green);
+            object-fit: cover;
+            flex-shrink: 0;
         }
-        .partner-card img {
-            max-width: 150px;
-            border-radius: 50%;
+
+        .partner-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .partner-info h3 {
+            font-size: 2rem;
+            color: var(--primary-green);
             margin-bottom: 20px;
-            border: 3px solid var(--neon-green);
+            font-family: 'Space Grotesk', sans-serif;
         }
-         .partner-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-green);
+
+        .partner-info p {
+            color: var(--text-secondary);
+            line-height: 1.8;
             margin-bottom: 15px;
-            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .partner-spotlight {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .partner-logo {
+                width: 150px;
+                height: 150px;
+            }
         }
 
         /* Footer */
         footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(0, 217, 255, 0.2);
+            background: var(--darker-bg);
+            padding: 50px 0 30px;
+            border-top: 1px solid var(--border-color);
         }
-        
-        .social-icons {
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-green);
             margin-bottom: 20px;
         }
-        
-        .social-icons a {
-            margin: 0 15px;
-            display: inline-block;
-            transition: transform 0.3s;
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
         }
-        
-        .social-icons a:hover {
-            transform: scale(1.2);
+
+        .footer-section a:hover {
+            color: var(--primary-green);
         }
-        
-        .social-icons img {
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
             width: 40px;
             height: 40px;
-        }
-        
-        footer p {
-            font-size: 0.9rem;
-        }
-
-        /* Holographic Text Effects */
-        .holographic {
-            position: relative;
-            display: inline-block;
-            z-index: 1;
-        }
-
-        .holographic::before,
-        .holographic::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -2;
-            animation: hologram 2s infinite;
-            pointer-events: none;
-        }
-
-        .holographic::before {
-            color: rgba(255, 0, 150, 0.6);
-            transform: translate(-1px, -1px);
-            filter: blur(0.5px);
-        }
-
-        .holographic::after {
-            color: rgba(0, 255, 255, 0.6);
-            transform: translate(1px, 1px);
-            filter: blur(0.5px);
-        }
-
-        @keyframes hologram {
-            0%, 100% { 
-                opacity: 1;
-                transform: translate(0, 0);
-            }
-            25% { 
-                opacity: 0.8;
-                transform: translate(-1px, 1px);
-            }
-            50% { 
-                opacity: 0.9;
-                transform: translate(1px, -1px);
-            }
-            75% { 
-                opacity: 0.7;
-                transform: translate(-2px, 2px);
-            }
-        }
-
-        .holo-flicker {
-            animation: holo-flicker 3s infinite alternate;
-        }
-
-        @keyframes holo-flicker {
-            0%, 90% { opacity: 1; }
-            95% { opacity: 0.1; }
-            100% { opacity: 1; }
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-green)); }
-            50% { transform: scale(1.1); filter: drop-shadow(var(--glow-shadow-green)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-green)); }
-        }
-
-        @keyframes glitch {
-            2%, 64% { transform: translate(2px, 0) skew(0deg); }
-            4%, 60% { transform: translate(-2px, 0) skew(0deg); }
-            62% { transform: translate(0, 0) skew(5deg); }
-        }
-        
-        @keyframes glitch-scan {
-            0%, 100% { clip-path: inset(0 0 95% 0); }
-            10% { clip-path: inset(5% 0 80% 0); }
-            20% { clip-path: inset(20% 0 60% 0); }
-            40% { clip-path: inset(40% 0 30% 0); }
-            60% { clip-path: inset(60% 0 10% 0); }
-            80% { clip-path: inset(80% 0 5% 0); }
-        }
-        
-        /* Logo Arrow */
-        .mobile-logo-arrow {
-            display: block;
-            position: absolute;
-            top: 15px;
-            left: 120px;
-            color: var(--neon-green);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            animation: bounceArrow 2s infinite;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .mobile-logo-arrow::before {
-            content: "← PRESS ME";
-            display: block;
-            white-space: nowrap;
-        }
-
-        @keyframes bounceArrow {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            40% {
-                transform: translateX(-10px);
-                opacity: 0.8;
-            }
-            60% {
-                transform: translateX(-5px);
-                opacity: 0.9;
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 50px 0;
-                min-height: 80vh;
-            }
-            
-            .hero h1 { 
-                font-size: 2.5rem; 
-                margin-bottom: 25px;
-            }
-            
-            .hero p { 
-                font-size: 1rem;
-                margin-bottom: 40px;
-            }
-            
-            nav { display: none; }
-            
-            .mobile-logo-arrow {
-                display: block;
-            }
-            
-            .presale-live-container {
-                margin: 20px auto;
-                padding: 30px 20px;
-            }
-            
-            .wenpad-section {
-                gap: 20px;
-            }
-            
-            .wenpad-logo {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .presale-cta-button {
-                padding: 15px 25px;
-                font-size: 1.1rem;
-            }
-            
-            .live-indicator {
-                font-size: 1rem;
-                gap: 10px;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-                text-align: center;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .partner-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .roadmap-wrapper {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            #roadmap-svg {
-                max-width: 300px;
-            }
-            
-            #terminal {
-                width: 95%;
-                height: 70vh;
-            }
-            
-            .floating-token {
-                font-size: 1.2rem;
-            }
-            
-            #matrix-canvas {
-                opacity: 0.2;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 { 
-                font-size: 2rem; 
-            }
-            
-            .container {
-                width: 95%;
-                padding: 10px;
-            }
-            
-            .section {
-                padding: 60px 0;
-            }
-            
-            .info-card, .partner-card {
-                padding: 20px;
-            }
-        }
-
-        /* Scroll Animations */
-        .hidden {
-            opacity: 0;
-            filter: blur(5px);
-            transition: all 1s;
-        }
-        .info-card.hidden, .partner-card.hidden { 
-            transform: translateY(50px); 
-        }
-
-        .show {
-            opacity: 1;
-            filter: blur(0);
-            transform: translateY(0);
-        }
-        
-        /* BB Shower Animation */
-        .bb-particle {
-            position: fixed;
-            color: var(--neon-green);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 2rem;
-            pointer-events: none;
-            z-index: 9999;
-            animation: fall linear forwards;
-            text-shadow: var(--glow-shadow-green);
-        }
-        
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Terminal Styles */
-        #terminal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 800px;
-            height: 60vh;
-            background: rgba(1, 1, 20, 0.95);
-            border: 2px solid var(--neon-green);
-            border-radius: 10px;
-            z-index: 10000;
-            font-family: 'Roboto Mono', monospace;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--glow-shadow-green);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
             transition: all 0.3s ease;
         }
 
-        .terminal-hidden {
+        .social-link:hover {
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        .social-link svg {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .social-link img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(0, 214, 126, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 20px rgba(0, 214, 126, 0);
+            }
+        }
+
+        .fade-in {
             opacity: 0;
-            visibility: hidden;
-            transform: translate(-50%, -50%) scale(0.8);
+            transform: translateY(20px);
+            transition: all 0.6s ease;
         }
 
-        .terminal-header {
-            background: rgba(0, 255, 155, 0.1);
-            padding: 10px 15px;
-            border-bottom: 1px solid var(--neon-green);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 8px 8px 0 0;
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .terminal-header span {
-            color: var(--neon-green);
-            font-size: 0.9rem;
-            font-weight: 700;
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap-item,
+            .roadmap-item:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .roadmap-line {
+                left: 20px;
+            }
+
+            .roadmap-point {
+                left: 20px;
+            }
+
+            .roadmap-content {
+                margin-left: 60px;
+                margin-right: 0;
+            }
+
+            .chart-iframe {
+                height: 400px;
+            }
         }
-
-        #close-terminal {
-            background: none;
-            border: none;
-            color: var(--neon-green);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        #close-terminal:hover {
-            background: rgba(255, 0, 0, 0.2);
-            border-radius: 50%;
-        }
-
-        .terminal-content {
-            padding: 15px;
-            height: calc(100% - 60px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        #terminal-output {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-
-        .terminal-line {
-            color: var(--text-color);
-            margin: 5px 0;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        .terminal-line.success {
-            color: var(--neon-green);
-        }
-
-        .terminal-line.error {
-            color: #ff4444;
-        }
-
-        .terminal-line.warning {
-            color: #ffaa00;
-        }
-
-        .terminal-input-line {
-            display: flex;
-            align-items: center;
-            border-top: 1px solid rgba(0, 255, 155, 0.3);
-            padding-top: 10px;
-        }
-
-        .terminal-prompt {
-            color: var(--neon-green);
-            font-weight: 700;
-            margin-right: 5px;
-        }
-
-        #terminal-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-color);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        #terminal-input::placeholder {
-            color: rgba(224, 224, 224, 0.5);
-        }
-
-
-
     </style>
 </head>
 <body>
+    <div class="bg-pattern"></div>
 
-    <div id="preloader">
-        <img src="logo.png" alt="Buy Back Logo" class="loader-logo">
-    </div>
-
-    <div id="terminal" class="terminal-hidden">
-        <div class="terminal-header">
-            <span>$BB_TERMINAL v2.0.25 - Press ESC to close</span>
-            <button id="close-terminal">×</button>
-        </div>
-        <div class="terminal-content">
-            <div id="terminal-output">
-                <div class="terminal-line">Welcome to the $BB Interactive Terminal</div>
-                <div class="terminal-line">Type 'help' for available commands</div>
-                <div class="terminal-line">──────────────────────────────────────</div>
-            </div>
-            <div class="terminal-input-line">
-                <span class="terminal-prompt">$BB>&nbsp;</span>
-                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo.png" alt="Buy Back Logo" class="logo">
+                    <span class="logo-text">BuyBack</span>
+                </div>
+                <nav>
+                    <a href="#home">Home</a>
+                    <a href="#chart">Chart</a>
+                    <a href="#tokenomics">Tokenomics</a>
+                    <a href="#news">News</a>
+                    <a href="#roadmap">Roadmap</a>
+                    <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="chart-btn">View on DexScreener</a>
+                </nav>
             </div>
         </div>
-    </div>
-
-
-    <canvas id="bg-canvas"></canvas>
-    <canvas id="matrix-canvas"></canvas>
-
-    <header class="container">
-        <img src="logo.png" alt="Buy Back Logo" class="logo" id="logo-trigger">
-        <div class="mobile-logo-arrow"></div>
-        <nav>
-            <a href="#about">About</a>
-            <a href="#presale">Presale</a>
-            <a href="#roadmap">Roadmap</a>
-            <a href="#tokenomics">Tokenomics</a>
-            <a href="#news">News</a>
-            <a href="https://t.co/SQCRd0bmtY" target="_blank">Telegram</a>
-            <button id="music-toggle" class="music-btn">🔊</button>
-        </nav>
     </header>
 
     <main>
-        <section class="hero container">
-            <h1 id="main-title">BUY BACK</h1>
-            <p>This isn't just another token — this is a movement. We're gearing up for a 100–150 SOL presale, setting the stage for massive volume and momentum at launch.</p>
+        <section class="hero container" id="home">
+            <h1>BuyBack is Now Live!</h1>
+            <p class="subtitle">Revolutionary buyback protocol on Solana • Powered by BBBuyBot Telegram utility</p>
             <div class="hero-buttons">
-                <a href="#presale" class="cta-button">Join The Presale</a>
+                <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="btn-primary">View Live Chart</a>
+                <a href="https://t.co/SQCRd0bmtY" target="_blank" class="btn-secondary">Join Telegram</a>
             </div>
         </section>
 
-        <section id="presale" class="section container">
-            <h2 class="section-title">PRESALE NOW LIVE!</h2>
-            <div class="presale-live-container">
-                <div class="presale-live-content">
-                    <div class="live-indicator">
-                        <div class="live-dot"></div>
-                        <span>LIVE NOW</span>
+        <section class="chart-section" id="chart">
+            <div class="container">
+                <h2 class="section-title">Live Chart</h2>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>$BB / SOL</h3>
+                        <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="btn-secondary" style="padding: 8px 20px; font-size: 0.9rem;">Full Chart →</a>
                     </div>
-                    <p style="font-size: 1.3rem; margin: 30px 0; color: var(--neon-green); text-shadow: var(--glow-shadow-green);">
-                        The revolution has begun! Join the presale on WenPad now!
-                    </p>
-                    <div class="wenpad-section">
-                        <img src="wenpad.jpg" alt="WenPad" class="wenpad-logo">
-                        <a href="https://wenpad.io/launchpad/buybackbb" target="_blank" class="presale-cta-button">
-                            <span>🚀 JOIN PRESALE ON WENPAD 🚀</span>
-                        </a>
+                    <iframe class="chart-iframe" src="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc?embed=1&theme=dark&trades=0&info=0" title="DEXScreener Chart"></iframe>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card fade-in">
+                        <h4>Total Supply</h4>
+                        <div class="value">100M</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <h4>Tax Rate</h4>
+                        <div class="value">8/8</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <h4>Min for Reflections</h4>
+                        <div class="value">200K BB</div>
+                    </div>
+                    <div class="stat-card fade-in">
+                        <h4>Reflection Rate</h4>
+                        <div class="value">3%</div>
                     </div>
                 </div>
             </div>
-            <div class="cap-info">
-                <span>Soft Cap: 70 SOL</span>
-                <span>Hard Cap: 150 SOL</span>
-            </div>
-            <p style="margin-top: 20px; font-size: 1.1rem;">Don't miss out on the $BB revolution! #BB</p>
         </section>
 
-        <section id="news" class="section container">
-            <h2 class="section-title">LATEST NEWS</h2>
-            <div class="info-grid">
-                <div class="info-card hidden" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto; margin-bottom: 30px;">
+        <section class="news-section container" id="news">
+            <h2 class="section-title">Latest Updates</h2>
+            <div class="news-grid">
+                <div class="news-card fade-in">
+                    <div class="news-date">August 7, 2025 • Development Update</div>
+                    <h3>🚀 BBBuyBot Development Announcement</h3>
+                    <p>We're bringing a brand new buybot to the market! <strong>BBBuyBot</strong> 🤖</p>
+                    <p><strong>What's special about this bot?</strong></p>
+                    <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px;">
+                        <li><strong>Automated Buy Comps:</strong> Devs prepay before the comp starts, set the comp time and holding period. The bot auto-pays the winner if they're still holding. No more rugs!</li>
+                        <li><strong>Global Raffle:</strong> Live raffles with growing prize pools. Buy tickets via the bot in any Telegram. Countdown timer, live draws, and winners shown on the main bot page.</li>
+                        <li><strong>Automated House Raffle:</strong> Standard raffle, but fully automated. Devs pay upfront, bot pays winner based on hold time.</li>
+                        <li><strong>BB Trending:</strong> Once live, we'll develop a custom trending platform with unique features to grow our reach.</li>
+                    </ul>
+                    <p>This is a massive step for #BB - Not only exposure but revenue from the bot itself as we take a % from the global raffle!</p>
+                    <div style="margin-top: 20px;">
+                        <span class="news-tag">Development</span>
+                        <span class="news-tag">Utility</span>
+                    </div>
+                </div>
+
+                <div class="news-card fade-in">
+                    <div class="news-date">August 6, 2025 • Project Update</div>
+                    <h3>✅ What's Coming for BB</h3>
+                    <p>Quick brief for all new members about what's to come:</p>
+                    <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px;">
+                        <li><strong>50% Tax for Buybacks:</strong> Used to buyback the chart and all buybacks will be burned, reducing supply and increasing price!</li>
+                        <li><strong>50% External Investments:</strong> Bringing constant revenue flow to maintain chart health</li>
+                        <li><strong>NFT Collection:</strong> 1st edition using our official mascot with automatic staking rewards - no manual staking needed!</li>
+                        <li><strong>Supply Reduction:</strong> Starting at 100M tokens, rapidly reducing through buyback and burns</li>
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <span class="news-tag">Tokenomics</span>
+                        <span class="news-tag">NFTs</span>
+                    </div>
+                </div>
+
+                <div class="news-card fade-in">
+                    <div class="news-date">July 22, 2025 • Community Event</div>
+                    <h3>🚨 AMA with MMKK This Friday!</h3>
                     <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-                        <img src="mmk.jpg" alt="MMKK" style="width: 120px; height: 120px; border-radius: 15px; border: 2px solid var(--neon-green); flex-shrink: 0; object-fit: cover;">
-                        <div style="flex: 1; min-width: 250px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
-                                <h3 style="margin: 0; color: var(--neon-green);">🚨 AMA with MMKK This Friday!</h3>
-                                <span style="color: var(--neon-blue); font-family: 'Orbitron', sans-serif; font-size: 0.9rem; white-space: nowrap;">
-                                    July 22, 2025 • Posted Today
-                                </span>
-                            </div>
-                            <p style="margin-bottom: 15px; line-height: 1.6;">
-                                Make sure you're all there and tuned in! ✅️<br><br>
-                                <strong>Presale starts tonight. Get your solana ready! 🤝🔥👀</strong>
-                            </p>
-                            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                                <a href="https://wenpad.io/launchpad/buybackbb" target="_blank" 
-                                   style="background: linear-gradient(45deg, var(--neon-green), var(--neon-blue)); 
-                                          color: var(--dark-bg); 
-                                          padding: 10px 20px; 
-                                          border-radius: 25px; 
-                                          text-decoration: none; 
-                                          font-family: 'Orbitron', sans-serif; 
-                                          font-weight: 700; 
-                                          font-size: 0.9rem;
-                                          transition: transform 0.3s, box-shadow 0.3s;
-                                          display: inline-block;">
-                                    Launch on Wenpad 🚀
-                                </a>
-                                <span style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-weight: 700;">#BB</span>
-                            </div>
+                        <img src="mmk.jpg" alt="MMKK" style="width: 100px; height: 100px; border-radius: 10px; border: 2px solid var(--primary-green); object-fit: cover;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <p>Make sure you're all there and tuned in! ✅️</p>
+                            <p style="margin-top: 10px;"><strong>Presale starts tonight. Get your solana ready! 🤝🔥👀</strong></p>
+                            <p style="margin-top: 15px;">Join us for an exclusive AMA session with MMKK where we'll discuss the future of BB and answer all your questions.</p>
                         </div>
                     </div>
+                    <div style="margin-top: 20px;">
+                        <span class="news-tag">AMA</span>
+                        <span class="news-tag">Community</span>
+                    </div>
                 </div>
+
+                <div class="news-card fade-in">
+                    <div class="news-date">July 22, 2025 • Announcement</div>
+                    <h3>🎨 Official BB Mascot Revealed!</h3>
+                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+                        <img src="mascot.jpg" alt="BB Mascot" style="width: 100px; height: 100px; border-radius: 10px; border: 2px solid var(--primary-green); object-fit: cover;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <p>We now have the official BB mascot which we will implement into hand drawn NFT's further down the line! ✅️🔥</p>
+                            <p style="margin-top: 10px;"><strong>Get ready for exclusive NFT collections featuring our cyberpunk mascot!</strong></p>
+                            <p style="margin-top: 15px;">The mascot represents the spirit of our community - bold, innovative, and always pushing forward.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <span class="news-tag">NFTs</span>
+                        <span class="news-tag">Art</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tokenomics-section" id="tokenomics">
+            <div class="container">
+                <h2 class="section-title">Tokenomics</h2>
+                <div class="tokenomics-grid">
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">💰</div>
+                        <h3>Tax Structure</h3>
+                        <p><span class="highlight">8/8 Tax</span></p>
+                        <p>Balanced tax system designed to support the ecosystem while rewarding holders</p>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">🔥</div>
+                        <h3>Buyback & Burn</h3>
+                        <p><span class="highlight">50% of taxes</span></p>
+                        <p>Half of all taxes directly buyback $BB and burn it, reducing supply and increasing value</p>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">📈</div>
+                        <h3>External Investments</h3>
+                        <p><span class="highlight">50% of taxes</span></p>
+                        <p>Strategic external investments provide constant revenue for sustainable growth</p>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">💎</div>
+                        <h3>Reflections</h3>
+                        <p><span class="highlight">3% Auto-distributed</span></p>
+                        <p>Hold minimum 0.2% supply (200k BB) to qualify for automatic reflections</p>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">🎯</div>
+                        <h3>Total Supply</h3>
+                        <p><span class="highlight">100 Million BB</span></p>
+                        <p>Supply actively being reduced through our aggressive buyback and burn mechanism</p>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">🎨</div>
+                        <h3>NFT Collection</h3>
+                        <p><span class="highlight">1st Edition Live Soon</span></p>
+                        <p>Unique NFTs with automatic staking rewards - no manual staking required!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap-section container" id="roadmap">
+            <h2 class="section-title">Roadmap</h2>
+            <div class="roadmap-container">
+                <div class="roadmap-line"></div>
                 
-                <div class="info-card hidden" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto;">
-                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-                        <img src="mascot.jpg" alt="BB Mascot" style="width: 120px; height: 120px; border-radius: 15px; border: 2px solid var(--neon-blue); flex-shrink: 0; object-fit: cover;">
-                        <div style="flex: 1; min-width: 250px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap;">
-                                <h3 style="margin: 0; color: var(--neon-blue);">🎨 Official BB Mascot Revealed!</h3>
-                                <span style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-size: 0.9rem; white-space: nowrap;">
-                                    July 22, 2025 • Posted Today
-                                </span>
-                            </div>
-                            <p style="margin-bottom: 15px; line-height: 1.6;">
-                                We now have the official BB mascot which we will implement into hand drawn NFT's further down the line! ✅️🔥<br><br>
-                                <strong>Get ready for exclusive NFT collections featuring our cyberpunk mascot!</strong>
-                            </p>
-                            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                                <span style="background: rgba(0, 217, 255, 0.1); 
-                                             border: 1px solid var(--neon-blue); 
-                                             color: var(--neon-blue); 
-                                             padding: 8px 16px; 
-                                             border-radius: 20px; 
-                                             font-family: 'Orbitron', sans-serif; 
-                                             font-weight: 700; 
-                                             font-size: 0.9rem;">
-                                    NFT Collection Coming Soon 🎯
-                                </span>
-                                <span style="color: var(--neon-green); font-family: 'Orbitron', sans-serif; font-weight: 700;">#BB</span>
-                            </div>
-                        </div>
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-point completed"></div>
+                    <div class="roadmap-content">
+                        <h3>Phase 1: Launch ✅</h3>
+                        <p>Successful presale on WenPad, DEX launch on Raydium, initial community building</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-point current"></div>
+                    <div class="roadmap-content">
+                        <h3>Phase 2: Growth & Development</h3>
+                        <p>BBBuyBot development, community expansion, marketing campaigns</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-point"></div>
+                    <div class="roadmap-content">
+                        <h3>Phase 3: NFT Launch</h3>
+                        <p>1st edition NFT collection with automatic staking rewards</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-point"></div>
+                    <div class="roadmap-content">
+                        <h3>Phase 4: Ecosystem Expansion</h3>
+                        <p>BB Trending platform, strategic partnerships, CEX listings</p>
+                    </div>
+                </div>
+
+                <div class="roadmap-item fade-in">
+                    <div class="roadmap-point"></div>
+                    <div class="roadmap-content">
+                        <h3>Phase 5: Global Adoption</h3>
+                        <p>Major exchange listings, institutional partnerships, ecosystem maturity</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="section container">
-            <h2 class="section-title">THE $BB REVOLUTION</h2>
-            <div class="info-grid">
-                <div class="info-card hidden">
-                    <h3>The BuyBack Wallet</h3>
-                    <p>A portion of all trades will go directly into the BuyBack Wallet. With our anticipated launch volume, that wallet will be stacked from day one, ready to support and stabilize the chart.</p>
-                </div>
-                <div class="info-card hidden">
-                    <h3>Fueled by Taxes</h3>
-                    <p>Taxes (TBA) will fuel the buyback system. These will be outlined in detail in the upcoming whitepaper. Transparency is key, and you'll know exactly how your contribution makes an impact.</p>
-                </div>
-                <div class="info-card hidden">
-                    <h3>Long-Term Growth</h3>
-                    <p>A percentage of the BuyBack Wallet will be allocated into external investments, providing long-term stability and consistent growth beyond the crypto charts. We're building a sustainable ecosystem.</p>
-                </div>
-                 <div class="info-card hidden">
-                    <h3>Community First</h3>
-                    <p>Our main chat will be open Saturday! We believe in building a strong, engaged community from the ground up. Join the conversation and be part of the movement. Your voice matters.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="roadmap" class="section container">
-            <h2 class="section-title">INTERACTIVE ROADMAP</h2>
-            <div class="roadmap-wrapper">
-                <svg id="roadmap-svg" viewBox="0 0 500 500">
-                    <path id="trace-1" class="trace" d="M 250,50 L 250,150" />
-                    <path id="trace-2" class="trace" d="M 250,150 L 100,250" />
-                    <path id="trace-3" class="trace" d="M 250,150 L 400,250" />
-                    <path id="trace-4" class="trace" d="M 100,250 L 100,350" />
-                    <path id="trace-5" class="trace" d="M 400,250 L 400,350" />
-                    <path id="trace-6" class="trace" d="M 100,350 L 250,450" />
-                    <path id="trace-7" class="trace" d="M 400,350 L 250,450" />
-                    <g class="node-group" data-phase="1">
-                        <circle class="node" cx="250" cy="50" r="25"/>
-                        <text class="node-label" x="250" y="55">P1</text>
-                    </g>
-                    <g class="node-group" data-phase="2">
-                        <circle class="node" cx="100" cy="250" r="25"/>
-                        <text class="node-label" x="100" y="255">P2</text>
-                    </g>
-                    <g class="node-group" data-phase="3">
-                        <circle class="node" cx="400" cy="250" r="25"/>
-                        <text class="node-label" x="400" y="255">P3</text>
-                    </g>
-                    <g class="node-group" data-phase="4">
-                        <circle class="node" cx="100" cy="350" r="25"/>
-                        <text class="node-label" x="100" y="355">P4</text>
-                    </g>
-                    <g class="node-group" data-phase="5">
-                        <circle class="node" cx="400" cy="350" r="25"/>
-                        <text class="node-label" x="400" y="355">P5</text>
-                    </g>
-                     <g class="node-group" data-phase="6">
-                        <circle class="node" cx="250" cy="450" r="25"/>
-                        <text class="node-label" x="250" y="455">P6</text>
-                    </g>
-                </svg>
-                <div class="roadmap-content-container">
-                    <div class="roadmap-content" data-phase="1">
-                        <h3>Phase 1: Genesis</h3>
-                        <p>Project inception, core concept development, and building the initial community foundation. Secure the mothership!</p>
-                    </div>
-                    <div class="roadmap-content" data-phase="2">
-                        <h3>Phase 2: Presale on Wenpad</h3>
-                        <p>Launch the official presale on Wenpad Labs. 70 SOL Softcap / 150 SOL Hardcap. This is where the revolution begins.</p>
-                    </div>
-                    <div class="roadmap-content" data-phase="3">
-                        <h3>Phase 3: DEX Launch</h3>
-                        <p>Official launch on Raydium. Liquidity pool will be created and locked. The BuyBack wallet activates.</p>
-                    </div>
-                     <div class="roadmap-content" data-phase="4">
-                        <h3>Phase 4: Protocol Activation</h3>
-                        <p>Full activation of the automated buyback system and external investment protocol. Let the games begin.</p>
-                    </div>
-                    <div class="roadmap-content" data-phase="5">
-                        <h3>Phase 5: Ecosystem Expansion</h3>
-                        <p>Begin development of further utilities and partnerships to expand the $BB ecosystem and bring more value to holders.</p>
-                    </div>
-                    <div class="roadmap-content" data-phase="6">
-                        <h3>Phase 6: ???</h3>
-                        <p>If we told you, we'd have to buy you back. Expect the unexpected. #BB</p>
+        <section class="partners-section" id="partners">
+            <div class="container">
+                <h2 class="section-title">Launch Partner</h2>
+                <div class="partner-spotlight fade-in">
+                    <img src="wenpad.jpg" alt="Wenpad Labs" class="partner-logo">
+                    <div class="partner-info">
+                        <h3>Launched with Wenpad Labs</h3>
+                        <p>We're proud to have launched with Wenpad Labs, the premier launchpad on Solana. Their platform ensured a secure, transparent, and successful presale for our community.</p>
+                        <p>Wenpad Labs continues to be a trusted partner in the Solana ecosystem, helping legitimate projects reach their full potential.</p>
+                        <a href="https://wenpad.io" target="_blank" class="btn-primary" style="margin-top: 20px;">Visit Wenpad Labs</a>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section id="tokenomics" class="section container">
-             <h2 class="section-title">TOKENOMICS</h2>
-             <div class="info-grid">
-                 <div class="info-card hidden">
-                    <h3>Presale Goal</h3>
-                    <p><strong>100 - 150 SOL</strong><br>This range ensures we have the liquidity for a powerful launch while giving early supporters a solid entry point.</p>
-                </div>
-                 <div class="info-card hidden">
-                    <h3>Caps</h3>
-                    <p><strong>Soft Cap: 70 SOL</strong><br><strong>Hard Cap: 150 SOL</strong><br>A defined structure to build confidence and secure the project's foundation.</p>
-                </div>
-                 <div class="info-card hidden">
-                    <h3>Launch Strategy</h3>
-                    <p>Launching on Wenpad's launcher to maximize visibility and ensure a smooth, secure launch process for everyone involved. Stay ready — this is going to be BIG. 💥✅️</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="partners" class="section container">
-            <h2 class="section-title">LAUNCH & INSPIRATION</h2>
-            <div class="partner-grid">
-                <div class="partner-card hidden">
-                    <h3>Our Vibe</h3>
-                    <img src="punk.jpg" alt="Cyberpunk City Vibe">
-                    <p>Inspired by the neon-drenched, high-tech, low-life future. We're building in the digital rain.</p>
-                </div>
-                <div class="partner-card hidden">
-                    <h3>Our Launchpad</h3>
-                    <img src="wenpad.jpg" alt="Wenpad Labs Logo">
-                    <p>Launching with the best. Wenpad Labs ensures a secure and high-momentum start for the $BB movement.</p>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <footer>
-        <div class="social-icons">
-            <a href="https://x.com/BuybackSolana/status/1938729666782863400?t=F5i8lUTdeDl5HdGyvk-eWQ&s=08" target="_blank">
-                <img src="https://simpleicons.org/icons/x.svg" alt="X/Twitter" style="filter: invert(1);">
-            </a>
-            <a href="https://t.co/SQCRd0bmtY" target="_blank">
-                 <img src="https://simpleicons.org/icons/telegram.svg" alt="Telegram" style="filter: invert(1);">
-            </a>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>BuyBack</h4>
+                    <p style="color: var(--text-secondary);">Revolutionary buyback protocol with BBBuyBot Telegram utility</p>
+                    <div class="social-links" style="margin-top: 20px;">
+                        <a href="https://x.com/BuybackSolana" target="_blank" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="#FFFFFF">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="https://t.co/SQCRd0bmtY" target="_blank" class="social-link">
+                            <svg viewBox="0 0 24 24" fill="#229ED9">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                            </svg>
+                        </a>
+                        <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="social-link">
+                            <img src="dexlogo.jpg" alt="DexScreener" style="border-radius: 6px; object-fit: cover;">
+                        </a>
+                        <a href="https://wenpad.io" target="_blank" class="social-link">
+                            <img src="wenpad.jpg" alt="Wenpad" style="border-radius: 6px; object-fit: cover;">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank">DexScreener</a>
+                    <a href="#tokenomics">Tokenomics</a>
+                    <a href="#roadmap">Roadmap</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Community</h4>
+                    <a href="https://t.co/SQCRd0bmtY" target="_blank">Telegram</a>
+                    <a href="https://x.com/BuybackSolana" target="_blank">Twitter/X</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BuyBack. All rights reserved. Not financial advice.</p>
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                    <a href="https://t.me/BluelineCrypto" target="_blank" style="
+                        background: linear-gradient(135deg, var(--accent-purple), var(--primary-green));
+                        color: white;
+                        padding: 12px 25px;
+                        border-radius: 8px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        display: inline-block;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(107, 70, 193, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(107, 70, 193, 0.3)'">
+                        💻 Need a website for your crypto project? Click Here!
+                    </a>
+                </div>
+            </div>
         </div>
-        <p>&copy; 2025 Buy Back. All Rights Reserved. Not financial advice, just pure degen energy.</p>
     </footer>
 
     <script>
-        // --- PRELOADER ---
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            preloader.classList.add('loaded');
-        });
-
-        // --- INTERACTIVE PARTICLE CONSTELLATION BACKGROUND ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const computedStyle = getComputedStyle(document.documentElement);
-        const neonGreen = computedStyle.getPropertyValue('--neon-green').trim() || '#00ff9b';
-
-        let particlesArray;
-
-        // Mouse/Touch position
-        const mouse = {
-            x: null,
-            y: null,
-            radius: (canvas.height / 120) * (canvas.width / 120)
-        };
-
-        window.addEventListener('mousemove', (event) => {
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
-
-        window.addEventListener('touchmove', (event) => {
-            if (event.touches.length > 0) {
-                mouse.x = event.touches[0].clientX;
-                mouse.y = event.touches[0].clientY;
-            }
-        });
-
-        window.addEventListener('touchend', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-        
-        // Particle class
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x;
-                this.y = y;
-                this.directionX = directionX;
-                this.directionY = directionY;
-                this.size = size;
-                this.color = color;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-            update() {
-                if (this.x > canvas.width || this.x < 0) {
-                    this.directionX = -this.directionX;
-                }
-                if (this.y > canvas.height || this.y < 0) {
-                    this.directionY = -this.directionY;
-                }
-
-                // Mouse/Touch collision
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < mouse.radius + this.size) {
-                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) {
-                        this.x += 5;
-                    }
-                    if (mouse.x > this.x && this.x > this.size * 10) {
-                        this.x -= 5;
-                    }
-                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) {
-                        this.y += 5;
-                    }
-                    if (mouse.y > this.y && this.y > this.size * 10) {
-                        this.y -= 5;
-                    }
-                }
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
-        }
-
-        // Create particle array
-        function init() {
-            particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 9000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 3) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 0.4) - 0.2;
-                let directionY = (Math.random() * 0.4) - 0.2;
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, neonGreen));
-            }
-        }
-
-        // Connect particles
-        function connect() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) +
-                                     ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                        opacityValue = 1 - (distance / 20000);
-                        ctx.strokeStyle = `rgba(0, 255, 155, ${opacityValue})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connect();
-        }
-
-        // Resize event
-        window.addEventListener('resize', () => {
-            canvas.width = innerWidth;
-            canvas.height = innerHeight;
-            mouse.radius = (canvas.height / 120) * (canvas.width / 120);
-            init();
-        });
-        
-        // Mouse out event
-        window.addEventListener('mouseout', () => {
-            mouse.x = undefined;
-            mouse.y = undefined;
-        });
-
-        init();
-        animate();
-
-        // --- MATRIX CODE RAIN EFFECT ---
-        const matrixCanvas = document.getElementById('matrix-canvas');
-        const matrixCtx = matrixCanvas.getContext('2d');
-        matrixCanvas.width = window.innerWidth;
-        matrixCanvas.height = window.innerHeight;
-
-        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$BB🚀💎📈⚡🔥💰🎯🌙";
-        const matrixChars = matrix.split("");
-        const fontSize = 15;
-        const columns = matrixCanvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-
-        function drawMatrixRain() {
-            matrixCtx.fillStyle = 'rgba(1, 1, 20, 0.05)';
-            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-            
-            matrixCtx.fillStyle = '#00ff9b';
-            matrixCtx.font = fontSize + 'px monospace';
-            
-            for (let i = 0; i < drops.length; i++) {
-                const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
-                
-                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(drawMatrixRain, 35);
-
-        window.addEventListener('resize', () => {
-            matrixCanvas.width = innerWidth;
-            matrixCanvas.height = innerHeight;
-        });
-
-
-        // --- PRESALE LIVE EFFECTS ---
-        // Add extra sparkle effects to the presale section
-        function createSparkleEffect() {
-            const presaleContainer = document.querySelector('.presale-live-container');
-            if (!presaleContainer) return;
-
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
-            sparkle.style.position = 'absolute';
-            sparkle.style.color = 'var(--neon-green)';
-            sparkle.style.fontSize = '1.2rem';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.zIndex = '10';
-            sparkle.style.animation = 'sparkle 2s linear forwards';
-            
-            const rect = presaleContainer.getBoundingClientRect();
-            sparkle.style.left = Math.random() * rect.width + 'px';
-            sparkle.style.top = Math.random() * rect.height + 'px';
-            
-            presaleContainer.appendChild(sparkle);
-            
-            setTimeout(() => sparkle.remove(), 2000);
-        }
-
-        // Add sparkle keyframe animation
-        const sparkleStyle = document.createElement('style');
-        sparkleStyle.textContent = `
-            @keyframes sparkle {
-                0% { opacity: 0; transform: scale(0) rotate(0deg); }
-                50% { opacity: 1; transform: scale(1) rotate(180deg); }
-                100% { opacity: 0; transform: scale(0) rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(sparkleStyle);
-
-        // Create sparkles periodically
-        setInterval(createSparkleEffect, 1500);
-
-        // --- INTERACTIVE ROADMAP SCRIPT ---
-        const roadmapNodes = document.querySelectorAll('.node-group');
-        const contentPanels = document.querySelectorAll('.roadmap-content');
-        const traces = document.querySelectorAll('.trace');
-
-        function activatePhase(phaseNumber) {
-            // Deactivate all
-            roadmapNodes.forEach(group => group.querySelector('.node').classList.remove('active'));
-            contentPanels.forEach(panel => panel.classList.remove('active'));
-            traces.forEach(trace => trace.classList.remove('active'));
-            
-            // Activate selected node and content
-            const activeNode = document.querySelector(`.node-group[data-phase="${phaseNumber}"] .node`);
-            const activeContent = document.querySelector(`.roadmap-content[data-phase="${phaseNumber}"]`);
-            if (activeNode) activeNode.classList.add('active');
-            if (activeContent) activeContent.classList.add('active');
-
-
-            // Activate traces leading to the node
-            if (phaseNumber == 1) {
-                document.getElementById('trace-1').classList.add('active');
-            }
-            if (phaseNumber == 2) {
-                document.getElementById('trace-1').classList.add('active');
-                document.getElementById('trace-2').classList.add('active');
-            }
-            if (phaseNumber == 3) {
-                document.getElementById('trace-1').classList.add('active');
-                document.getElementById('trace-3').classList.add('active');
-            }
-             if (phaseNumber == 4) {
-                document.getElementById('trace-1').classList.add('active');
-                document.getElementById('trace-2').classList.add('active');
-                document.getElementById('trace-4').classList.add('active');
-            }
-             if (phaseNumber == 5) {
-                document.getElementById('trace-1').classList.add('active');
-                document.getElementById('trace-3').classList.add('active');
-                document.getElementById('trace-5').classList.add('active');
-            }
-            if (phaseNumber == 6) {
-                traces.forEach(trace => trace.classList.add('active'));
-            }
-        }
-
-        roadmapNodes.forEach(group => {
-            group.addEventListener('click', () => {
-                const phase = group.dataset.phase;
-                activatePhase(phase);
-            });
-        });
-
-        // Activate phase 1 by default
-        activatePhase(1);
-        
-        // --- SCROLL ANIMATIONS ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        });
-
-        const hiddenElements = document.querySelectorAll('.hidden');
-        hiddenElements.forEach((el) => observer.observe(el));
-
-        // --- MADNESS: BB SHOWER ---
-        const logoTrigger = document.getElementById('logo-trigger');
-        const mobileArrow = document.querySelector('.mobile-logo-arrow');
-        
-        logoTrigger.addEventListener('click', () => {
-            for(let i=0; i<10; i++) {
-                createBBParticle();
-            }
-            
-            // Hide the mobile arrow after first click
-            if (mobileArrow) {
-                mobileArrow.style.display = 'none';
-            }
-        });
-        
-        function createBBParticle() {
-            const particle = document.createElement('div');
-            particle.classList.add('bb-particle');
-            particle.innerText = 'BB';
-            
-            const startX = Math.random() * window.innerWidth;
-            const duration = Math.random() * 3 + 2; // 2 to 5 seconds
-            
-            particle.style.left = `${startX}px`;
-            particle.style.top = '-50px';
-            particle.style.animationDuration = `${duration}s`;
-            
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, duration * 1000);
-        }
-        
-        // --- INTERACTIVE TERMINAL ---
-        const terminal = document.getElementById('terminal');
-        const terminalOutput = document.getElementById('terminal-output');
-        const terminalInput = document.getElementById('terminal-input');
-        const closeTerminal = document.getElementById('close-terminal');
-
-        const commands = {
-            help: () => `Available commands:
-• balance - Check $BB balance
-• price - Get current $BB price 
-• moon - Moon mission status
-• rugcheck - Verify contract safety
-• degen - Degen mode toggle
-• matrix - Toggle matrix rain
-• hodl - HODL status
-• whale - Whale activity
-• pump - Pump it up!
-• clear - Clear terminal`,
-            
-            balance: () => `$BB Balance: 42,069.420 $BB 💎`,
-            
-            price: () => `$BB Price: $${(Math.random() * 0.001 + 0.0001).toFixed(6)} 📈 (+420.69%)`,
-            
-            moon: () => `🚀 Moon Mission Status: ENGAGED
-Trajectory: BULLISH
-ETA: SOON™`,
-            
-            rugcheck: () => `✅ Contract verified on SolScan
-✅ Liquidity locked for 69 years
-✅ Developer doxxed (Chad McBased)
-✅ No mint function found
-STATUS: BASED AND MOONPILLED`,
-            
-            degen: () => `🎲 DEGEN MODE: MAXIMUM OVERDRIVE
-Risk Tolerance: 420%
-Portfolio: 100% $BB
-Brain: SMOOTH AS SILK`,
-            
-            matrix: () => {
-                const matrixCanvas = document.getElementById('matrix-canvas');
-                matrixCanvas.style.opacity = matrixCanvas.style.opacity === '0.3' ? '0.1' : '0.3';
-                return `Matrix rain intensity: ${matrixCanvas.style.opacity === '0.3' ? 'MAXIMUM' : 'NORMAL'}`;
-            },
-            
-            hodl: () => `💎🙌 HODL Status: DIAMOND HANDS ACTIVATED
-Last sell: NEVER
-Exit strategy: WHAT EXIT?`,
-            
-            whale: () => `🐋 Whale Alert:
-DeepFuckingValue bought 1,000,000 $BB
-ElonDoge sold 10 $BB (paper hands)
-Status: WHALES ARE BUYING`,
-            
-            pump: () => `🔥 PUMP SEQUENCE INITIATED
-Volume: INCREASING
-Momentum: BULLISH
-Bags: LOADING
-LFG!!! 🚀🚀🚀`,
-            
-            clear: () => {
-                terminalOutput.innerHTML = `
-                    <div class="terminal-line">Welcome to the $BB Interactive Terminal</div>
-                    <div class="terminal-line">Type 'help' for available commands</div>
-                    <div class="terminal-line">──────────────────────────────────────</div>
-                `;
-                return '';
-            }
-        };
-
-        function addTerminalLine(text, className = '') {
-            const line = document.createElement('div');
-            line.className = `terminal-line ${className}`;
-            line.innerHTML = text;
-            terminalOutput.appendChild(line);
-            terminalOutput.scrollTop = terminalOutput.scrollHeight;
-        }
-
-        function executeCommand(cmd) {
-            const command = cmd.toLowerCase().trim();
-            addTerminalLine(`$BB> ${cmd}`);
-            
-            if (commands[command]) {
-                const result = commands[command]();
-                if (result) addTerminalLine(result, 'success');
-            } else if (command === '') {
-                // Do nothing for empty commands
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
             } else {
-                addTerminalLine(`Command not found: ${cmd}. Type 'help' for available commands.`, 'error');
+                header.classList.remove('scrolled');
             }
-        }
+        });
 
-        // Terminal controls
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === '`') {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                terminal.classList.toggle('terminal-hidden');
-                if (!terminal.classList.contains('terminal-hidden')) {
-                    terminalInput.focus();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-            } else if (e.key === 'Escape' && !terminal.classList.contains('terminal-hidden')) {
-                terminal.classList.add('terminal-hidden');
-            }
-        });
-
-        terminalInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const command = terminalInput.value;
-                executeCommand(command);
-                terminalInput.value = '';
-            }
-        });
-
-        closeTerminal.addEventListener('click', () => {
-            terminal.classList.add('terminal-hidden');
-        });
-
-        // --- CYBERPUNK AUDIO SYSTEM ---
-        let audioContext;
-        let backgroundMusicPlaying = false;
-        let musicGainNode;
-        const musicToggle = document.getElementById('music-toggle');
-
-        function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                musicGainNode = audioContext.createGain();
-                musicGainNode.connect(audioContext.destination);
-                musicGainNode.gain.value = 0.3;
-            }
-        }
-
-        function playSound(frequency, duration, type = 'sine', volume = 0.1) {
-            if (!audioContext) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.type = type;
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            
-            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration);
-        }
-
-        function startBackgroundMusic() {
-            if (!audioContext || backgroundMusicPlaying) return;
-            backgroundMusicPlaying = true;
-            
-            const playBassLoop = () => {
-                if (!backgroundMusicPlaying) return;
-                
-                // Bass line
-                playSound(55, 0.5, 'sawtooth', 0.15);
-                setTimeout(() => playSound(73, 0.3, 'sawtooth', 0.12), 500);
-                setTimeout(() => playSound(55, 0.4, 'sawtooth', 0.15), 1000);
-                setTimeout(() => playSound(82, 0.3, 'sawtooth', 0.12), 1500);
-                
-                setTimeout(playBassLoop, 2000);
-            };
-            
-            const playDrums = () => {
-                if (!backgroundMusicPlaying) return;
-                
-                // Kick
-                playSound(60, 0.1, 'sine', 0.2);
-                // Hi-hat
-                setTimeout(() => playSound(1000, 0.05, 'square', 0.05), 125);
-                setTimeout(() => playSound(60, 0.1, 'sine', 0.2), 500);
-                setTimeout(() => playSound(1000, 0.05, 'square', 0.05), 625);
-                setTimeout(() => playSound(1000, 0.05, 'square', 0.05), 750);
-                
-                setTimeout(playDrums, 1000);
-            };
-            
-            const playSynth = () => {
-                if (!backgroundMusicPlaying) return;
-                
-                const notes = [220, 246.94, 277.18, 329.63, 369.99];
-                const note = notes[Math.floor(Math.random() * notes.length)];
-                playSound(note, 0.8, 'square', 0.08);
-                
-                setTimeout(playSynth, Math.random() * 2000 + 1000);
-            };
-            
-            playBassLoop();
-            setTimeout(playDrums, 500);
-            setTimeout(playSynth, 2000);
-        }
-
-        function stopBackgroundMusic() {
-            backgroundMusicPlaying = false;
-        }
-
-        // Sound effects for interactions
-        function playClickSound() {
-            playSound(800, 0.1, 'square', 0.1);
-            setTimeout(() => playSound(1200, 0.05, 'square', 0.08), 50);
-        }
-
-        function playHoverSound() {
-            playSound(600, 0.05, 'sine', 0.05);
-        }
-
-        function playSuccessSound() {
-            playSound(523.25, 0.2, 'sine', 0.15);
-            setTimeout(() => playSound(659.25, 0.2, 'sine', 0.15), 100);
-            setTimeout(() => playSound(783.99, 0.3, 'sine', 0.15), 200);
-        }
-
-        // Music toggle functionality
-        musicToggle.addEventListener('click', () => {
-            initAudio();
-            
-            if (backgroundMusicPlaying) {
-                stopBackgroundMusic();
-                musicToggle.textContent = '🔇';
-                musicToggle.classList.add('muted');
-            } else {
-                audioContext.resume().then(() => {
-                    startBackgroundMusic();
-                    musicToggle.textContent = '🔊';
-                    musicToggle.classList.remove('muted');
-                });
-            }
-            playClickSound();
-        });
-
-        // Add sound effects to existing elements
-        document.addEventListener('DOMContentLoaded', () => {
-            // Add hover sounds to buttons and links
-            document.querySelectorAll('a, button, .cta-button').forEach(element => {
-                element.addEventListener('mouseenter', playHoverSound);
-                element.addEventListener('click', playClickSound);
             });
+        });
 
-            // Success sound for terminal commands
-            const originalExecuteCommand = executeCommand;
-            executeCommand = function(cmd) {
-                originalExecuteCommand(cmd);
-                if (cmd.trim() && commands[cmd.toLowerCase().trim()]) {
-                    playSuccessSound();
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add hover effect to cards
+        document.querySelectorAll('.stat-card, .token-card, .news-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Dynamic number animation for stats
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
                 }
             };
-        });
-
-
-        // --- HOLOGRAPHIC TEXT EFFECTS ---
-        function applyHolographicEffect(element) {
-            const text = element.textContent;
-            element.setAttribute('data-text', text);
-            element.classList.add('holographic');
-            
-            // Random flicker effect
-            if (Math.random() > 0.5) {
-                element.classList.add('holo-flicker');
-            }
+            window.requestAnimationFrame(step);
         }
 
-        // Apply holographic effects to section titles
-        document.querySelectorAll('.section-title').forEach(applyHolographicEffect);
-
-        // Apply to presale title
-        const presaleTitle = document.querySelector('#presale h2');
-        if (presaleTitle) applyHolographicEffect(presaleTitle);
-
-        // --- GLITCHY TITLE ---
-        const title = document.getElementById('main-title');
-        const originalText = title.innerText;
-        title.innerHTML = '';
-        originalText.split('').forEach(char => {
-            const span = document.createElement('span');
-            span.className = 'char';
-            span.innerText = char;
-            title.appendChild(span);
-        });
-
-        // Don't apply holographic to main title to avoid duplication
-        // title.setAttribute('data-text', originalText);
-        // title.classList.add('holographic', 'holo-flicker');
-
-        // --- RANDOM SECRET TERMINAL COMMANDS ---
-        const secretCommands = [
-            { cmd: 'whale-alert', msg: '🐋 Whale bought 500,000 $BB tokens!', delay: 15000 },
-            { cmd: 'degen-mode', msg: '🎲 A degen just YOLOed their life savings into $BB', delay: 20000 },
-            { cmd: 'moon-mission', msg: '🚀 $BB rocket fuel tanks: 95% full', delay: 25000 },
-            { cmd: 'diamond-hands', msg: '💎 Strong hands detected. HODL power increasing...', delay: 30000 },
-            { cmd: 'paper-hands', msg: '📄 Weak hands detected. Stay strong, anon!', delay: 35000 },
-            { cmd: 'rug-check', msg: '✅ No rugs detected. $BB is SAFU', delay: 40000 },
-            { cmd: 'volume-spike', msg: '📈 Trading volume +2000% in last hour!', delay: 45000 },
-            { cmd: 'fomo-level', msg: '😱 FOMO level: MAXIMUM OVERDRIVE', delay: 50000 },
-            { cmd: 'ape-in', msg: '🦍 Apes together strong! $BB army assembling...', delay: 55000 },
-            { cmd: 'to-the-moon', msg: '🌙 Countdown to moon: T-minus SOON™', delay: 60000 }
-        ];
-
-        let commandIndex = 0;
-
-        function executeSecretCommand() {
-            if (terminal.classList.contains('terminal-hidden')) {
-                scheduleNextCommand();
-                return;
-            }
-
-            const command = secretCommands[commandIndex % secretCommands.length];
-            
-            // Add command to terminal as if system executed it
-            addTerminalLine(`[SYSTEM] ${command.cmd}`, 'warning');
-            addTerminalLine(command.msg, 'success');
-            
-            // Play subtle sound
-            if (audioContext && Math.random() > 0.5) {
-                playHoverSound && playHoverSound();
-            }
-            
-            commandIndex++;
-            scheduleNextCommand();
-        }
-
-        function scheduleNextCommand() {
-            const delay = Math.random() * 30000 + 15000; // 15-45 seconds
-            setTimeout(executeSecretCommand, delay);
-        }
-
-        // Start secret commands after page loads
-        setTimeout(() => {
-            scheduleNextCommand();
-        }, 10000); // Start after 10 seconds
-
-        // Remove secretmode from terminal commands since it's now on roadmap
-
-        // Update help command
-        commands.help = () => `Available commands:
-• balance - Check $BB balance
-• price - Get current $BB price 
-• moon - Moon mission status
-• rugcheck - Verify contract safety
-• degen - Degen mode toggle
-• matrix - Toggle matrix rain
-• hodl - HODL status
-• whale - Whale activity
-• pump - Pump it up!
-• clear - Clear terminal`;
-
-        // --- KONAMI CODE EASTER EGG ---
-        const konamiCode = [
-            'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-            'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
-            'KeyB', 'KeyA'
-        ];
-        let konamiIndex = 0;
-        let konamiActivated = false;
-
-        function triggerKonamiEasterEgg() {
-            if (konamiActivated) return;
-            konamiActivated = true;
-
-            // Create BB explosion (falling particles instead of floating)
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    createBBParticle();
-                }, i * 50);
-            }
-
-            // Special sound sequence
-            if (audioContext) {
-                // Epic fanfare
-                playSound(523.25, 0.3, 'sine', 0.2);
-                setTimeout(() => playSound(659.25, 0.3, 'sine', 0.2), 150);
-                setTimeout(() => playSound(783.99, 0.3, 'sine', 0.2), 300);
-                setTimeout(() => playSound(1046.50, 0.5, 'sine', 0.25), 450);
-            }
-
-            // Matrix rain intensify
-            const matrixCanvas = document.getElementById('matrix-canvas');
-            matrixCanvas.style.opacity = '0.5';
-
-            // Show secret message
-            const secretMsg = document.createElement('div');
-            secretMsg.innerHTML = `
-                <div style="
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: rgba(1, 1, 20, 0.95);
-                    border: 3px solid var(--neon-green);
-                    padding: 30px;
-                    border-radius: 15px;
-                    text-align: center;
-                    z-index: 99999;
-                    font-family: 'Orbitron', sans-serif;
-                    color: var(--neon-green);
-                    backdrop-filter: blur(10px);
-                    box-shadow: var(--glow-shadow-green);
-                    animation: pulse 2s infinite;
-                ">
-                    <h2 style="margin: 0 0 15px 0;">🎉 KONAMI CODE ACTIVATED! 🎉</h2>
-                    <p style="margin: 0;">You've unlocked the secret $BB vault!</p>
-                    <p style="margin: 10px 0 0 0; font-size: 0.9rem;">Welcome to the inner circle, degen! 💎🙌</p>
-                    <button onclick="this.parentElement.parentElement.remove(); document.getElementById('matrix-canvas').style.opacity='0.1';" 
-                            style="
-                                margin-top: 20px;
-                                background: var(--neon-green);
-                                border: none;
-                                color: var(--dark-bg);
-                                padding: 10px 20px;
-                                border-radius: 25px;
-                                font-family: 'Orbitron', sans-serif;
-                                font-weight: 700;
-                                cursor: pointer;
-                            ">
-                        HODL ON! 🚀
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(secretMsg);
-
-            // Reset konami after 10 seconds
-            setTimeout(() => {
-                konamiActivated = false;
-                konamiIndex = 0;
-            }, 10000);
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.code === konamiCode[konamiIndex]) {
-                konamiIndex++;
-                if (konamiIndex === konamiCode.length) {
-                    triggerKonamiEasterEgg();
-                    konamiIndex = 0;
+        // Trigger number animations when visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.animated) {
+                    const valueElement = entry.target.querySelector('.value');
+                    if (valueElement && valueElement.textContent === '100M') {
+                        animateValue(valueElement, 0, 100000000, 2000);
+                        valueElement.textContent = '100M';
+                        entry.target.animated = true;
+                    }
                 }
-            } else {
-                konamiIndex = 0;
-            }
-        });
+            });
+        }, { threshold: 0.5 });
 
+        document.querySelectorAll('.stat-card').forEach(card => {
+            statsObserver.observe(card);
+        });
     </script>
 </body>
 </html>
