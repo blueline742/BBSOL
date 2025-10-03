@@ -7,6 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
     <style>
         /* General Styling & Setup */
         :root {
@@ -65,16 +73,18 @@
             background: rgba(10, 11, 13, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
-            position: fixed;
             width: 100%;
+            position: fixed;
             top: 0;
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
         }
 
         header.scrolled {
-            background: rgba(5, 6, 7, 0.98);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(5, 6, 7, 0.5);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid transparent;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
@@ -88,12 +98,21 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            position: relative;
+            z-index: 10;
         }
 
         .logo {
             width: 50px;
             height: 50px;
             transition: transform 0.3s ease;
+            display: block;
+        }
+
+        #header-3d-canvas {
+            border: none;
+            outline: none;
+            opacity: 1 !important;
         }
 
         .logo:hover {
@@ -109,37 +128,103 @@
             -webkit-text-fill-color: transparent;
         }
 
-        nav {
+        /* Hamburger Menu */
+        .hamburger {
             display: flex;
-            gap: 30px;
-            align-items: center;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
         }
 
-        nav a {
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: var(--primary-green);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(11px) rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-11px) rotate(-45deg);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(10, 11, 13, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border-color);
+            padding: 100px 40px 40px;
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            display: block;
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            padding: 10px 0;
+            border-bottom: 1px solid transparent;
         }
 
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-green);
-            transition: width 0.3s ease;
-        }
-
-        nav a:hover {
+        .mobile-menu a:hover {
             color: var(--primary-green);
+            border-bottom-color: var(--primary-green);
+            transform: translateX(10px);
         }
 
-        nav a:hover::after {
+        .mobile-menu .chart-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         .chart-btn {
@@ -160,9 +245,59 @@
 
         /* Hero Section */
         .hero {
-            padding: 150px 0 100px;
+            padding: 150px 0 80px;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .hero-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--dark-bg));
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('mascot.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero::before {
+                background-position: center 20%;
+            }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0.9) 100%);
+            z-index: 0;
+        }
+
+        .hero h1,
+        .hero .subtitle,
+        .hero .hero-buttons {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -225,6 +360,12 @@
         .btn-secondary:hover {
             background: rgba(0, 214, 126, 0.1);
             transform: translateY(-3px);
+        }
+
+        /* BuyBot Section */
+        .buybot-section {
+            padding: 80px 0;
+            background: var(--dark-bg);
         }
 
         /* Live Chart Section */
@@ -686,13 +827,6 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            nav {
-                display: none;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
 
             .hero h1 {
                 font-size: 2.5rem;
@@ -723,6 +857,61 @@
             .chart-iframe {
                 height: 400px;
             }
+
+            .partner-spotlight {
+                padding: 20px 15px !important;
+                margin: 0 auto !important;
+                max-width: 100% !important;
+                width: calc(100% - 30px) !important;
+            }
+
+            .partner-logo {
+                width: 90px !important;
+                height: 90px !important;
+                margin: 0 auto 15px auto !important;
+            }
+
+            .partner-info {
+                text-align: center;
+                width: 100%;
+                min-width: auto !important;
+            }
+
+            .partner-info h3 {
+                font-size: 1.3rem !important;
+                line-height: 1.3;
+                margin-bottom: 15px !important;
+                word-wrap: break-word;
+            }
+
+            .partner-info p {
+                font-size: 0.9rem !important;
+                line-height: 1.6;
+                margin-bottom: 12px !important;
+                word-wrap: break-word;
+            }
+
+            .partner-info .btn-primary {
+                font-size: 0.9rem !important;
+                padding: 10px 18px !important;
+                margin-top: 15px !important;
+                white-space: nowrap;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+                padding: 0 10px;
+                word-wrap: break-word;
+            }
+
+            .partners-section {
+                padding: 60px 0 !important;
+            }
+
+            .partners-section .container {
+                padding: 0 15px !important;
+                width: 100% !important;
+            }
         }
     </style>
 </head>
@@ -733,28 +922,152 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo-container">
-                    <img src="logo.png" alt="Buy Back Logo" class="logo">
+                    <canvas id="header-3d-canvas" class="logo"></canvas>
                     <span class="logo-text">BuyBack</span>
                 </div>
-                <nav>
-                    <a href="#home">Home</a>
-                    <a href="#chart">Chart</a>
-                    <a href="#tokenomics">Tokenomics</a>
-                    <a href="#news">News</a>
-                    <a href="#roadmap">Roadmap</a>
-                    <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="chart-btn">View on DexScreener</a>
-                </nav>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </header>
 
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="#home">Home</a>
+        <a href="#buybot">BB Buy Bot</a>
+        <a href="#chart">Chart</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#news">News</a>
+        <a href="#roadmap">Roadmap</a>
+    </nav>
+
     <main>
         <section class="hero container" id="home">
-            <h1>BuyBack is Now Live!</h1>
+            <h1>BuyBack</h1>
             <p class="subtitle">Revolutionary buyback protocol on Solana • Powered by BBBuyBot Telegram utility</p>
             <div class="hero-buttons">
-                <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="btn-primary">View Live Chart</a>
+                <a href="https://t.me/BBBuyBotChannel" target="_blank" class="btn-primary">BBBuyBot</a>
                 <a href="https://t.co/SQCRd0bmtY" target="_blank" class="btn-secondary">Join Telegram</a>
+            </div>
+            <div class="hero-divider"></div>
+        </section>
+
+        <section class="buybot-section" id="buybot">
+            <div class="container">
+                <div class="buybot-hero-card fade-in" style="
+                    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 214, 126, 0.05) 100%);
+                    border: 2px solid var(--primary-green);
+                    border-radius: 20px;
+                    padding: 35px 30px;
+                    margin-bottom: 0px;
+                    box-shadow: var(--glow-green);
+                ">
+                    <h2 style="text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(135deg, var(--text-primary), var(--primary-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        <img src="logo.png" alt="BuyBack" style="width: 50px; height: 50px; vertical-align: middle; margin-right: 15px;">BBBuyBot - Now Live!
+                    </h2>
+                    <p style="text-align: center; color: var(--text-secondary); font-size: 1.15rem; margin-bottom: 30px;">The ultimate Telegram utility bot for Solana communities - fully automated, secure, and packed with features</p>
+
+                    <p style="color: var(--text-secondary); text-align: center; font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
+                        The team has been grinding hard behind the scenes, and we're excited to announce that <strong style="color: var(--primary-green);">BBBuyBot</strong> is now fully operational! Join any Solana Telegram community and leverage the power of automated competitions, raffles, and more. This is a longer-term hold with massive utility ahead!
+                    </p>
+
+                    <div style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 30px;">
+                        <h3 style="color: var(--text-primary); font-size: 1.5rem; margin-bottom: 15px;">How to Add BBBuyBot</h3>
+                        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 25px;">
+                            Add <strong style="color: var(--primary-green);">@BBBuyBot</strong> to your Telegram group and make it admin to start using all features!
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="https://t.me/BBBuyBotChannel" target="_blank" class="btn-primary">BBBuyBot Channel</a>
+                            <a href="https://t.me/Buybacksolana" target="_blank" class="btn-secondary">Join Community</a>
+                            <a href="https://x.com/buybacksolana" target="_blank" class="btn-secondary">Follow on X</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 50px;">
+
+                <div class="tokenomics-grid">
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">🏆</div>
+                        <h3>Automated Buy Competitions</h3>
+                        <p style="margin-bottom: 15px;">Fully customizable for any Solana Telegram community</p>
+                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li>Devs prepay before comp starts</li>
+                            <li>Set custom comp time & holding period</li>
+                            <li>Bot auto-pays winner if still holding</li>
+                            <li><strong style="color: var(--primary-green);">No more prize money rugs!</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">🌎</div>
+                        <h3>Global Raffle</h3>
+                        <p style="margin-bottom: 15px;">Open to anyone in the DeFi space</p>
+                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li>Live weekly raffles every Saturday</li>
+                            <li>0.01 SOL per ticket</li>
+                            <li>Automated draw and payout</li>
+                            <li><strong style="color: var(--primary-green);">3 prizes up for grabs! 💰</strong></li>
+                            <li>Growing prize pools</li>
+                        </ul>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">🎟️</div>
+                        <h3>Automated House Raffle</h3>
+                        <p style="margin-bottom: 15px;">Standard raffle, fully automated</p>
+                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li>Devs pay upfront</li>
+                            <li>Bot pays winner automatically</li>
+                            <li>Based on hold time requirements</li>
+                            <li><strong style="color: var(--primary-green);">100% secure & transparent</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">🐋</div>
+                        <h3>Whale Group & RevShare</h3>
+                        <p style="margin-bottom: 15px;">Exclusive benefits for serious holders</p>
+                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong style="color: var(--primary-green);">Hold 1.5M $BB + 1 NFT</strong></li>
+                            <li>Access to exclusive whale group</li>
+                            <li>Earn RevShare from bot revenue</li>
+                            <li>Get in now at the cheapest point!</li>
+                        </ul>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">📊</div>
+                        <h3>BB Trending Platform</h3>
+                        <p style="margin-bottom: 15px;">Coming soon - custom trending platform</p>
+                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li>Unique features to boost reach</li>
+                            <li>Integration with BBBuyBot</li>
+                            <li>Mass adoption incoming</li>
+                            <li><strong style="color: var(--primary-green);">Chart growth guaranteed! ⬆️</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="token-card fade-in">
+                        <div class="token-card-icon">💰</div>
+                        <h3>Fee Structure</h3>
+                        <p style="margin-bottom: 15px;">Transparent and beneficial to holders</p>
+                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong style="color: var(--primary-green);">50% Buyback</strong> - Direct chart support</li>
+                            <li><strong style="color: var(--primary-green);">20% RevShare</strong> - For qualifying holders</li>
+                            <li><strong style="color: var(--primary-green);">30% Dev/Team</strong> - Continuous development</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 50px;">
+                    <p style="color: var(--text-secondary); font-size: 1.1rem;">
+                        BBBuyBot is a game-changer for Solana communities. Mass adoption and continuous development are our priorities - <strong style="color: var(--primary-green);">our chart will grow with it! ⬆️</strong>
+                    </p>
+                </div>
             </div>
         </section>
 
@@ -793,6 +1106,84 @@
         <section class="news-section container" id="news">
             <h2 class="section-title">Latest Updates</h2>
             <div class="news-grid">
+                <div class="news-card fade-in">
+                    <div class="news-date">October 2, 2025 • AMA Event</div>
+                    <h3>🎙️ CoinMerge X Spaces AMA - Live Tonight!</h3>
+                    <p>Buyback $BB is joining <strong style="color: var(--primary-green);">CoinMerge Space</strong> as a guest project today! 🔥</p>
+                    <p style="margin-top: 15px;">Want to learn more about the newest developments and what's to come? This is your chance to hear directly from the team about BBBuyBot, future plans, and exciting updates!</p>
+                    <p style="margin-top: 15px;"><strong>Missed the live session?</strong> Don't worry - you can listen to the recording at the link below to catch up on all the latest announcements and insights.</p>
+                    <p style="margin-top: 20px;">
+                        <a href="https://x.com/coinmerge/status/1973780278729724326?s=46" target="_blank" style="
+                            display: inline-block;
+                            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+                            color: white;
+                            padding: 12px 25px;
+                            border-radius: 8px;
+                            text-decoration: none;
+                            font-weight: 600;
+                            transition: all 0.3s ease;
+                        ">🎧 Listen to the AMA Recording</a>
+                    </p>
+                    <div style="margin-top: 20px;">
+                        <span class="news-tag">AMA</span>
+                        <span class="news-tag">X Spaces</span>
+                        <span class="news-tag">Community</span>
+                    </div>
+                </div>
+
+                <div class="news-card fade-in">
+                    <div class="news-date">September 29, 2025 • Major Launch</div>
+                    <h3>🚀 BBBuyBot is Now LIVE!</h3>
+                    <p>The wait is over! <strong style="color: var(--primary-green);">BBBuyBot</strong> has officially launched and is ready to revolutionize Solana Telegram communities!</p>
+                    <p style="margin-top: 15px;"><strong>How to get started:</strong></p>
+                    <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px;">
+                        <li>Add <strong style="color: var(--primary-green);">@BBBuyBot</strong> to your Telegram group</li>
+                        <li>Make the bot an admin</li>
+                        <li>Start using automated buy competitions, global raffles, and more!</li>
+                        <li>Join the official channel: <a href="https://t.me/BBBuyBotChannel" target="_blank" style="color: var(--primary-green); text-decoration: underline;">@BBBuyBotChannel</a></li>
+                    </ul>
+                    <p style="margin-top: 15px;">This is the beginning of mass adoption! The bot brings real utility, automated security, and revenue generation. Our chart will grow alongside BBBuyBot's success. Don't miss out on RevShare opportunities - hold 1.5M $BB + 1 NFT to qualify!</p>
+                    <div style="margin-top: 20px;">
+                        <span class="news-tag">Live Now</span>
+                        <span class="news-tag">BBBuyBot</span>
+                        <span class="news-tag">Utility</span>
+                    </div>
+                </div>
+
+                <div class="news-card fade-in">
+                    <div class="news-date">August 14, 2025 • Partnership Announcement</div>
+                    <h3>🤝 $HSC x $BB Long Term Partnership - A New Home on Solana</h3>
+                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+                        <img src="hsc bb.jpg" alt="HSC x BB Partnership" style="width: 150px; height: 150px; border-radius: 10px; border: 2px solid var(--primary-green); object-fit: cover;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <p>A partnership forged in November 2023 on the Binance chain finds itself still alive with both projects now on <strong style="color: var(--primary-green);">#Solana!</strong></p>
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--primary-green); margin-top: 20px; margin-bottom: 10px;">🎮 HSC (HighScore)</h4>
+                    <p><strong>History:</strong> Migrated from BSC to TON and then to Solana. Now a 10 tax token with all tax distributed back to holders in Solana rewards.</p>
+                    <p style="margin-top: 10px;"><strong>Utility:</strong> TG gamebot in development, currently working with a handful of games, prize allocations, and auto payout/wallet link. Further development underway!</p>
+                    <p style="margin-top: 10px;"><strong>Winning:</strong> Hold HSC and play daily games for a chance to win HSC tokens or Solana every day. Jackpot draws and giveaways from a 2.5% project wallet.</p>
+                    <p style="margin-top: 10px; color: var(--text-secondary); font-family: monospace; font-size: 0.85rem;">CA: CLjRRmcxXxa6qrVMkqxTC9XvU8cc6r7orpoqB4kdfqRF</p>
+
+                    <h4 style="color: var(--primary-green); margin-top: 20px; margin-bottom: 10px;">✅ BB (BuyBack)</h4>
+                    <ul style="color: var(--text-secondary); margin: 10px 0; padding-left: 20px; line-height: 1.8;">
+                        <li><strong>8/8 tax</strong> - 50% for buyback & burn, 50% for external investments</li>
+                        <li><strong>Reflections</strong> - Hold min 0.2% supply (200k BB) for 3% auto-reflections</li>
+                        <li><strong>Supply reduction</strong> - Starting at 100M, rapidly reducing through burns</li>
+                        <li><strong>NFT collection</strong> - 1st edition with automatic staking rewards</li>
+                        <li><strong>BBBuyBot</strong> - Telegram utility bot (now live!)</li>
+                    </ul>
+
+                    <p style="margin-top: 20px; font-size: 1.1rem;">🕹️ 💰 Stay tuned for mixed community gaming competitions with prizes and giveaways!</p>
+
+                    <div style="margin-top: 20px;">
+                        <span class="news-tag">Partnership</span>
+                        <span class="news-tag">HSC</span>
+                        <span class="news-tag">Gaming</span>
+                    </div>
+                </div>
+
                 <div class="news-card fade-in">
                     <div class="news-date">August 7, 2025 • Development Update</div>
                     <h3>🚀 BBBuyBot Development Announcement</h3>
@@ -1014,26 +1405,240 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 BuyBack. All rights reserved. Not financial advice.</p>
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
+                    Need a website for your crypto project?
                     <a href="https://t.me/BluelineCrypto" target="_blank" style="
-                        background: linear-gradient(135deg, var(--accent-purple), var(--primary-green));
-                        color: white;
-                        padding: 12px 25px;
-                        border-radius: 8px;
+                        color: var(--primary-green);
                         text-decoration: none;
-                        font-weight: 600;
-                        display: inline-block;
+                        border-bottom: 1px solid var(--primary-green);
                         transition: all 0.3s ease;
-                        box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
-                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(107, 70, 193, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(107, 70, 193, 0.3)'">
-                        💻 Need a website for your crypto project? Click Here!
+                        padding-bottom: 2px;
+                    " onmouseover="this.style.color='var(--secondary-green)'; this.style.borderColor='var(--secondary-green)'" onmouseout="this.style.color='var(--primary-green)'; this.style.borderColor='var(--primary-green)'">
+                        Contact us
                     </a>
-                </div>
+                </p>
             </div>
         </div>
     </footer>
 
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        // 3D Coin Animation - Header
+        let headerScene, headerCamera, headerRenderer, headerCoin;
+
+        function initHeader3D() {
+            const canvas = document.getElementById('header-3d-canvas');
+
+            // Scene setup
+            headerScene = new THREE.Scene();
+
+            // Camera setup
+            headerCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+            headerCamera.position.z = 8;
+
+            // Renderer setup
+            headerRenderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            headerRenderer.setSize(50, 50);
+            headerRenderer.setPixelRatio(window.devicePixelRatio);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+            headerScene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0x00D67E, 2, 100);
+            pointLight.position.set(5, 5, 5);
+            headerScene.add(pointLight);
+
+            // Load GLB model
+            const loader = new GLTFLoader();
+            loader.load('bbglb.glb', function(gltf) {
+                headerCoin = gltf.scene;
+                headerCoin.scale.set(0.085, 0.085, 0.085);
+                headerCoin.rotation.x = Math.PI / 2;
+                headerScene.add(headerCoin);
+            });
+
+            animateHeader();
+        }
+
+        function animateHeader() {
+            requestAnimationFrame(animateHeader);
+
+            if (headerCoin) {
+                headerCoin.rotation.z += 0.01;
+            }
+
+            headerRenderer.render(headerScene, headerCamera);
+        }
+
+        // 3D Coin Animation - Hero
+        let scene, camera, renderer, coin;
+        let mouseX = 0, mouseY = 0;
+        let targetRotationX = 0, targetRotationY = 0;
+        let deviceOrientationX = 0, deviceOrientationY = 0;
+        let useDeviceOrientation = false;
+
+        function init3D() {
+            const canvas = document.getElementById('hero-3d-canvas');
+            const heroSection = document.getElementById('home');
+
+            console.log('Initializing 3D scene...');
+
+            // Scene setup
+            scene = new THREE.Scene();
+
+            // Camera setup
+            camera = new THREE.PerspectiveCamera(
+                75,
+                heroSection.offsetWidth / heroSection.offsetHeight,
+                0.1,
+                1000
+            );
+            camera.position.z = 5;
+
+            // Renderer setup
+            renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+            scene.add(ambientLight);
+
+            const pointLight1 = new THREE.PointLight(0x00D67E, 2, 100);
+            pointLight1.position.set(5, 5, 5);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0x00A862, 1.5, 100);
+            pointLight2.position.set(-5, -5, 5);
+            scene.add(pointLight2);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(0, 1, 1);
+            scene.add(directionalLight);
+
+            // Load GLB model
+            const loader = new GLTFLoader();
+            console.log('Loading bbglb.glb...');
+
+            loader.load(
+                'bbglb.glb',
+                function(gltf) {
+                    console.log('Model loaded successfully!');
+                    coin = gltf.scene;
+                    coin.scale.set(0.0075, 0.0075, 0.0075);
+                    coin.position.set(0, 0, 0);
+                    coin.rotation.x = Math.PI / 2; // Tilt 90 degrees to face screen
+                    scene.add(coin);
+                },
+                function(xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                function(error) {
+                    console.error('Error loading 3D model:', error);
+                }
+            );
+
+            // Mouse move listener for desktop
+            window.addEventListener('mousemove', onMouseMove, false);
+
+            // Device orientation for mobile
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', onDeviceOrientation, false);
+            }
+
+            // Window resize
+            window.addEventListener('resize', onWindowResize, false);
+
+            animate();
+        }
+
+        function onMouseMove(event) {
+            if (!useDeviceOrientation) {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            }
+        }
+
+        function onDeviceOrientation(event) {
+            if (event.beta && event.gamma) {
+                useDeviceOrientation = true;
+                deviceOrientationX = event.gamma / 45;
+                deviceOrientationY = event.beta / 90;
+            }
+        }
+
+        function onWindowResize() {
+            const heroSection = document.getElementById('home');
+            camera.aspect = heroSection.offsetWidth / heroSection.offsetHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (coin) {
+                // Auto rotation on Z-axis (spins facing the screen)
+                coin.rotation.z += 0.01;
+
+                // Tilt based on device orientation or mouse
+                if (useDeviceOrientation) {
+                    targetRotationX = Math.PI / 2 + (deviceOrientationY * 0.3);
+                    targetRotationY = deviceOrientationX * 0.3;
+                } else {
+                    targetRotationX = Math.PI / 2 + (mouseY * 0.3);
+                    targetRotationY = mouseX * 0.3;
+                }
+
+                // Smooth interpolation while maintaining the base 90 degree tilt
+                coin.rotation.x += (targetRotationX - coin.rotation.x) * 0.05;
+                coin.rotation.y += (targetRotationY - coin.rotation.y) * 0.05;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize 3D after page loads
+        window.addEventListener('load', () => {
+            initHeader3D();
+        });
+    </script>
+
     <script>
+
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuLinks = document.querySelectorAll('.mobile-menu a');
+
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+
         // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
@@ -1076,14 +1681,14 @@
             observer.observe(el);
         });
 
-        // Parallax effect for hero section
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-            }
-        });
+        // Parallax effect for hero section - disabled
+        // window.addEventListener('scroll', () => {
+        //     const scrolled = window.pageYOffset;
+        //     const hero = document.querySelector('.hero');
+        //     if (hero) {
+        //         hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        //     }
+        // });
 
         // Add hover effect to cards
         document.querySelectorAll('.stat-card, .token-card, .news-card').forEach(card => {
