@@ -589,6 +589,113 @@
             font-size: 1.1rem;
         }
 
+        /* NFT Section */
+        .nft-section {
+            padding: 80px 0;
+            background: var(--dark-bg);
+        }
+
+        .nft-showcase {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .nft-video-container {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--primary-green);
+            box-shadow: var(--glow-green);
+            position: relative;
+        }
+
+        .nft-video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .nft-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .nft-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        .nft-info > p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .nft-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nft-feature {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nft-feature:hover {
+            border-color: var(--primary-green);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .nft-feature h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .nft-feature p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .nft-showcase {
+                flex-direction: column;
+            }
+
+            .nft-video-container {
+                width: 100%;
+            }
+
+            .nft-info {
+                text-align: center;
+            }
+
+            .nft-feature {
+                text-align: left;
+            }
+        }
+
         /* Roadmap Section */
         .roadmap-section {
             padding: 80px 0;
@@ -940,6 +1047,7 @@
         <a href="#buybot">BB Buy Bot</a>
         <a href="#chart">Chart</a>
         <a href="#tokenomics">Tokenomics</a>
+        <a href="#nfts">NFTs</a>
         <a href="#news">News</a>
         <a href="#roadmap">Roadmap</a>
     </nav>
@@ -1345,6 +1453,49 @@
                     <div class="roadmap-content">
                         <h3>Phase 5: Global Adoption</h3>
                         <p>Major exchange listings, institutional partnerships, ecosystem maturity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="nft-section" id="nfts">
+            <div class="container">
+                <h2 class="section-title">BB NFT Collection</h2>
+                <div class="nft-showcase fade-in">
+                    <div class="nft-video-container">
+                        <video autoplay loop muted playsinline class="nft-video">
+                            <source src="nft.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="nft-info">
+                        <h3>1st Edition NFT Collection</h3>
+                        <p>Exclusive hand-drawn NFTs featuring our official cyberpunk mascot. Hold a BB NFT and unlock premium benefits in the ecosystem.</p>
+
+                        <div class="nft-features">
+                            <div class="nft-feature">
+                                <span class="feature-icon">💎</span>
+                                <div>
+                                    <h4>Automatic Staking Rewards</h4>
+                                    <p>No manual staking required - earn rewards automatically just by holding</p>
+                                </div>
+                            </div>
+                            <div class="nft-feature">
+                                <span class="feature-icon">🐋</span>
+                                <div>
+                                    <h4>RevShare Access</h4>
+                                    <p>Hold 1 NFT + 1.5M $BB to qualify for BBBuyBot revenue sharing</p>
+                                </div>
+                            </div>
+                            <div class="nft-feature">
+                                <span class="feature-icon">🎨</span>
+                                <div>
+                                    <h4>Unique Artwork</h4>
+                                    <p>Hand-drawn collection featuring the official BB mascot</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="https://launchmynft.io/collections/5m2A6rAWNdYsvBuoyF22kTEtsjo4K4uKMkTNeUrp7yD6/v2GxhzwwBottrEC1xkQv" target="_blank" class="btn-primary" style="margin-top: 30px;">View Collection</a>
                     </div>
                 </div>
             </div>
