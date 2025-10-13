@@ -669,12 +669,51 @@
             color: #fff;
         }
 
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .footer-logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+        }
+
+        .footer-logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .footer-bottom {
             text-align: center;
             padding-top: 40px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.5);
             font-size: 14px;
+        }
+
+        .dev-credit {
+            margin-top: 12px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .dev-credit a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .dev-credit a:hover {
+            color: var(--primary);
         }
 
         /* Mobile Responsive */
@@ -1316,6 +1355,11 @@
 
     <!-- Footer -->
     <footer>
+        <div class="footer-logo">
+            <img src="robotlogo.jpg" alt="BuyBack Robot Logo">
+            <div class="footer-logo-text">BuyBack</div>
+        </div>
+
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>Product</h4>
@@ -1347,6 +1391,9 @@
 
         <div class="footer-bottom">
             <p>&copy; 2025 BuyBack. All rights reserved. Not financial advice.</p>
+            <div class="dev-credit">
+                Need a website? <a href="https://t.me/BluelineCrypto" target="_blank">@BluelineCrypto</a>
+            </div>
         </div>
     </footer>
 
