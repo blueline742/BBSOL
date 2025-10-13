@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Back ($BB) - Live on Solana</title>
+    <title>BuyBack - Multi-Chain Buyback Protocol</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script type="importmap">
         {
             "imports": {
@@ -16,895 +16,859 @@
         }
     </script>
     <style>
-        /* General Styling & Setup */
-        :root {
-            --primary-green: #00D67E;
-            --secondary-green: #00A862;
-            --dark-green: #007A48;
-            --accent-purple: #6B46C1;
-            --dark-bg: #0A0B0D;
-            --darker-bg: #050607;
-            --card-bg: #111317;
-            --text-primary: #FFFFFF;
-            --text-secondary: #A1A1AA;
-            --border-color: #27272A;
-            --success-color: #10B981;
-            --glow-green: 0 0 20px rgba(0, 214, 126, 0.3);
-            --subtle-glow: 0 0 10px rgba(0, 214, 126, 0.15);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            line-height: 1.6;
+        :root {
+            --primary: #00D67E;
+            --primary-dark: #00A862;
+            --secondary: #F3BA2F;
+            --dark: #0A0B0D;
+            --darker: #050607;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
         }
 
-        /* Background Pattern */
-        .bg-pattern {
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(0, 214, 126, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(107, 70, 193, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(0, 214, 126, 0.03) 0%, transparent 50%);
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        header {
-            background: rgba(10, 11, 13, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            width: 100%;
-            position: fixed;
-            top: 0;
+            right: 0;
             z-index: 1000;
-            transition: all 0.4s ease;
-        }
-
-        header.scrolled {
-            background: rgba(5, 6, 7, 0.5);
+            background: rgba(10, 11, 13, 0.8);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid transparent;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .header-content {
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
         }
 
-        .logo-container {
+        .nav-logo {
             display: flex;
             align-items: center;
-            gap: 15px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .logo {
-            width: 50px;
-            height: 50px;
-            transition: transform 0.3s ease;
-            display: block;
-        }
-
-        #header-3d-canvas {
-            border: none;
-            outline: none;
-            opacity: 1 !important;
-        }
-
-        .logo:hover {
-            transform: scale(1.1);
-        }
-
-        .logo-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Hamburger Menu */
-        .hamburger {
+        .nav-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .nav-links {
             display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 30px;
-            height: 25px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            z-index: 1001;
+            gap: 32px;
+            align-items: center;
         }
 
-        .hamburger span {
-            width: 30px;
-            height: 3px;
-            background: var(--primary-green);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            transform-origin: center;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(11px) rotate(45deg);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-11px) rotate(-45deg);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 280px;
-            height: 100vh;
-            background: rgba(10, 11, 13, 0.98);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid var(--border-color);
-            padding: 100px 40px 40px;
-            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 1000;
-            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .mobile-menu.active {
-            right: 0;
-        }
-
-        .mobile-menu a {
-            display: block;
-            color: var(--text-secondary);
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-            padding: 10px 0;
-            border-bottom: 1px solid transparent;
+            font-size: 15px;
+            transition: color 0.2s;
         }
 
-        .mobile-menu a:hover {
-            color: var(--primary-green);
-            border-bottom-color: var(--primary-green);
-            transform: translateX(10px);
+        .nav-links a:hover {
+            color: #fff;
         }
 
-        .mobile-menu .chart-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            font-size: 1rem;
-        }
-
-        /* Menu Overlay */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.7);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .chart-btn {
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-            color: var(--text-primary);
+        .nav-cta {
+            background: var(--primary);
+            color: #000;
             padding: 10px 20px;
             border-radius: 8px;
-            text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: var(--subtle-glow);
+            transition: all 0.2s;
         }
 
-        .chart-btn:hover {
+        .nav-cta:hover {
             transform: translateY(-2px);
-            box-shadow: var(--glow-green);
+            box-shadow: 0 10px 30px rgba(0, 214, 126, 0.3);
         }
 
         /* Hero Section */
         .hero {
-            padding: 150px 0 80px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-divider {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to bottom, transparent, var(--dark-bg));
-            z-index: 1;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('mascot.jpg');
-            background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
-            opacity: 0.15;
-            z-index: 0;
-        }
-
-        @media (max-width: 768px) {
-            .hero::before {
-                background-position: center 20%;
-            }
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(10, 11, 13, 0.7) 0%, rgba(10, 11, 13, 0.9) 100%);
-            z-index: 0;
-        }
-
-        .hero h1,
-        .hero .subtitle,
-        .hero .hero-buttons {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-green) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            animation: fadeInUp 0.8s ease 0.2s backwards;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.4s backwards;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-            color: var(--text-primary);
-            padding: 15px 35px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            display: inline-block;
-            box-shadow: var(--subtle-glow);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--glow-green);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary-green);
-            padding: 15px 35px;
-            border: 2px solid var(--primary-green);
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(0, 214, 126, 0.1);
-            transform: translateY(-3px);
-        }
-
-        /* BuyBot Section */
-        .buybot-section {
-            padding: 80px 0;
-            background: var(--dark-bg);
-        }
-
-        /* Live Chart Section */
-        .chart-section {
-            padding: 80px 0;
-            background: var(--darker-bg);
-        }
-
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 50px;
-            background: linear-gradient(135deg, var(--text-primary), var(--primary-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .chart-container {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 0 10px;
-        }
-
-        .chart-header h3 {
-            font-size: 1.25rem;
-            color: var(--primary-green);
-        }
-
-        .chart-iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            border-radius: 15px;
-            background: #000;
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-green);
-            box-shadow: var(--subtle-glow);
-        }
-
-        .stat-card h4 {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .stat-card .value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-green);
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* News Section */
-        .news-section {
-            padding: 80px 0;
-        }
-
-        .news-grid {
-            display: grid;
-            gap: 30px;
-        }
-
-        .news-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .news-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary-green), var(--secondary-green));
-        }
-
-        .news-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(0, 214, 126, 0.1);
-        }
-
-        .news-date {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .news-card h3 {
-            color: var(--primary-green);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .news-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-
-        .news-tag {
-            display: inline-block;
-            background: rgba(0, 214, 126, 0.1);
-            color: var(--primary-green);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 10px;
-        }
-
-        /* Tokenomics Section */
-        .tokenomics-section {
-            padding: 80px 0;
-            background: var(--darker-bg);
-        }
-
-        .tokenomics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .token-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .token-card::after {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            background: linear-gradient(135deg, var(--primary-green), transparent);
-            border-radius: 15px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-        }
-
-        .token-card:hover::after {
-            opacity: 0.3;
-        }
-
-        .token-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .token-card-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .token-card h3 {
-            color: var(--text-primary);
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-
-        .token-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .token-card .highlight {
-            color: var(--primary-green);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        /* NFT Section */
-        .nft-section {
-            padding: 80px 0;
-            background: var(--dark-bg);
-        }
-
-        .nft-showcase {
-            display: flex;
-            gap: 50px;
-            align-items: center;
-            flex-wrap: wrap;
-            max-width: 1100px;
+            padding: 180px 24px 120px;
+            max-width: 1400px;
             margin: 0 auto;
-        }
-
-        .nft-video-container {
-            flex: 1;
-            min-width: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 2px solid var(--primary-green);
-            box-shadow: var(--glow-green);
             position: relative;
         }
 
-        .nft-video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .nft-info {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .nft-info h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            color: var(--primary-green);
-            margin-bottom: 20px;
-        }
-
-        .nft-info > p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .nft-features {
+        .hero-visual {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            justify-content: center;
+            margin-bottom: 32px;
         }
 
-        .nft-feature {
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 60px rgba(0, 214, 126, 0.4);
+            animation: float 3s ease-in-out infinite;
         }
 
-        .nft-feature:hover {
-            border-color: var(--primary-green);
-            transform: translateX(5px);
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
 
-        .feature-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-
-        .nft-feature h4 {
-            color: var(--text-primary);
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .nft-feature p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 768px) {
-            .nft-showcase {
-                flex-direction: column;
-            }
-
-            .nft-video-container {
-                width: 100%;
-            }
-
-            .nft-info {
-                text-align: center;
-            }
-
-            .nft-feature {
-                text-align: left;
-            }
-        }
-
-        /* Roadmap Section */
-        .roadmap-section {
-            padding: 80px 0;
-        }
-
-        .roadmap-container {
-            position: relative;
+        .hero-content {
             max-width: 900px;
             margin: 0 auto;
+            text-align: center;
         }
 
-        .roadmap-line {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary-green), var(--accent-purple));
-            z-index: -1;
-        }
-
-        .roadmap-item {
-            display: flex;
+        .hero-badge {
+            display: inline-flex;
             align-items: center;
-            margin-bottom: 60px;
-            position: relative;
+            gap: 8px;
+            background: rgba(243, 186, 47, 0.1);
+            border: 1px solid rgba(243, 186, 47, 0.3);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 32px;
         }
 
-        .roadmap-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .roadmap-content {
-            flex: 1;
-            padding: 25px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            margin: 0 30px;
-            transition: all 0.3s ease;
-        }
-
-        .roadmap-content:hover {
-            transform: scale(1.02);
-            box-shadow: var(--subtle-glow);
-        }
-
-        .roadmap-point {
-            width: 30px;
-            height: 30px;
-            background: var(--primary-green);
+        .hero-badge .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
             border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: var(--glow-green);
-            z-index: 1;
-        }
-
-        .roadmap-point.completed {
-            background: var(--success-color);
-        }
-
-        .roadmap-point.current {
             animation: pulse 2s infinite;
         }
 
-        .roadmap-content h3 {
-            color: var(--primary-green);
-            margin-bottom: 10px;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
 
-        /* Partners Section */
-        .partners-section {
-            padding: 80px 0;
-            background: var(--darker-bg);
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 84px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .partner-spotlight {
-            background: var(--card-bg);
-            border-radius: 20px;
+        .hero-subtitle {
+            font-size: clamp(18px, 3vw, 24px);
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 48px;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 64px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 214, 126, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Network Pills */
+        .network-pills {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .network-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .network-pill.solana {
+            border-color: rgba(0, 214, 126, 0.3);
+            background: rgba(0, 214, 126, 0.05);
+            color: var(--primary);
+        }
+
+        .network-pill.bsc {
+            border-color: rgba(243, 186, 47, 0.3);
+            background: rgba(243, 186, 47, 0.05);
+            color: var(--secondary);
+        }
+
+        .pill-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .pill-dot.green {
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .pill-dot.yellow {
+            background: var(--secondary);
+            animation: pulse 2s infinite;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
             padding: 40px;
-            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Feature Grid */
+        .feature-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 64px;
+        }
+
+        .section-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            max-width: 900px;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        /* Presale Section */
+        .presale-section {
+            max-width: 1400px;
             margin: 0 auto;
-            transition: all 0.3s ease;
+            padding: 80px 24px;
         }
 
-        .partner-spotlight:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(0, 214, 126, 0.1);
-            border-color: var(--primary-green);
+        .presale-card {
+            background: linear-gradient(135deg, rgba(243, 186, 47, 0.1), rgba(243, 186, 47, 0.05));
+            border: 2px solid var(--secondary);
+            border-radius: 32px;
+            padding: 64px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .partner-logo {
-            width: 200px;
-            height: 200px;
-            border-radius: 20px;
-            border: 3px solid var(--primary-green);
-            object-fit: cover;
-            flex-shrink: 0;
+        .presale-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(243, 186, 47, 0.2), transparent);
+            border-radius: 50%;
         }
 
-        .partner-info {
-            flex: 1;
-            min-width: 300px;
+        .presale-content {
+            position: relative;
+            z-index: 1;
         }
 
-        .partner-info h3 {
-            font-size: 2rem;
-            color: var(--primary-green);
-            margin-bottom: 20px;
-            font-family: 'Space Grotesk', sans-serif;
+        .presale-header {
+            text-align: center;
+            margin-bottom: 48px;
         }
 
-        .partner-info p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 15px;
+        .presale-header h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 16px;
         }
 
-        @media (max-width: 768px) {
-            .partner-spotlight {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .partner-logo {
-                width: 150px;
-                height: 150px;
-            }
-        }
-
-        /* Footer */
-        footer {
-            background: var(--darker-bg);
-            padding: 50px 0 30px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer-content {
+        .countdown-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .footer-section h4 {
-            color: var(--primary-green);
-            margin-bottom: 20px;
+        .countdown-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
         }
 
-        .footer-section a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
+        .countdown-number {
+            font-size: 40px;
+            font-weight: 800;
+            font-family: monospace;
+            color: var(--secondary);
+            margin-bottom: 8px;
         }
 
-        .footer-section a:hover {
-            color: var(--primary-green);
+        .countdown-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+        }
+
+        .presale-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .presale-detail {
+            text-align: center;
+        }
+
+        .presale-detail-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+        }
+
+        .presale-detail-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .presale-cta {
+            text-align: center;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 24px;
+            background: linear-gradient(180deg, transparent, rgba(0, 214, 126, 0.03));
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, rgba(0, 214, 126, 0.1), rgba(243, 186, 47, 0.05));
+            border: 2px solid rgba(0, 214, 126, 0.3);
+            border-radius: 32px;
+            padding: 64px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 214, 126, 0.15), transparent);
+            border-radius: 50%;
+        }
+
+        .contact-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contact-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .social-links {
             display: flex;
-            gap: 15px;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 214, 126, 0.3);
+            padding: 16px 32px;
+            border-radius: 16px;
             text-decoration: none;
-            transition: all 0.3s ease;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 214, 126, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
         }
 
         .social-link:hover {
-            transform: translateY(-3px) scale(1.1);
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 214, 126, 0.3);
         }
-        
-        .social-link svg {
-            width: 28px;
-            height: 28px;
+
+        .social-link.telegram {
+            border-color: rgba(0, 136, 204, 0.5);
         }
-        
-        .social-link img {
-            width: 28px;
-            height: 28px;
+
+        .social-link.telegram:hover {
+            border-color: #0088cc;
+            box-shadow: 0 10px 40px rgba(0, 136, 204, 0.4);
+        }
+
+        .social-link.twitter {
+            border-color: rgba(29, 161, 242, 0.5);
+        }
+
+        .social-link.twitter:hover {
+            border-color: #1DA1F2;
+            box-shadow: 0 10px 40px rgba(29, 161, 242, 0.4);
+        }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .social-link.telegram .social-icon {
+            background: linear-gradient(135deg, #0088cc, #0066aa);
+        }
+
+        .social-link.twitter .social-icon {
+            background: linear-gradient(135deg, #1DA1F2, #1a8cd8);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 80px 24px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            margin-bottom: 12px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: #fff;
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
         }
 
-        /* Animations */
+        /* 3D Landing Intro Styles */
+        .landing-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #0A0B0D;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .landing-intro.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #landing-canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .skip-button {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .skip-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #fff;
+        }
+
+        .intro-center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .intro-center-logo h1 {
+            font-size: 72px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00D67E, #F3BA2F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            letter-spacing: -2px;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+
+        .intro-center-logo p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            animation: fadeIn 1s ease 0.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .intro-menu-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            pointer-events: none;
+        }
+
+        .intro-menu-item {
+            position: absolute;
+            background: rgba(0, 214, 126, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 214, 126, 0.3);
+            border-radius: 20px;
+            padding: 20px 30px;
+            cursor: pointer;
+            pointer-events: all;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            min-width: 160px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .intro-menu-item:hover {
+            background: rgba(0, 214, 126, 0.2);
+            border-color: #00D67E;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 214, 126, 0.4);
+        }
+
+        .intro-menu-item.bsc-menu {
+            background: rgba(243, 186, 47, 0.1);
+            border-color: rgba(243, 186, 47, 0.3);
+        }
+
+        .intro-menu-item.bsc-menu:hover {
+            background: rgba(243, 186, 47, 0.2);
+            border-color: #F3BA2F;
+            box-shadow: 0 0 30px rgba(243, 186, 47, 0.4);
+        }
+
+        /* Position items in a circle */
+        .intro-menu-item:nth-child(1) {
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0.2s;
+        }
+
+        .intro-menu-item:nth-child(2) {
+            top: 25%;
+            right: 15%;
+            animation-delay: 0.3s;
+        }
+
+        .intro-menu-item:nth-child(3) {
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+            animation-delay: 0.4s;
+        }
+
+        .intro-menu-item:nth-child(4) {
+            bottom: 25%;
+            right: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .intro-menu-item:nth-child(5) {
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0.6s;
+        }
+
+        .intro-menu-item:nth-child(6) {
+            bottom: 25%;
+            left: 15%;
+            animation-delay: 0.7s;
+        }
+
+        .intro-menu-item:nth-child(7) {
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            animation-delay: 0.8s;
+        }
+
+        .intro-menu-item:nth-child(8) {
+            top: 25%;
+            left: 15%;
+            animation-delay: 0.9s;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -912,977 +876,896 @@
             }
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(0, 214, 126, 0.7);
-            }
-            50% {
-                box-shadow: 0 0 0 20px rgba(0, 214, 126, 0);
-            }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
         /* Mobile Responsive */
         @media (max-width: 768px) {
+            .intro-menu-container {
+                width: 100vw;
+                height: 100vh;
+                padding: 20px;
+            }
 
-            .hero h1 {
-                font-size: 2.5rem;
+            .intro-menu-item {
+                font-size: 14px;
+                padding: 16px 24px;
+                min-width: 140px;
+            }
+
+            .intro-center-logo h1 {
+                font-size: 48px;
+            }
+
+            .intro-center-logo p {
+                font-size: 14px;
+            }
+
+            .skip-button {
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 140px 20px 80px;
             }
 
             .stats-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
+                padding: 24px;
             }
 
-            .roadmap-item,
-            .roadmap-item:nth-child(even) {
-                flex-direction: column;
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .roadmap-line {
-                left: 20px;
-            }
-
-            .roadmap-point {
-                left: 20px;
-            }
-
-            .roadmap-content {
-                margin-left: 60px;
-                margin-right: 0;
-            }
-
-            .chart-iframe {
-                height: 400px;
-            }
-
-            .partner-spotlight {
-                padding: 20px 15px !important;
-                margin: 0 auto !important;
-                max-width: 100% !important;
-                width: calc(100% - 30px) !important;
-            }
-
-            .partner-logo {
-                width: 90px !important;
-                height: 90px !important;
-                margin: 0 auto 15px auto !important;
-            }
-
-            .partner-info {
-                text-align: center;
-                width: 100%;
-                min-width: auto !important;
-            }
-
-            .partner-info h3 {
-                font-size: 1.3rem !important;
-                line-height: 1.3;
-                margin-bottom: 15px !important;
-                word-wrap: break-word;
-            }
-
-            .partner-info p {
-                font-size: 0.9rem !important;
-                line-height: 1.6;
-                margin-bottom: 12px !important;
-                word-wrap: break-word;
-            }
-
-            .partner-info .btn-primary {
-                font-size: 0.9rem !important;
-                padding: 10px 18px !important;
-                margin-top: 15px !important;
-                white-space: nowrap;
-            }
-
-            .section-title {
-                font-size: 1.6rem;
-                padding: 0 10px;
-                word-wrap: break-word;
-            }
-
-            .partners-section {
-                padding: 60px 0 !important;
-            }
-
-            .partners-section .container {
-                padding: 0 15px !important;
-                width: 100% !important;
+            .presale-card {
+                padding: 32px 24px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bg-pattern"></div>
 
-    <header id="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-container">
-                    <canvas id="header-3d-canvas" class="logo"></canvas>
-                    <span class="logo-text">BuyBack</span>
-                </div>
-                <button class="hamburger" id="hamburger" aria-label="Menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+    <!-- 3D Landing Intro -->
+    <div id="landing-intro" class="landing-intro">
+        <canvas id="landing-canvas"></canvas>
+
+        <div class="skip-button" onclick="skipIntro()">
+            Skip Intro →
+        </div>
+
+        <div class="intro-center-logo">
+            <h1>BUYBACK</h1>
+            <p>Choose Your Destination</p>
+        </div>
+
+        <div class="intro-menu-container">
+            <div class="intro-menu-item" onclick="navigateTo('#features')">
+                <div style="font-size: 24px; margin-bottom: 8px;">🚀</div>
+                <div>Features</div>
+            </div>
+
+            <div class="intro-menu-item" onclick="navigateTo('#buybot')">
+                <div style="font-size: 24px; margin-bottom: 8px;">🤖</div>
+                <div>BBBuyBot</div>
+            </div>
+
+            <div class="intro-menu-item bsc-menu" onclick="navigateTo('#presale')">
+                <div style="font-size: 24px; margin-bottom: 8px;">💎</div>
+                <div>BSC Presale</div>
+            </div>
+
+            <div class="intro-menu-item" onclick="navigateTo('#tokenomics')">
+                <div style="font-size: 24px; margin-bottom: 8px;">💰</div>
+                <div>Tokenomics</div>
+            </div>
+
+            <div class="intro-menu-item" onclick="navigateTo('#chart')">
+                <div style="font-size: 24px; margin-bottom: 8px;">📊</div>
+                <div>Live Chart</div>
+            </div>
+
+            <div class="intro-menu-item" onclick="navigateTo('#news')">
+                <div style="font-size: 24px; margin-bottom: 8px;">📰</div>
+                <div>News</div>
+            </div>
+
+            <div class="intro-menu-item" onclick="navigateTo('#nfts')">
+                <div style="font-size: 24px; margin-bottom: 8px;">🎨</div>
+                <div>NFT Collection</div>
+            </div>
+
+            <div class="intro-menu-item" onclick="navigateTo('#roadmap')">
+                <div style="font-size: 24px; margin-bottom: 8px;">🗺️</div>
+                <div>Roadmap</div>
             </div>
         </div>
-    </header>
+    </div>
 
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <nav class="mobile-menu" id="mobileMenu">
-        <a href="#home">Home</a>
-        <a href="#buybot">BB Buy Bot</a>
-        <a href="#chart">Chart</a>
-        <a href="#tokenomics">Tokenomics</a>
-        <a href="#nfts">NFTs</a>
-        <a href="#news">News</a>
-        <a href="#roadmap">Roadmap</a>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo.png" alt="BuyBack Logo">
+                BuyBack
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#buybot">BBBuyBot</a>
+                <a href="#presale">BSC Presale</a>
+                <a href="#tokenomics">Tokenomics</a>
+                <a href="#news">News</a>
+                <a href="#nfts">NFTs</a>
+                <a href="https://wenpad.io/launchpad/buybackbsc" target="_blank" class="nav-cta">Join Presale</a>
+            </div>
+        </div>
     </nav>
 
-    <main>
-        <section class="hero container" id="home">
-            <h1>BuyBack</h1>
-            <p class="subtitle">Revolutionary buyback protocol on Solana • Powered by BBBuyBot Telegram utility</p>
-            <div class="hero-buttons">
-                <a href="https://t.me/BBBuyBotChannel" target="_blank" class="btn-primary">BBBuyBot</a>
-                <a href="https://t.co/SQCRd0bmtY" target="_blank" class="btn-secondary">Join Telegram</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-visual">
+                <img src="punk.jpg" alt="BuyBack Mascot" class="hero-image">
             </div>
-            <div class="hero-divider"></div>
-        </section>
 
-        <section class="buybot-section" id="buybot">
-            <div class="container">
-                <div class="buybot-hero-card fade-in" style="
-                    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(0, 214, 126, 0.05) 100%);
-                    border: 2px solid var(--primary-green);
-                    border-radius: 20px;
-                    padding: 35px 30px;
-                    margin-bottom: 0px;
-                    box-shadow: var(--glow-green);
-                ">
-                    <h2 style="text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(135deg, var(--text-primary), var(--primary-green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                        <img src="logo.png" alt="BuyBack" style="width: 50px; height: 50px; vertical-align: middle; margin-right: 15px;">BBBuyBot - Now Live!
-                    </h2>
-                    <p style="text-align: center; color: var(--text-secondary); font-size: 1.15rem; margin-bottom: 30px;">The ultimate Telegram utility bot for Solana communities - fully automated, secure, and packed with features</p>
+            <div class="hero-badge">
+                <span class="pulse"></span>
+                Building on BSC
+            </div>
 
-                    <p style="color: var(--text-secondary); text-align: center; font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
-                        The team has been grinding hard behind the scenes, and we're excited to announce that <strong style="color: var(--primary-green);">BBBuyBot</strong> is now fully operational! Join any Solana Telegram community and leverage the power of automated competitions, raffles, and more. This is a longer-term hold with massive utility ahead!
-                    </p>
+            <h1>Revolutionary Telegram Bot With Buyback Infrastructure Tokenomics</h1>
 
-                    <div style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 30px;">
-                        <h3 style="color: var(--text-primary); font-size: 1.5rem; margin-bottom: 15px;">How to Add BBBuyBot</h3>
-                        <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 25px;">
-                            Add <strong style="color: var(--primary-green);">@BBBuyBot</strong> to your Telegram group and make it admin to start using all features!
-                        </p>
-                        <div class="hero-buttons">
-                            <a href="https://t.me/BBBuyBotChannel" target="_blank" class="btn-primary">BBBuyBot Channel</a>
-                            <a href="https://t.me/Buybacksolana" target="_blank" class="btn-secondary">Join Community</a>
-                            <a href="https://x.com/buybacksolana" target="_blank" class="btn-secondary">Follow on X</a>
-                        </div>
-                    </div>
+            <p class="hero-subtitle">
+                Powered by BBBuyBot - the ultimate Telegram utility bot with automated buy competitions, global raffles, and revenue sharing. Our native token features buyback & burn, reflections, and multi-chain infrastructure on Solana and BSC.
+            </p>
+
+            <div class="hero-cta">
+                <a href="https://wenpad.io/launchpad/buybackbsc" target="_blank" class="btn-primary">
+                    Join BSC Presale
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="https://t.me/BBBuyBotChannel" target="_blank" class="btn-secondary">
+                    Launch BBBuyBot
+                </a>
+            </div>
+
+            <div class="network-pills">
+                <div class="network-pill solana">
+                    <span class="pill-dot green"></span>
+                    Live on Solana
                 </div>
-
-                <div style="margin-top: 50px;">
-
-                <div class="tokenomics-grid">
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">🏆</div>
-                        <h3>Automated Buy Competitions</h3>
-                        <p style="margin-bottom: 15px;">Fully customizable for any Solana Telegram community</p>
-                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li>Devs prepay before comp starts</li>
-                            <li>Set custom comp time & holding period</li>
-                            <li>Bot auto-pays winner if still holding</li>
-                            <li><strong style="color: var(--primary-green);">No more prize money rugs!</strong></li>
-                        </ul>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">🌎</div>
-                        <h3>Global Raffle</h3>
-                        <p style="margin-bottom: 15px;">Open to anyone in the DeFi space</p>
-                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li>Live weekly raffles every Saturday</li>
-                            <li>0.01 SOL per ticket</li>
-                            <li>Automated draw and payout</li>
-                            <li><strong style="color: var(--primary-green);">3 prizes up for grabs! 💰</strong></li>
-                            <li>Growing prize pools</li>
-                        </ul>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">🎟️</div>
-                        <h3>Automated House Raffle</h3>
-                        <p style="margin-bottom: 15px;">Standard raffle, fully automated</p>
-                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li>Devs pay upfront</li>
-                            <li>Bot pays winner automatically</li>
-                            <li>Based on hold time requirements</li>
-                            <li><strong style="color: var(--primary-green);">100% secure & transparent</strong></li>
-                        </ul>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">🐋</div>
-                        <h3>Whale Group & RevShare</h3>
-                        <p style="margin-bottom: 15px;">Exclusive benefits for serious holders</p>
-                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li><strong style="color: var(--primary-green);">Hold 1.5M $BB + 1 NFT</strong></li>
-                            <li>Access to exclusive whale group</li>
-                            <li>Earn RevShare from bot revenue</li>
-                            <li>Get in now at the cheapest point!</li>
-                        </ul>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">📊</div>
-                        <h3>BB Trending Platform</h3>
-                        <p style="margin-bottom: 15px;">Coming soon - custom trending platform</p>
-                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li>Unique features to boost reach</li>
-                            <li>Integration with BBBuyBot</li>
-                            <li>Mass adoption incoming</li>
-                            <li><strong style="color: var(--primary-green);">Chart growth guaranteed! ⬆️</strong></li>
-                        </ul>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">💰</div>
-                        <h3>Fee Structure</h3>
-                        <p style="margin-bottom: 15px;">Transparent and beneficial to holders</p>
-                        <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li><strong style="color: var(--primary-green);">50% Buyback</strong> - Direct chart support</li>
-                            <li><strong style="color: var(--primary-green);">20% RevShare</strong> - For qualifying holders</li>
-                            <li><strong style="color: var(--primary-green);">30% Dev/Team</strong> - Continuous development</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 50px;">
-                    <p style="color: var(--text-secondary); font-size: 1.1rem;">
-                        BBBuyBot is a game-changer for Solana communities. Mass adoption and continuous development are our priorities - <strong style="color: var(--primary-green);">our chart will grow with it! ⬆️</strong>
-                    </p>
+                <div class="network-pill bsc">
+                    <span class="pill-dot yellow"></span>
+                    Building on BSC
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="chart-section" id="chart">
-            <div class="container">
-                <h2 class="section-title">Live Chart</h2>
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <h3>$BB / SOL</h3>
-                        <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="btn-secondary" style="padding: 8px 20px; font-size: 0.9rem;">Full Chart →</a>
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">100M</div>
+                <div class="stat-label">Total Supply</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">8/8</div>
+                <div class="stat-label">Tax Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">50%</div>
+                <div class="stat-label">Buyback</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3%</div>
+                <div class="stat-label">Reflections</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="feature-section" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Built for the Future of DeFi</h2>
+            <p class="section-subtitle">
+                Revolutionary features designed to create sustainable value for holders across multiple chains
+            </p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔥</div>
+                <h3>Automated Buyback & Burn</h3>
+                <p>50% of all taxes automatically buy back $BB and burn it, constantly reducing supply and increasing scarcity.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>BBBuyBot Telegram Utility</h3>
+                <p>Automated buy competitions, global raffles, and revenue sharing for Solana and BSC communities.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3>Holder Reflections</h3>
+                <p>Hold 200K+ $BB and automatically receive 3% reflections. No staking required.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Multi-Chain Protocol</h3>
+                <p>Live on Solana with BSC expansion launching Monday. True cross-chain buyback infrastructure.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🐋</div>
+                <h3>Revenue Sharing</h3>
+                <p>Hold 1.5M $BB + 1 NFT to qualify for BBBuyBot revenue sharing from bot fees.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>NFT Collection</h3>
+                <p>Hand-drawn NFTs with automatic staking rewards. No manual staking needed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Presale Section -->
+    <section class="presale-section" id="presale">
+        <div class="presale-card">
+            <div class="presale-content">
+                <div class="presale-header">
+                    <h2>BSC Presale is Now Live!</h2>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin: 16px 0;">
+                        <img src="wenpad.jpg" alt="Wenpad" style="width: 60px; height: 60px; border-radius: 12px; border: 2px solid var(--secondary);">
+                        <p style="color: rgba(255,255,255,0.7); font-size: 18px; margin: 0;">Partner: Wenpad • Join the Presale Today</p>
                     </div>
-                    <iframe class="chart-iframe" src="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc?embed=1&theme=dark&trades=0&info=0" title="DEXScreener Chart"></iframe>
                 </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card fade-in">
-                        <h4>Total Supply</h4>
-                        <div class="value">100M</div>
+                <div class="countdown-grid">
+                    <div class="countdown-item">
+                        <div class="countdown-number">00</div>
+                        <div class="countdown-label">Days</div>
                     </div>
-                    <div class="stat-card fade-in">
-                        <h4>Tax Rate</h4>
-                        <div class="value">8/8</div>
+                    <div class="countdown-item">
+                        <div class="countdown-number">00</div>
+                        <div class="countdown-label">Hours</div>
                     </div>
-                    <div class="stat-card fade-in">
-                        <h4>Min for Reflections</h4>
-                        <div class="value">200K BB</div>
+                    <div class="countdown-item">
+                        <div class="countdown-number">00</div>
+                        <div class="countdown-label">Minutes</div>
                     </div>
-                    <div class="stat-card fade-in">
-                        <h4>Reflection Rate</h4>
-                        <div class="value">3%</div>
+                    <div class="countdown-item">
+                        <div class="countdown-number">00</div>
+                        <div class="countdown-label">Seconds</div>
                     </div>
+                </div>
+
+                <div class="presale-details">
+                    <div class="presale-detail">
+                        <div class="presale-detail-label">Minimum Buy</div>
+                        <div class="presale-detail-value">0.2 BNB</div>
+                    </div>
+                    <div class="presale-detail">
+                        <div class="presale-detail-label">Maximum Buy</div>
+                        <div class="presale-detail-value">0.8 BNB</div>
+                    </div>
+                    <div class="presale-detail">
+                        <div class="presale-detail-label">Hard Cap</div>
+                        <div class="presale-detail-value">30 BNB</div>
+                    </div>
+                </div>
+
+                <div class="presale-cta">
+                    <a href="https://wenpad.io/launchpad/buybackbsc" target="_blank" class="btn-primary" style="font-size: 18px; padding: 18px 40px;">
+                        Join Presale on Wenpad
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="news-section container" id="news">
+    <!-- BBBuyBot Section -->
+    <section class="feature-section" id="buybot" style="background: linear-gradient(180deg, transparent, rgba(0, 214, 126, 0.03));">
+        <div class="section-header">
+            <div class="hero-badge" style="margin-bottom: 24px;">
+                <span class="pill-dot green"></span>
+                Now Live
+            </div>
+            <h2 class="section-title">BBBuyBot - Telegram Utility</h2>
+            <p class="section-subtitle">
+                The ultimate Telegram utility bot for Solana and BSC communities - fully automated, secure, and packed with features
+            </p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>Automated Buy Competitions</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>Devs prepay before comp starts</li>
+                    <li>Set custom comp time & holding period</li>
+                    <li>Bot auto-pays winner if still holding</li>
+                    <li style="color: var(--primary); font-weight: 600;">No more prize money rugs!</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌎</div>
+                <h3>Global Raffle</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>Live weekly raffles every Saturday</li>
+                    <li>0.01 SOL per ticket</li>
+                    <li>Automated draw and payout</li>
+                    <li style="color: var(--primary); font-weight: 600;">3 prizes up for grabs!</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎟️</div>
+                <h3>Automated House Raffle</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>Devs pay upfront</li>
+                    <li>Bot pays winner automatically</li>
+                    <li>Based on hold time requirements</li>
+                    <li style="color: var(--primary); font-weight: 600;">100% secure & transparent</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🐋</div>
+                <h3>Whale Group & RevShare</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li style="color: var(--primary); font-weight: 600;">Hold 1.5M $BB + 1 NFT</li>
+                    <li>Access to exclusive whale group</li>
+                    <li>Earn RevShare from bot revenue</li>
+                    <li>Get in now at the cheapest point!</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>BB Trending Platform</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>Custom trending platform coming soon</li>
+                    <li>Integration with BBBuyBot</li>
+                    <li>Mass adoption incoming</li>
+                    <li style="color: var(--primary); font-weight: 600;">Chart growth guaranteed!</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Fee Structure</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li><strong style="color: var(--primary);">50% Buyback</strong> - Direct chart support</li>
+                    <li><strong style="color: var(--secondary);">20% RevShare</strong> - For qualifying holders</li>
+                    <li><strong>30% Dev/Team</strong> - Continuous development</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 48px;">
+            <p style="font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 32px;">Add @BBBuyBot to your Telegram group and make it admin to start using all features!</p>
+            <div class="hero-cta">
+                <a href="https://t.me/BBBuyBotChannel" target="_blank" class="btn-primary">BBBuyBot Channel</a>
+                <a href="https://t.co/SQCRd0bmtY" target="_blank" class="btn-secondary">Join Community</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chart Section -->
+    <section class="feature-section" id="chart">
+        <div class="section-header">
+            <h2 class="section-title">Live Chart</h2>
+            <p class="section-subtitle">Track $BB price action in real-time on Solana</p>
+            <img src="dexlogo.jpg" alt="DexScreener" style="width: 120px; margin: 24px auto 0; display: block; border-radius: 12px; opacity: 0.8;">
+        </div>
+
+        <div style="max-width: 100%; margin: 0 auto; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+            <iframe
+                src="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc?embed=1&theme=dark&trades=0&info=0"
+                style="width: 100%; height: 600px; border: none;"
+            ></iframe>
+        </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section class="feature-section" id="tokenomics">
+        <div class="section-header">
+            <h2 class="section-title">Tokenomics</h2>
+            <p class="section-subtitle">Designed for sustainable growth and holder rewards</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Tax Structure</h3>
+                <p><strong style="font-size: 32px; color: var(--primary);">8/8</strong></p>
+                <p>Balanced tax system designed to support ecosystem while rewarding holders</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔥</div>
+                <h3>Buyback & Burn</h3>
+                <p><strong style="font-size: 32px; color: var(--secondary);">50%</strong> of taxes</p>
+                <p>Half of all taxes directly buyback $BB and burn it, reducing supply and increasing value</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>External Investments</h3>
+                <p><strong style="font-size: 32px; color: var(--primary);">50%</strong> of taxes</p>
+                <p>Strategic external investments provide constant revenue for sustainable growth</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3>Reflections</h3>
+                <p><strong style="font-size: 32px; color: var(--secondary);">3%</strong> Auto-distributed</p>
+                <p>Hold minimum 0.2% supply (200k BB) to qualify for automatic reflections</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Total Supply</h3>
+                <p><strong style="font-size: 32px; color: var(--primary);">100M</strong> BB</p>
+                <p>Supply actively being reduced through aggressive buyback and burn mechanism</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>NFT Collection</h3>
+                <p><strong style="font-size: 20px; color: var(--secondary);">1st Edition</strong></p>
+                <p>Unique NFTs with automatic staking rewards - no manual staking required!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NFT Section -->
+    <section class="feature-section" id="nfts" style="background: linear-gradient(180deg, transparent, rgba(0, 214, 126, 0.03));">
+        <div class="section-header">
+            <h2 class="section-title">BB NFT Collection</h2>
+            <p class="section-subtitle">Exclusive hand-drawn NFTs featuring our official cyberpunk mascot</p>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto 48px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+            <video autoplay loop muted playsinline style="width: 100%; display: block;">
+                <source src="nft.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class="feature-grid" style="max-width: 900px; margin: 0 auto;">
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3>Automatic Staking Rewards</h3>
+                <p>No manual staking required - earn rewards automatically just by holding</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🐋</div>
+                <h3>RevShare Access</h3>
+                <p>Hold 1 NFT + 1.5M $BB to qualify for BBBuyBot revenue sharing</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Unique Artwork</h3>
+                <p>Hand-drawn collection featuring the official BB cyberpunk mascot</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 48px;">
+            <a href="https://launchmynft.io/collections/5m2A6rAWNdYsvBuoyF22kTEtsjo4K4uKMkTNeUrp7yD6/v2GxhzwwBottrEC1xkQv" target="_blank" class="btn-primary">
+                View Collection
+            </a>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="feature-section" id="news" style="background: linear-gradient(180deg, transparent, rgba(243, 186, 47, 0.03));">
+        <div class="section-header">
             <h2 class="section-title">Latest Updates</h2>
-            <div class="news-grid">
-                <div class="news-card fade-in">
-                    <div class="news-date">October 2, 2025 • AMA Event</div>
-                    <h3>🎙️ CoinMerge X Spaces AMA - Live Tonight!</h3>
-                    <p>Buyback $BB is joining <strong style="color: var(--primary-green);">CoinMerge Space</strong> as a guest project today! 🔥</p>
-                    <p style="margin-top: 15px;">Want to learn more about the newest developments and what's to come? This is your chance to hear directly from the team about BBBuyBot, future plans, and exciting updates!</p>
-                    <p style="margin-top: 15px;"><strong>Missed the live session?</strong> Don't worry - you can listen to the recording at the link below to catch up on all the latest announcements and insights.</p>
-                    <p style="margin-top: 20px;">
-                        <a href="https://x.com/coinmerge/status/1973780278729724326?s=46" target="_blank" style="
-                            display: inline-block;
-                            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-                            color: white;
-                            padding: 12px 25px;
-                            border-radius: 8px;
-                            text-decoration: none;
-                            font-weight: 600;
-                            transition: all 0.3s ease;
-                        ">🎧 Listen to the AMA Recording</a>
-                    </p>
-                    <div style="margin-top: 20px;">
-                        <span class="news-tag">AMA</span>
-                        <span class="news-tag">X Spaces</span>
-                        <span class="news-tag">Community</span>
-                    </div>
+            <p class="section-subtitle">Stay up to date with the latest BuyBack news and announcements</p>
+        </div>
+
+        <div class="feature-grid">
+            <!-- News Item 1 -->
+            <div class="feature-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--secondary); font-weight: 600;">October 2, 2025</span>
+                    <span style="font-size: 11px; background: rgba(243, 186, 47, 0.2); color: var(--secondary); padding: 4px 8px; border-radius: 4px;">AMA Event</span>
                 </div>
+                <h3 style="margin-bottom: 12px;">🎙️ CoinMerge X Spaces AMA</h3>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 16px;">Buyback $BB joined CoinMerge Space as a guest project. Learn about BBBuyBot, future plans, and exciting updates.</p>
+                <a href="https://x.com/coinmerge/status/1973780278729724326?s=46" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 14px;">Watch Recording →</a>
+            </div>
 
-                <div class="news-card fade-in">
-                    <div class="news-date">September 29, 2025 • Major Launch</div>
-                    <h3>🚀 BBBuyBot is Now LIVE!</h3>
-                    <p>The wait is over! <strong style="color: var(--primary-green);">BBBuyBot</strong> has officially launched and is ready to revolutionize Solana Telegram communities!</p>
-                    <p style="margin-top: 15px;"><strong>How to get started:</strong></p>
-                    <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px;">
-                        <li>Add <strong style="color: var(--primary-green);">@BBBuyBot</strong> to your Telegram group</li>
-                        <li>Make the bot an admin</li>
-                        <li>Start using automated buy competitions, global raffles, and more!</li>
-                        <li>Join the official channel: <a href="https://t.me/BBBuyBotChannel" target="_blank" style="color: var(--primary-green); text-decoration: underline;">@BBBuyBotChannel</a></li>
-                    </ul>
-                    <p style="margin-top: 15px;">This is the beginning of mass adoption! The bot brings real utility, automated security, and revenue generation. Our chart will grow alongside BBBuyBot's success. Don't miss out on RevShare opportunities - hold 1.5M $BB + 1 NFT to qualify!</p>
-                    <div style="margin-top: 20px;">
-                        <span class="news-tag">Live Now</span>
-                        <span class="news-tag">BBBuyBot</span>
-                        <span class="news-tag">Utility</span>
-                    </div>
+            <!-- News Item 2 -->
+            <div class="feature-card" style="border-color: var(--primary);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--primary); font-weight: 600;">September 29, 2025</span>
+                    <span style="font-size: 11px; background: rgba(0, 214, 126, 0.2); color: var(--primary); padding: 4px 8px; border-radius: 4px;">Live Now</span>
                 </div>
+                <h3 style="margin-bottom: 12px;">🚀 BBBuyBot is Now LIVE!</h3>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 12px;">BBBuyBot has officially launched! Add @BBBuyBot to your Telegram group, make it admin, and start using features.</p>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 16px; font-size: 14px;">Mass adoption beginning, RevShare opportunities available for qualifying holders.</p>
+                <a href="https://t.me/BBBuyBotChannel" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 14px;">Join Channel →</a>
+            </div>
 
-                <div class="news-card fade-in">
-                    <div class="news-date">August 14, 2025 • Partnership Announcement</div>
-                    <h3>🤝 $HSC x $BB Long Term Partnership - A New Home on Solana</h3>
-                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
-                        <img src="hsc bb.jpg" alt="HSC x BB Partnership" style="width: 150px; height: 150px; border-radius: 10px; border: 2px solid var(--primary-green); object-fit: cover;">
-                        <div style="flex: 1; min-width: 250px;">
-                            <p>A partnership forged in November 2023 on the Binance chain finds itself still alive with both projects now on <strong style="color: var(--primary-green);">#Solana!</strong></p>
-                        </div>
-                    </div>
-
-                    <h4 style="color: var(--primary-green); margin-top: 20px; margin-bottom: 10px;">🎮 HSC (HighScore)</h4>
-                    <p><strong>History:</strong> Migrated from BSC to TON and then to Solana. Now a 10 tax token with all tax distributed back to holders in Solana rewards.</p>
-                    <p style="margin-top: 10px;"><strong>Utility:</strong> TG gamebot in development, currently working with a handful of games, prize allocations, and auto payout/wallet link. Further development underway!</p>
-                    <p style="margin-top: 10px;"><strong>Winning:</strong> Hold HSC and play daily games for a chance to win HSC tokens or Solana every day. Jackpot draws and giveaways from a 2.5% project wallet.</p>
-                    <p style="margin-top: 10px; color: var(--text-secondary); font-family: monospace; font-size: 0.85rem;">CA: CLjRRmcxXxa6qrVMkqxTC9XvU8cc6r7orpoqB4kdfqRF</p>
-
-                    <h4 style="color: var(--primary-green); margin-top: 20px; margin-bottom: 10px;">✅ BB (BuyBack)</h4>
-                    <ul style="color: var(--text-secondary); margin: 10px 0; padding-left: 20px; line-height: 1.8;">
-                        <li><strong>8/8 tax</strong> - 50% for buyback & burn, 50% for external investments</li>
-                        <li><strong>Reflections</strong> - Hold min 0.2% supply (200k BB) for 3% auto-reflections</li>
-                        <li><strong>Supply reduction</strong> - Starting at 100M, rapidly reducing through burns</li>
-                        <li><strong>NFT collection</strong> - 1st edition with automatic staking rewards</li>
-                        <li><strong>BBBuyBot</strong> - Telegram utility bot (now live!)</li>
-                    </ul>
-
-                    <p style="margin-top: 20px; font-size: 1.1rem;">🕹️ 💰 Stay tuned for mixed community gaming competitions with prizes and giveaways!</p>
-
-                    <div style="margin-top: 20px;">
-                        <span class="news-tag">Partnership</span>
-                        <span class="news-tag">HSC</span>
-                        <span class="news-tag">Gaming</span>
-                    </div>
+            <!-- News Item 3 -->
+            <div class="feature-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--secondary); font-weight: 600;">August 14, 2025</span>
+                    <span style="font-size: 11px; background: rgba(243, 186, 47, 0.2); color: var(--secondary); padding: 4px 8px; border-radius: 4px;">Partnership</span>
                 </div>
-
-                <div class="news-card fade-in">
-                    <div class="news-date">August 7, 2025 • Development Update</div>
-                    <h3>🚀 BBBuyBot Development Announcement</h3>
-                    <p>We're bringing a brand new buybot to the market! <strong>BBBuyBot</strong> 🤖</p>
-                    <p><strong>What's special about this bot?</strong></p>
-                    <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px;">
-                        <li><strong>Automated Buy Comps:</strong> Devs prepay before the comp starts, set the comp time and holding period. The bot auto-pays the winner if they're still holding. No more rugs!</li>
-                        <li><strong>Global Raffle:</strong> Live raffles with growing prize pools. Buy tickets via the bot in any Telegram. Countdown timer, live draws, and winners shown on the main bot page.</li>
-                        <li><strong>Automated House Raffle:</strong> Standard raffle, but fully automated. Devs pay upfront, bot pays winner based on hold time.</li>
-                        <li><strong>BB Trending:</strong> Once live, we'll develop a custom trending platform with unique features to grow our reach.</li>
-                    </ul>
-                    <p>This is a massive step for #BB - Not only exposure but revenue from the bot itself as we take a % from the global raffle!</p>
-                    <div style="margin-top: 20px;">
-                        <span class="news-tag">Development</span>
-                        <span class="news-tag">Utility</span>
-                    </div>
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <img src="hsc bb.jpg" alt="HSC x BB Partnership" style="width: 150px; height: 150px; border-radius: 12px; object-fit: cover;">
                 </div>
-
-                <div class="news-card fade-in">
-                    <div class="news-date">August 6, 2025 • Project Update</div>
-                    <h3>✅ What's Coming for BB</h3>
-                    <p>Quick brief for all new members about what's to come:</p>
-                    <ul style="color: var(--text-secondary); margin: 15px 0; padding-left: 20px;">
-                        <li><strong>50% Tax for Buybacks:</strong> Used to buyback the chart and all buybacks will be burned, reducing supply and increasing price!</li>
-                        <li><strong>50% External Investments:</strong> Bringing constant revenue flow to maintain chart health</li>
-                        <li><strong>NFT Collection:</strong> 1st edition using our official mascot with automatic staking rewards - no manual staking needed!</li>
-                        <li><strong>Supply Reduction:</strong> Starting at 100M tokens, rapidly reducing through buyback and burns</li>
-                    </ul>
-                    <div style="margin-top: 20px;">
-                        <span class="news-tag">Tokenomics</span>
-                        <span class="news-tag">NFTs</span>
-                    </div>
-                </div>
-
-                <div class="news-card fade-in">
-                    <div class="news-date">July 22, 2025 • Community Event</div>
-                    <h3>🚨 AMA with MMKK This Friday!</h3>
-                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-                        <img src="mmk.jpg" alt="MMKK" style="width: 100px; height: 100px; border-radius: 10px; border: 2px solid var(--primary-green); object-fit: cover;">
-                        <div style="flex: 1; min-width: 200px;">
-                            <p>Make sure you're all there and tuned in! ✅️</p>
-                            <p style="margin-top: 10px;"><strong>Presale starts tonight. Get your solana ready! 🤝🔥👀</strong></p>
-                            <p style="margin-top: 15px;">Join us for an exclusive AMA session with MMKK where we'll discuss the future of BB and answer all your questions.</p>
-                        </div>
-                    </div>
-                    <div style="margin-top: 20px;">
-                        <span class="news-tag">AMA</span>
-                        <span class="news-tag">Community</span>
-                    </div>
-                </div>
-
-                <div class="news-card fade-in">
-                    <div class="news-date">July 22, 2025 • Announcement</div>
-                    <h3>🎨 Official BB Mascot Revealed!</h3>
-                    <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-                        <img src="mascot.jpg" alt="BB Mascot" style="width: 100px; height: 100px; border-radius: 10px; border: 2px solid var(--primary-green); object-fit: cover;">
-                        <div style="flex: 1; min-width: 200px;">
-                            <p>We now have the official BB mascot which we will implement into hand drawn NFT's further down the line! ✅️🔥</p>
-                            <p style="margin-top: 10px;"><strong>Get ready for exclusive NFT collections featuring our cyberpunk mascot!</strong></p>
-                            <p style="margin-top: 15px;">The mascot represents the spirit of our community - bold, innovative, and always pushing forward.</p>
-                        </div>
-                    </div>
-                    <div style="margin-top: 20px;">
-                        <span class="news-tag">NFTs</span>
-                        <span class="news-tag">Art</span>
-                    </div>
+                <h3 style="margin-bottom: 12px;">🤝 $HSC x $BB Partnership</h3>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 12px;">Long-term partnership forged in November 2023, now both on Solana!</p>
+                <div style="font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6;">
+                    <strong style="color: var(--primary);">HSC (HighScore):</strong> 10 tax token with Solana rewards, TG gamebot in development<br>
+                    <strong style="color: var(--secondary);">BB (BuyBack):</strong> 8/8 tax, 50% buyback & burn, reflections, NFTs, BBBuyBot
                 </div>
             </div>
-        </section>
 
-        <section class="tokenomics-section" id="tokenomics">
-            <div class="container">
-                <h2 class="section-title">Tokenomics</h2>
-                <div class="tokenomics-grid">
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">💰</div>
-                        <h3>Tax Structure</h3>
-                        <p><span class="highlight">8/8 Tax</span></p>
-                        <p>Balanced tax system designed to support the ecosystem while rewarding holders</p>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">🔥</div>
-                        <h3>Buyback & Burn</h3>
-                        <p><span class="highlight">50% of taxes</span></p>
-                        <p>Half of all taxes directly buyback $BB and burn it, reducing supply and increasing value</p>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">📈</div>
-                        <h3>External Investments</h3>
-                        <p><span class="highlight">50% of taxes</span></p>
-                        <p>Strategic external investments provide constant revenue for sustainable growth</p>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">💎</div>
-                        <h3>Reflections</h3>
-                        <p><span class="highlight">3% Auto-distributed</span></p>
-                        <p>Hold minimum 0.2% supply (200k BB) to qualify for automatic reflections</p>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">🎯</div>
-                        <h3>Total Supply</h3>
-                        <p><span class="highlight">100 Million BB</span></p>
-                        <p>Supply actively being reduced through our aggressive buyback and burn mechanism</p>
-                    </div>
-
-                    <div class="token-card fade-in">
-                        <div class="token-card-icon">🎨</div>
-                        <h3>NFT Collection</h3>
-                        <p><span class="highlight">1st Edition Live Soon</span></p>
-                        <p>Unique NFTs with automatic staking rewards - no manual staking required!</p>
-                    </div>
+            <!-- News Item 4 -->
+            <div class="feature-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--secondary); font-weight: 600;">August 7, 2025</span>
+                    <span style="font-size: 11px; background: rgba(243, 186, 47, 0.2); color: var(--secondary); padding: 4px 8px; border-radius: 4px;">Development</span>
                 </div>
+                <h3 style="margin-bottom: 12px;">🚀 BBBuyBot Development</h3>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 12px;">Brand new buybot coming to market with:</p>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 8px 0 0 20px; font-size: 14px;">
+                    <li>Automated Buy Competitions</li>
+                    <li>Global Raffle with countdown timer</li>
+                    <li>Automated House Raffle</li>
+                    <li>BB Trending platform coming soon</li>
+                </ul>
             </div>
-        </section>
 
-        <section class="roadmap-section container" id="roadmap">
+            <!-- News Item 5 -->
+            <div class="feature-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--secondary); font-weight: 600;">August 6, 2025</span>
+                    <span style="font-size: 11px; background: rgba(243, 186, 47, 0.2); color: var(--secondary); padding: 4px 8px; border-radius: 4px;">Update</span>
+                </div>
+                <h3 style="margin-bottom: 12px;">✅ What's Coming for BB</h3>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 12px;">Quick brief for new members:</p>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 8px 0 0 20px; font-size: 14px;">
+                    <li><strong style="color: var(--primary);">50% Tax for Buybacks:</strong> Buyback and burn</li>
+                    <li><strong style="color: var(--secondary);">50% External Investments:</strong> Revenue flow</li>
+                    <li><strong>NFT Collection:</strong> Automatic staking rewards</li>
+                    <li><strong>Supply Reduction:</strong> Starting at 100M, rapidly reducing</li>
+                </ul>
+            </div>
+
+            <!-- News Item 6 -->
+            <div class="feature-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--secondary); font-weight: 600;">July 22, 2025</span>
+                    <span style="font-size: 11px; background: rgba(243, 186, 47, 0.2); color: var(--secondary); padding: 4px 8px; border-radius: 4px;">Community</span>
+                </div>
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <img src="mmk.jpg" alt="MMKK AMA" style="width: 100px; height: 100px; border-radius: 12px; object-fit: cover;">
+                </div>
+                <h3 style="margin-bottom: 12px;">🚨 AMA with MMKK</h3>
+                <p style="color: rgba(255,255,255,0.6);">Exclusive AMA session with MMKK. Presale announcement and community discussion.</p>
+            </div>
+
+            <!-- News Item 7 -->
+            <div class="feature-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--secondary); font-weight: 600;">July 22, 2025</span>
+                    <span style="font-size: 11px; background: rgba(243, 186, 47, 0.2); color: var(--secondary); padding: 4px 8px; border-radius: 4px;">NFTs</span>
+                </div>
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <img src="mascot.jpg" alt="BB Mascot" style="width: 100px; height: 100px; border-radius: 12px; object-fit: cover;">
+                </div>
+                <h3 style="margin-bottom: 12px;">🎨 Official BB Mascot Revealed!</h3>
+                <p style="color: rgba(255,255,255,0.6);">Official BB mascot for hand-drawn NFTs. Exclusive NFT collections featuring cyberpunk mascot representing our bold, innovative community.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="feature-section" id="roadmap">
+        <div class="section-header">
             <h2 class="section-title">Roadmap</h2>
-            <div class="roadmap-container">
-                <div class="roadmap-line"></div>
-                
-                <div class="roadmap-item fade-in">
-                    <div class="roadmap-point completed"></div>
-                    <div class="roadmap-content">
-                        <h3>Phase 1: Launch ✅</h3>
-                        <p>Successful presale on WenPad, DEX launch on Raydium, initial community building</p>
-                    </div>
-                </div>
+            <p class="section-subtitle">Our journey to global adoption</p>
+        </div>
 
-                <div class="roadmap-item fade-in">
-                    <div class="roadmap-point current"></div>
-                    <div class="roadmap-content">
-                        <h3>Phase 2: Growth & Development</h3>
-                        <p>BBBuyBot development, community expansion, marketing campaigns</p>
-                    </div>
-                </div>
-
-                <div class="roadmap-item fade-in">
-                    <div class="roadmap-point"></div>
-                    <div class="roadmap-content">
-                        <h3>Phase 3: NFT Launch</h3>
-                        <p>1st edition NFT collection with automatic staking rewards</p>
-                    </div>
-                </div>
-
-                <div class="roadmap-item fade-in">
-                    <div class="roadmap-point"></div>
-                    <div class="roadmap-content">
-                        <h3>Phase 4: Ecosystem Expansion</h3>
-                        <p>BB Trending platform, strategic partnerships, CEX listings</p>
-                    </div>
-                </div>
-
-                <div class="roadmap-item fade-in">
-                    <div class="roadmap-point"></div>
-                    <div class="roadmap-content">
-                        <h3>Phase 5: Global Adoption</h3>
-                        <p>Major exchange listings, institutional partnerships, ecosystem maturity</p>
-                    </div>
-                </div>
+        <div class="feature-grid" style="max-width: 1000px; margin: 0 auto;">
+            <div class="feature-card" style="border-color: var(--primary);">
+                <div style="font-size: 14px; color: var(--primary); font-weight: 700; margin-bottom: 12px;">✅ PHASE 1 - COMPLETED</div>
+                <h3>Launch</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>Successful presale on WenPad</li>
+                    <li>DEX launch on Raydium</li>
+                    <li>Initial community building</li>
+                </ul>
             </div>
-        </section>
 
-        <section class="nft-section" id="nfts">
-            <div class="container">
-                <h2 class="section-title">BB NFT Collection</h2>
-                <div class="nft-showcase fade-in">
-                    <div class="nft-video-container">
-                        <video autoplay loop muted playsinline class="nft-video">
-                            <source src="nft.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="nft-info">
-                        <h3>1st Edition NFT Collection</h3>
-                        <p>Exclusive hand-drawn NFTs featuring our official cyberpunk mascot. Hold a BB NFT and unlock premium benefits in the ecosystem.</p>
+            <div class="feature-card" style="border-color: rgba(0, 214, 126, 0.5);">
+                <div style="font-size: 14px; color: var(--primary); font-weight: 700; margin-bottom: 12px;">✅ PHASE 2 - COMPLETED</div>
+                <h3>Growth & Development</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>BBBuyBot development</li>
+                    <li>BSC expansion launch</li>
+                    <li>Community expansion</li>
+                    <li>Marketing campaigns</li>
+                </ul>
+            </div>
 
-                        <div class="nft-features">
-                            <div class="nft-feature">
-                                <span class="feature-icon">💎</span>
-                                <div>
-                                    <h4>Automatic Staking Rewards</h4>
-                                    <p>No manual staking required - earn rewards automatically just by holding</p>
-                                </div>
-                            </div>
-                            <div class="nft-feature">
-                                <span class="feature-icon">🐋</span>
-                                <div>
-                                    <h4>RevShare Access</h4>
-                                    <p>Hold 1 NFT + 1.5M $BB to qualify for BBBuyBot revenue sharing</p>
-                                </div>
-                            </div>
-                            <div class="nft-feature">
-                                <span class="feature-icon">🎨</span>
-                                <div>
-                                    <h4>Unique Artwork</h4>
-                                    <p>Hand-drawn collection featuring the official BB mascot</p>
-                                </div>
-                            </div>
+            <div class="feature-card" style="border-color: var(--secondary);">
+                <div style="font-size: 14px; color: var(--secondary); font-weight: 700; margin-bottom: 12px;">🚀 PHASE 3 - CURRENT</div>
+                <h3>NFT Launch</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>1st edition NFT collection</li>
+                    <li>Automatic staking rewards</li>
+                    <li>RevShare qualification</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div style="font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 12px;">📍 PHASE 4</div>
+                <h3>Ecosystem Expansion</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>BB Trending platform</li>
+                    <li>Strategic partnerships</li>
+                    <li>CEX listings</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div style="font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 700; margin-bottom: 12px;">📍 PHASE 5</div>
+                <h3>Global Adoption</h3>
+                <ul style="color: rgba(255,255,255,0.6); line-height: 1.8; margin: 16px 0 0 20px;">
+                    <li>Major exchange listings</li>
+                    <li>Institutional partnerships</li>
+                    <li>Ecosystem maturity</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-card">
+            <div class="contact-content">
+                <h2 class="contact-title">Get in Touch</h2>
+                <p class="contact-subtitle">
+                    Join our community and stay updated with the latest news, updates, and announcements. Connect with us on Telegram and X!
+                </p>
+
+                <div class="social-links">
+                    <a href="https://t.me/BuybackBSC" target="_blank" class="social-link telegram">
+                        <div class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.14.121.099.154.232.17.326.016.094.037.308.02.475z"/>
+                            </svg>
                         </div>
+                        <span>BSC Telegram</span>
+                    </a>
 
-                        <a href="https://launchmynft.io/collections/5m2A6rAWNdYsvBuoyF22kTEtsjo4K4uKMkTNeUrp7yD6/v2GxhzwwBottrEC1xkQv" target="_blank" class="btn-primary" style="margin-top: 30px;">View Collection</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    <a href="https://t.co/SQCRd0bmtY" target="_blank" class="social-link telegram">
+                        <div class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.14.121.099.154.232.17.326.016.094.037.308.02.475z"/>
+                            </svg>
+                        </div>
+                        <span>Solana Telegram</span>
+                    </a>
 
-        <section class="partners-section" id="partners">
-            <div class="container">
-                <h2 class="section-title">Launch Partner</h2>
-                <div class="partner-spotlight fade-in">
-                    <img src="wenpad.jpg" alt="Wenpad Labs" class="partner-logo">
-                    <div class="partner-info">
-                        <h3>Launched with Wenpad Labs</h3>
-                        <p>We're proud to have launched with Wenpad Labs, the premier launchpad on Solana. Their platform ensured a secure, transparent, and successful presale for our community.</p>
-                        <p>Wenpad Labs continues to be a trusted partner in the Solana ecosystem, helping legitimate projects reach their full potential.</p>
-                        <a href="https://wenpad.io" target="_blank" class="btn-primary" style="margin-top: 20px;">Visit Wenpad Labs</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>BuyBack</h4>
-                    <p style="color: var(--text-secondary);">Revolutionary buyback protocol with BBBuyBot Telegram utility</p>
-                    <div class="social-links" style="margin-top: 20px;">
-                        <a href="https://x.com/BuybackSolana" target="_blank" class="social-link">
-                            <svg viewBox="0 0 24 24" fill="#FFFFFF">
+                    <a href="https://x.com/BuybackSolana" target="_blank" class="social-link twitter">
+                        <div class="social-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                             </svg>
-                        </a>
-                        <a href="https://t.co/SQCRd0bmtY" target="_blank" class="social-link">
-                            <svg viewBox="0 0 24 24" fill="#229ED9">
-                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                            </svg>
-                        </a>
-                        <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank" class="social-link">
-                            <img src="dexlogo.jpg" alt="DexScreener" style="border-radius: 6px; object-fit: cover;">
-                        </a>
-                        <a href="https://wenpad.io" target="_blank" class="social-link">
-                            <img src="wenpad.jpg" alt="Wenpad" style="border-radius: 6px; object-fit: cover;">
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank">DexScreener</a>
-                    <a href="#tokenomics">Tokenomics</a>
-                    <a href="#roadmap">Roadmap</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Community</h4>
-                    <a href="https://t.co/SQCRd0bmtY" target="_blank">Telegram</a>
-                    <a href="https://x.com/BuybackSolana" target="_blank">Twitter/X</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 BuyBack. All rights reserved. Not financial advice.</p>
-                <p style="margin-top: 15px; color: var(--text-secondary); font-size: 0.9rem;">
-                    Need a website for your crypto project?
-                    <a href="https://t.me/BluelineCrypto" target="_blank" style="
-                        color: var(--primary-green);
-                        text-decoration: none;
-                        border-bottom: 1px solid var(--primary-green);
-                        transition: all 0.3s ease;
-                        padding-bottom: 2px;
-                    " onmouseover="this.style.color='var(--secondary-green)'; this.style.borderColor='var(--secondary-green)'" onmouseout="this.style.color='var(--primary-green)'; this.style.borderColor='var(--primary-green)'">
-                        Contact us
+                        </div>
+                        <span>Follow on X</span>
                     </a>
+
+                    <a href="https://t.me/BBBuyBotChannel" target="_blank" class="social-link telegram">
+                        <div class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.14.121.099.154.232.17.326.016.094.037.308.02.475z"/>
+                            </svg>
+                        </div>
+                        <span>BBBuyBot Channel</span>
+                    </a>
+                </div>
+
+                <p style="color: rgba(255, 255, 255, 0.5); font-size: 14px;">
+                    We're here to help! Join our community and connect with the team and fellow holders.
                 </p>
             </div>
         </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Product</h4>
+                <a href="#features">Features</a>
+                <a href="#presale">BSC Presale</a>
+                <a href="https://t.me/BBBuyBotChannel" target="_blank">BBBuyBot</a>
+                <a href="https://dexscreener.com/solana/bu4x6vekxp6ghubndddquhfruxryc18kmqixywebdccc" target="_blank">Chart</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Community</h4>
+                <a href="https://t.me/BuybackBSC" target="_blank">BSC Telegram</a>
+                <a href="https://t.co/SQCRd0bmtY" target="_blank">Solana Telegram</a>
+                <a href="https://x.com/BuybackSolana" target="_blank">Twitter / X</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="https://wenpad.io/launchpad/buybackbsc" target="_blank">Wenpad Presale</a>
+                <a href="https://launchmynft.io/collections/5m2A6rAWNdYsvBuoyF22kTEtsjo4K4uKMkTNeUrp7yD6/v2GxhzwwBottrEC1xkQv" target="_blank">NFT Collection</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 BuyBack. All rights reserved. Not financial advice.</p>
+        </div>
     </footer>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
-        // 3D Coin Animation - Header
-        let headerScene, headerCamera, headerRenderer, headerCoin;
-
-        function initHeader3D() {
-            const canvas = document.getElementById('header-3d-canvas');
-
-            // Scene setup
-            headerScene = new THREE.Scene();
-
-            // Camera setup
-            headerCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-            headerCamera.position.z = 8;
-
-            // Renderer setup
-            headerRenderer = new THREE.WebGLRenderer({
-                canvas: canvas,
-                alpha: true,
-                antialias: true
-            });
-            headerRenderer.setSize(50, 50);
-            headerRenderer.setPixelRatio(window.devicePixelRatio);
-
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-            headerScene.add(ambientLight);
-
-            const pointLight = new THREE.PointLight(0x00D67E, 2, 100);
-            pointLight.position.set(5, 5, 5);
-            headerScene.add(pointLight);
-
-            // Load GLB model
-            const loader = new GLTFLoader();
-            loader.load('bbglb.glb', function(gltf) {
-                headerCoin = gltf.scene;
-                headerCoin.scale.set(0.085, 0.085, 0.085);
-                headerCoin.rotation.x = Math.PI / 2;
-                headerScene.add(headerCoin);
-            });
-
-            animateHeader();
-        }
-
-        function animateHeader() {
-            requestAnimationFrame(animateHeader);
-
-            if (headerCoin) {
-                headerCoin.rotation.z += 0.01;
-            }
-
-            headerRenderer.render(headerScene, headerCamera);
-        }
-
-        // 3D Coin Animation - Hero
-        let scene, camera, renderer, coin;
-        let mouseX = 0, mouseY = 0;
-        let targetRotationX = 0, targetRotationY = 0;
-        let deviceOrientationX = 0, deviceOrientationY = 0;
-        let useDeviceOrientation = false;
-
-        function init3D() {
-            const canvas = document.getElementById('hero-3d-canvas');
-            const heroSection = document.getElementById('home');
-
-            console.log('Initializing 3D scene...');
-
-            // Scene setup
-            scene = new THREE.Scene();
-
-            // Camera setup
-            camera = new THREE.PerspectiveCamera(
-                75,
-                heroSection.offsetWidth / heroSection.offsetHeight,
-                0.1,
-                1000
-            );
-            camera.position.z = 5;
-
-            // Renderer setup
-            renderer = new THREE.WebGLRenderer({
-                canvas: canvas,
-                alpha: true,
-                antialias: true
-            });
-            renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-            scene.add(ambientLight);
-
-            const pointLight1 = new THREE.PointLight(0x00D67E, 2, 100);
-            pointLight1.position.set(5, 5, 5);
-            scene.add(pointLight1);
-
-            const pointLight2 = new THREE.PointLight(0x00A862, 1.5, 100);
-            pointLight2.position.set(-5, -5, 5);
-            scene.add(pointLight2);
-
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-            directionalLight.position.set(0, 1, 1);
-            scene.add(directionalLight);
-
-            // Load GLB model
-            const loader = new GLTFLoader();
-            console.log('Loading bbglb.glb...');
-
-            loader.load(
-                'bbglb.glb',
-                function(gltf) {
-                    console.log('Model loaded successfully!');
-                    coin = gltf.scene;
-                    coin.scale.set(0.0075, 0.0075, 0.0075);
-                    coin.position.set(0, 0, 0);
-                    coin.rotation.x = Math.PI / 2; // Tilt 90 degrees to face screen
-                    scene.add(coin);
-                },
-                function(xhr) {
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                },
-                function(error) {
-                    console.error('Error loading 3D model:', error);
-                }
-            );
-
-            // Mouse move listener for desktop
-            window.addEventListener('mousemove', onMouseMove, false);
-
-            // Device orientation for mobile
-            if (window.DeviceOrientationEvent) {
-                window.addEventListener('deviceorientation', onDeviceOrientation, false);
-            }
-
-            // Window resize
-            window.addEventListener('resize', onWindowResize, false);
-
-            animate();
-        }
-
-        function onMouseMove(event) {
-            if (!useDeviceOrientation) {
-                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-            }
-        }
-
-        function onDeviceOrientation(event) {
-            if (event.beta && event.gamma) {
-                useDeviceOrientation = true;
-                deviceOrientationX = event.gamma / 45;
-                deviceOrientationY = event.beta / 90;
-            }
-        }
-
-        function onWindowResize() {
-            const heroSection = document.getElementById('home');
-            camera.aspect = heroSection.offsetWidth / heroSection.offsetHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            if (coin) {
-                // Auto rotation on Z-axis (spins facing the screen)
-                coin.rotation.z += 0.01;
-
-                // Tilt based on device orientation or mouse
-                if (useDeviceOrientation) {
-                    targetRotationX = Math.PI / 2 + (deviceOrientationY * 0.3);
-                    targetRotationY = deviceOrientationX * 0.3;
-                } else {
-                    targetRotationX = Math.PI / 2 + (mouseY * 0.3);
-                    targetRotationY = mouseX * 0.3;
-                }
-
-                // Smooth interpolation while maintaining the base 90 degree tilt
-                coin.rotation.x += (targetRotationX - coin.rotation.x) * 0.05;
-                coin.rotation.y += (targetRotationY - coin.rotation.y) * 0.05;
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        // Initialize 3D after page loads
-        window.addEventListener('load', () => {
-            initHeader3D();
-        });
-    </script>
-
     <script>
-
-        // Hamburger Menu Toggle
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
-        const menuLinks = document.querySelectorAll('.mobile-menu a');
-
-        function toggleMenu() {
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-        }
-
-        hamburger.addEventListener('click', toggleMenu);
-        menuOverlay.addEventListener('click', toggleMenu);
-
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                toggleMenu();
-            });
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Smooth scrolling for anchor links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
-        });
-
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Parallax effect for hero section - disabled
-        // window.addEventListener('scroll', () => {
-        //     const scrolled = window.pageYOffset;
-        //     const hero = document.querySelector('.hero');
-        //     if (hero) {
-        //         hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        //     }
-        // });
-
-        // Add hover effect to cards
-        document.querySelectorAll('.stat-card, .token-card, .news-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px) scale(1.02)';
-            });
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // Dynamic number animation for stats
-        function animateValue(element, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const value = Math.floor(progress * (end - start) + start);
-                element.textContent = value.toLocaleString();
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // Trigger number animations when visible
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.animated) {
-                    const valueElement = entry.target.querySelector('.value');
-                    if (valueElement && valueElement.textContent === '100M') {
-                        animateValue(valueElement, 0, 100000000, 2000);
-                        valueElement.textContent = '100M';
-                        entry.target.animated = true;
-                    }
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.stat-card').forEach(card => {
-            statsObserver.observe(card);
         });
     </script>
+
+    <!-- 3D Landing Intro Script -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+        // Check if user has seen intro
+        const hasSeenIntro = sessionStorage.getItem('hasSeenIntro');
+        if (hasSeenIntro) {
+            document.getElementById('landing-intro').classList.add('hidden');
+        } else {
+            init3DIntro();
+        }
+
+        function init3DIntro() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 8;
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById('landing-canvas'),
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+            scene.add(ambientLight);
+
+            const pointLight1 = new THREE.PointLight(0x00D67E, 3, 100);
+            pointLight1.position.set(10, 10, 10);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0xF3BA2F, 2, 100);
+            pointLight2.position.set(-10, -10, 10);
+            scene.add(pointLight2);
+
+            // Particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1000;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 50;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                color: 0x00D67E,
+                transparent: true,
+                opacity: 0.6
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            // Load 3D coin
+            const loader = new GLTFLoader();
+            let coin;
+
+            loader.load('bbglb.glb', function(gltf) {
+                coin = gltf.scene;
+                coin.scale.set(0.15, 0.15, 0.15);
+                coin.rotation.x = Math.PI / 2;
+                scene.add(coin);
+            });
+
+            // Mouse movement
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                if (coin) {
+                    coin.rotation.z += 0.005;
+                    coin.position.x = mouseX * 0.5;
+                    coin.position.y = mouseY * 0.5;
+                }
+
+                particlesMesh.rotation.y += 0.0002;
+                pointLight1.intensity = 2.5 + Math.sin(Date.now() * 0.001) * 0.5;
+                pointLight2.intensity = 2 + Math.cos(Date.now() * 0.001) * 0.5;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Navigation functions
+        window.navigateTo = function(target) {
+            sessionStorage.setItem('hasSeenIntro', 'true');
+            document.getElementById('landing-intro').classList.add('hidden');
+            setTimeout(() => {
+                document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+            }, 800);
+        };
+
+        window.skipIntro = function() {
+            sessionStorage.setItem('hasSeenIntro', 'true');
+            document.getElementById('landing-intro').classList.add('hidden');
+        };
+    </script>
+
 </body>
 </html>
